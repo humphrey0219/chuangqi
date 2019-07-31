@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,6 +43,7 @@ public class BaseController {
 		modelAndView=new ModelAndView(pageUrl);
 		return modelAndView;
 	}
+	
 	
 	@SuppressWarnings("rawtypes")
 	protected Paginer getPaginer() {

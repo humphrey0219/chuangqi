@@ -20,18 +20,16 @@ import com.chuangqi.vo.SysAccountVo;
  */
 @Slf4j
 @RestController
-@RequestMapping("/common")
 public class CommonController extends BaseController{
 	@Autowired
 	private SysAccountService sysAccountService;
 	
-	@RequestMapping("/loginUI")
+	@RequestMapping("/common/loginUI")
 	public ModelAndView loginUI(){
-		modelAndView("login");
-		return modelAndView;
+		return new ModelAndView("loginUI");
 	}
 	
-	@RequestMapping("/login")
+	@RequestMapping("/common/login")
 	public void login(SysAccountVo sysAccountVo){
 		ResultCode resultCode=new ResultCode();
 		try{
@@ -52,10 +50,18 @@ public class CommonController extends BaseController{
 		resWriteObjectJson(resultCode);
 	}
 	
-	@RequestMapping("/loginOut")
+	@RequestMapping("/common/loginOut")
 	public void loginOut(SysAccountVo sysAccountVo){
 		ResultCode resultCode=ResultCode.newSuccess();
 		getRequest().getSession().removeAttribute(Constant.SESSION_LOGIN_USER);
 		resWriteObjectJson(resultCode);
 	}
+	
+	//登录后管理页面
+	@RequestMapping("/index")
+	public ModelAndView index(){
+		modelAndView("index/index");
+		return modelAndView;
+	}
+	
 }
