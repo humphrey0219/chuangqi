@@ -1,11 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title >登录</title>     
-    <f th:include="js_css::copy"></f>
-    <!-- <th:block th:text="${msg}" /> 直接出 -->
     
-    <script type="text/javascript">
+    <th:block th:include="js_css::copy" /><!-- 该方式就可以去掉引入包含额外的标签 -->
+
+    <!-- <th:block th:text="${name}" /> [[${name}]]（3.0版本后才支持） --直接出  -->
+
+    <script type="text/javascript" th:inline="javascript">
         $(function ()
         {
             $("#form1").ligerForm({
