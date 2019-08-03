@@ -58,7 +58,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 
 	
 	public Long getCount(T t) {
-		
+
 		return getBaseDao().getCount(t);
 	}
 	

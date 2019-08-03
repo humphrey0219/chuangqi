@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title >创建新页面</title>     
+    <f th:include="js_css::copy"></f>
+    <!-- <th:block th:text="${msg}" /> 直接出 -->
+    
+    <script type="text/javascript">
+
+            //Tab数据
+            var tid = ''
+            //是修改还是新建
+            var isUpdate = false
+            $(function () {
+
+                var proData =
+                    [{ id: 1, text: '广东' },
+                    { id: 2, text: '福建' }];
+
+                function getMumData() {
+
+                    return proData
+
+                }
+
+                $("#mum1").ligerComboBox({
+                    data: proData, isMultiSelect: false,
+                    columns: [
+                        { header: 'ID', name: 'id' },
+                        { header: 'Text', name: 'text' }
+                    ],
+                    onSelected: function (newvalue) {
+                        var newData = new Array();
+                        for (i = 0; i < cityData.length; i++) {
+                            if (cityData[i].pid == newvalue) {
+                                newData.push(cityData[i]);
+                            }
+                        }
+                        liger.get("#mum1").setData(newData);
+                    }
+                });
+
+                var form = $("#form2").ligerForm({
+                    inputWidth: 170, labelWidth: 90, space: 40,
+                    fields: [
+                        { display: "", name: "id", type:"hidden"},
+                        { display: "名称", name: "name", newline: true, type: "text", group: "页面基础信息" },
+                        { display: "标题", name: "title", newline: false, type: "text"},
+                        { display: "编号", name: "number", newline: false, type: "text"},
+                        { display: "关键词", name: "keyword", newline: true, type: "text", width: 470},
+                        { display: "简介", name: "description", newline: true, type: "textarea", width: 470},
+                   
+                    ]
+                });
+
+                if(parent.page.modified && document.title != "增加新页面"){
+                    isUpdate = true 
+                   // console.log(document.title)
+                    form.setData(parent.page.data)
+                }
+                $("#submit").click(function(e){
+                    var path = "page/create"
+                    if(isUpdate){
+                        path = "page/update"
+                    }
+                    let data =form.getData()
+                    $.post(basePath + path, data, function (data) {
+                        var code = data.code;
+                        var msg = data.msg;
+                        if (code == '0000') {
+                            $.ligerDialog.success(msg,function(r){
+                            //删除tab
+                            if(isUpdate){
+                                parent.tab.removeTabItem(parent.page.tid) 
+                            }                                
+                            });
+                        } else if (code == '9999') {
+                            $.ligerDialog.error(msg);
+                        }
+                    });                    
+                    console.log(data)
+                })
+
+            });
+            //校验通过
+            function valid() {
+                var form = liger.get("form1");
+                return form.valid();
+            }
+
+            function submitForm() {
+                if (valid()) {
+                    var data = {};
+                    data["pwd"] = MD5($("#pwd").val());
+                    data["userName"] = $("#userName").val();
+                    $.post(basePath + "common/login", data, function (data) {
+                        var code = data.code;
+                        var msg = data.msg;
+                        if (code == '0000') {
+                            $.ligerDialog.success(msg);
+                            location.href = basePath + "index.htm";
+                        } else if (code == '9999') {
+                            $.ligerDialog.error(msg);
+                        }
+                    });
+                }
+            }
+ 
+    </script>
+    <style type="text/css">
+            body{font-size:13px;margin: 0 auto}
+            h1{font-size:20px;font-family:Verdana;}
+            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
+            .description{padding-bottom:30px;font-family:Verdana;}
+            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
+			td {padding: 5px;}
+    </style>
+
+</head>
+<body style="padding:0px">
+
+    <div id="form2" class="liger-form">
+    
+
+    </div>
+    <button id="submit">完成</button>
+        
+            <script>
+
+
+             $("#city").ligerComboBox({ data: null, isMultiSelect: true, isShowCheckBox: true });
+                //国家 改变事件：清空城市,重新绑定数据
+                function f_onCountryChanged(value) {
+                    var combo = liger.get('City');
+                    var data = getCityData(value);
+                    combo.clear();
+                    combo.set('data', data);
+                } 
+            </script>
+           
+</body>
+</html>
+

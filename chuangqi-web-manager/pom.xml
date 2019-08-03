@@ -13,7 +13,7 @@
   <name>chuangqi-web-manager</name>
   <url>http://www.chuangqi.com</url>
   <description>创启官网后台管理系统</description>
-  
+
   <dependencies>
   
   	    <!-- 依赖业务项目 -->
@@ -101,8 +101,7 @@
 		    <artifactId>fastjson</artifactId>
 		    <version>1.2.56</version>
 		</dependency>
-		
-		
+
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -145,6 +144,14 @@
   </dependencies>
   
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>*.xml</include>
+                </includes>
+            </resource>
+        </resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

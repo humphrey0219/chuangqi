@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.chuangqi.bean.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
@@ -73,6 +74,38 @@ public class BaseController {
 		String json=JSONObject.toJSONString(obj);
 		resWriteJson(json);
 	}
+
+    /**
+     * 发送操作成功消息
+     * @param msg
+     */
+	protected void senResult(String msg, boolean ok){
+        ResultCode resultCode = ResultCode.newSuccess();
+
+	    if(!ok){
+            resultCode.setFail(msg);
+        }
+
+        if(msg != null){
+            resultCode.setMsg(msg);
+        }
+        resWriteObjectJson(resultCode);
+    }
+
+    protected void sendOperationResult(int result, String msg){
+        ResultCode resultCode = ResultCode.newSuccess();
+
+        if(result <= 0){
+
+            resultCode.setFail(msg+"失败" );
+        }else {
+            resultCode.setMsg(msg+"成功");
+        }
+
+        resWriteObjectJson(resultCode);
+    }
+
+
 	
 	protected void resWriteJson(String json) {
 		try{

@@ -7,7 +7,7 @@
   <groupId>com.chuangqi</groupId>
   <artifactId>chuangqi</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-   <packaging>pom</packaging>	
+   <packaging>pom</packaging>
   <name>chuangqi</name>
   <url>http://www.chuangqi.com</url>
    <description>创启骨架</description>

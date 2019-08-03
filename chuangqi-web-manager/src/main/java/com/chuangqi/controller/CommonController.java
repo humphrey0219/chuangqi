@@ -38,6 +38,7 @@ public class CommonController extends BaseController{
 			vo.setPwd(sysAccountVo.getPwd());
 			vo=sysAccountService.get(vo);
 			if(vo!=null&&vo.getId()>0){
+
 				resultCode.setSuccess("登录成功");
 				getRequest().getSession().setAttribute(Constant.SESSION_LOGIN_USER, vo);
 			}else{
@@ -45,6 +46,7 @@ public class CommonController extends BaseController{
 			}
 		}catch (Throwable e) {
 			log.error("登录异常，sysAccount={},异常信息={}",sysAccountVo,e);
+			//TODO 重构
 			resultCode.setFail("登录异常");
 		}
 		resWriteObjectJson(resultCode);

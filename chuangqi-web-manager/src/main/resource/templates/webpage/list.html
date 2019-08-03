@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title >全部页面</title>     
+    <f th:include="js_css::copy"></f>
+    <!-- <th:block th:text="${msg}" /> 直接出 -->
+    
+
+    <style type="text/css">
+            body{font-size:13px;margin: 0 auto}
+            h1{font-size:20px;font-family:Verdana;}
+            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
+            .description{padding-bottom:30px;font-family:Verdana;}
+            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
+			td {padding: 5px;}
+    </style>
+
+</head>
+<body style="padding:0px">
+
+    <script type="text/javascript">
+        function itemclick(item) {
+            alert(item.text);
+        }
+        var da = [{ "createTime": 1564697233000, "description": "23423", "id": 2, "keyword": "w3r", "name": "2", "number": "2324", "title": "ksdf" }, { "createTime": 1564697988000, "description": "23423", "id": 4, "keyword": "w3r", "name": "2", "number": "23sdf24", "title": "ksdf" }, { "createTime": 1564698812000, "description": "23423", "id": 5, "keyword": "w3r", "name": "2", "number": "ksdf", "title": "2324" }, { "createTime": 1564699771000, "description": "好大夫", "id": 6, "keyword": "欧美，艾", "name": "主页", "number": "2.12", "title": "首页" }, { "createTime": 1564700024000, "description": "我的简介", "id": 7, "keyword": "很大关键词", "name": "名称", "number": "小编号", "title": "大标题" }]
+        var d =[{
+            id: 2342,
+            name: "Ang",
+            number: "2.0.1",
+            title: "Smile",
+            keyword: "YOLO",
+            description: "I HATE YOU"
+        }]
+        var dataJson = {
+            Rows: d,
+            Total: d.length
+        }
+        $(function () {
+            window['g'] =
+                $("#maingrid").ligerGrid({
+                    height: '100%',
+                    columns: [
+                        { display: '页面ID', name: 'id', align: 'left', width: 100, minWidth: 60 },
+                        { display: '名称', name: 'name', minWidth: 120 },
+                        { display: '编号', name: 'number'},
+                        { display: '标题', name: 'title', minWidth: 140 },
+                        { display: '关键词', name: 'keyword' },
+                        { display: '描述', name: 'description'}
+                    ],   pageSize: 10, rownumbers: true,
+                    toolbar: {
+                        items: [
+                            { text: '增加', click: onAdd, icon: 'add' },
+                            { line: true },
+                            { text: '修改', click: onUpdate, icon: 'modify' },
+                            { line: true },
+                            //{ text: '删除', click: onDelItme, img: 'delete' }
+                        ]
+                    },
+                    url: basePath + 'webpage/data'
+                });
+
+
+            $("#pageloading").hide();
+        });
+        
+        // 新建
+        function onAdd(e){
+            parent.tab.addTabItem({
+                tidid: "addNewPage",
+                text: "新建页面",
+                url: "webpage/add"
+            })
+        }
+
+        //更新
+        function onUpdate(e){
+            var p = parent.page 
+            $.ligerDialog.confirm("确定修改此页面？",function(r){
+                if(r){
+                    console.log( g.getSelectedRow())
+                    p.modified = true 
+                    p.data = g.getSelectedRow() 
+                    p.tid = "mpage"+ p.data.id 
+
+                    //g.deleteSelectedRow() 
+                    //console.log(parent.tab)
+                    parent.tab.addTabItem({
+                    tabid: p.tid ,
+                    text: "修改主页",
+                    url: "webpage/add",
+                    callback: function ()
+                    {
+                        parent.page.modified = false
+                    }
+                });
+                }
+            })
+        }
+
+
+    </script>
+
+
+    <div class="l-loading" style="display:block" id="pageloading"></div>
+    <a class="l-button" style="width:120px;float:left; margin-left:10px; display:none;" onclick="deleteRow()">删除选择的行</a>
+
+
+    <div class="l-clear"></div>
+
+    <div id="maingrid"></div>
+
+    <div style="display:none;">
+
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title >全部账号</title>     
+    <f th:include="js_css::copy"></f>
+    <!-- <th:block th:text="${msg}" /> 直接出 -->
+    
+
+    <style type="text/css">
+            body{font-size:13px;margin: 0 auto}
+            h1{font-size:20px;font-family:Verdana;}
+            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
+            .description{padding-bottom:30px;font-family:Verdana;}
+            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
+			td {padding: 5px;}
+    </style>
+
+</head>
+<body style="padding:0px">
+
+    <script type="text/javascript">
+
+
+
+
+        function itemclick(item) {
+            alert(item.text);
+        }
+        function renderDate(record, rowindex, value, column){
+            if(value){
+                 return yyyyMMdd(value)
+            }else{
+                "---"
+            }
+           
+        }
+        $(function () {
+            window['g'] =
+                $("#maingrid").ligerGrid({
+                    height: '100%',
+                    columns: [
+                        { display: '用户ID', name: 'id', align: 'left', width: 100, minWidth: 60 },
+                        { display: '账号名', name: 'userName', minWidth: 120 },
+                        { display: '姓名', name: 'realName'},
+                        { display: '状态', name: 'status', minWidth: 140 },
+                        { display: '创建时间', name: 'createTime', render: renderDate},
+                        { display: '更新时间', name: 'updateTime', render: renderDate}
+                    ],   pageSize: 10, rownumbers: true,
+                    toolbar: {
+                        items: [
+                            //{ text: '增加', click: itemclick, icon: 'add' },
+                            { line: true },
+                            { text: '修改', click: onModifyed, icon: 'modify' },
+                            { line: true },
+                            { text: '删除', click: onDelItme, img: '../../../lib/ligerUI/skins/icons/delete.gif' }
+                        ]
+                    },
+                    url: basePath + 'account/data'
+                });
+
+
+            $("#pageloading").hide();
+        });
+
+        //
+
+        //修改账号
+        function onModifyed(e) {
+
+            $.ligerDialog.confirm("确定修改账户？",function(r){
+                if(r){
+                    
+                    var a = parent.account
+                    console.log( g.getSelectedRow())
+                    a.data = g.getSelectedRow()                     
+                    a.modified = true
+                    a.tid =  "maccount"+ a.data.id
+
+                     
+                    console.log(parent)
+                    parent.tab.addTabItem({
+                    tabid: a.tid,
+                    text: "修改账号",
+                    url: "account/addUi",
+                    callback: function ()
+                    {
+                        parent.account.modified = false
+                        //addShowCodeBtn(tabid); 
+                        //addFrameSkinLink(tabid); 
+                    }
+                });
+                }
+            })
+        }
+
+        //删除账号
+        function onDelItme(e){
+            $.ligerDialog.confirm("确定删除账户？",function(r){
+                if(r){
+                  
+                    var account = g.getSelectedRow()
+                     console.log( )
+                  $.post(basePath + "account/del",{id: account.id}, function(data){
+
+                    var code = data.code;
+                        var msg = data.msg;
+                        if (code == '0000') {
+                            $.ligerDialog.success(msg);
+                             // TODO: 删除账户 
+                             g.deleteSelectedRow();
+                                                   
+                        
+                        } else if (code == '9999') {
+                            $.ligerDialog.error(msg);
+                        }
+                
+
+                  })
+
+
+                }
+            })            
+
+        }
+
+
+    </script>
+
+
+    <div class="l-loading" style="display:block" id="pageloading"></div>
+    <a class="l-button" style="width:120px;float:left; margin-left:10px; display:none;" onclick="deleteRow()">删除选择的行</a>
+
+
+    <div class="l-clear"></div>
+
+    <div id="maingrid"></div>
+
+    <div style="display:none;">
+
+    </div>
+
+</body>
+</html>
+

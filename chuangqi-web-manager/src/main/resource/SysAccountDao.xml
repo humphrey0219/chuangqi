@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangqi.dao.SysAccountDao" >
+ 	
+ 	<resultMap type="com.chuangqi.vo.SysAccountVo" id="SysAccountVo"/> 
+	<parameterMap type="com.chuangqi.vo.SysAccountVo" id="SysAccountVo"/> 
+	
+	<sql id="sqlField">
+	`id`, `userName`, `pwd`, `createTime`, `updateTime`, `remark`,`realName`,`status`
+	</sql>
+	<sql id="sqlWhere">
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 			<if test="userName!=null">
+ 			and userName=#{userName}
+ 			</if>
+ 			<if test="pwd!=null">
+ 			and pwd=#{pwd}
+ 			</if>
+ 			<if test="realName!=null">
+ 			and instr(#{pwd},realName)>0
+ 			</if>
+ 		</trim>
+ 		<if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</sql>
+	
+	<select id="getMapList" parameterMap="SysAccountVo" resultType="java.util.Map">
+		SELECT <include refid="sqlField"></include>
+ 		from t_sys_account where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	
+	<select id="getList" parameterMap="SysAccountVo" resultMap="SysAccountVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_sys_account where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	<select id="getCount" parameterMap="SysAccountVo" resultType="long">
+		SELECT count(*)
+ 		from t_sys_account where 1=1
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 查询单个对象-->
+	<select id="get" parameterMap="SysAccountVo" resultMap="SysAccountVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_sys_account where 
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 添加单个对象-->
+	<insert id="add" parameterMap="SysAccountVo">
+	   	insert into t_sys_account(
+		userName,
+		pwd,
+		realName,
+        status
+		)
+		values(
+		#{userName,jdbcType = VARCHAR},
+		#{pwd,jdbcType = VARCHAR},
+		#{realName},
+        #{status}
+		)
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+		    select @@IDENTITY as id
+		 </selectKey>	   
+	</insert>
+
+	<!-- 修改信息 -->
+	<update id="updateByUqKey" parameterMap="SysAccountVo">
+		update t_sys_account SET 
+		<trim suffixOverrides=",">
+		<if test="userName != null">userName=#{userName,jdbcType=VARCHAR},</if>
+		<if test="pwd != null">pwd=#{pwd,jdbcType=VARCHAR},</if>
+		<if test="remark != null">remark=#{remark,jdbcType=VARCHAR},</if>
+		<if test="realName != null">realName=#{realName},</if>
+		<if test="status != null">status=#{status},</if>
+		</trim>
+		where 
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 		</trim>
+	</update>
+	
+	<delete id="del" parameterMap="SysAccountVo">
+		delete from t_sys_account where
+        <if test="id != null">
+            id=#{id}
+        </if>
+
+		<if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</delete>
+	
+</mapper>
