@@ -3,6 +3,7 @@
 <mapper namespace="com.chuangqi.dao.WebPageDao" >
 
     <resultMap id="WebPageVo" type="com.chuangqi.vo.WebPageVo"/>
+
     <parameterMap id="WebPageVo" type="com.chuangqi.vo.WebPageVo"></parameterMap>
 
     <sql id="sqlField">
@@ -11,7 +12,7 @@
 
 
     <!-- 页面列表 -->
-    <select id="getList" resultMap="java.util.ArrayList">
+    <select id="getList" parameterMap="WebPageVo" resultMap="WebPageVo">
         SELECT <include refid="sqlField"></include>
         from t_web_page
         <if test="pageStartRow!=null">
@@ -20,8 +21,9 @@
     </select>
 
 
-    <!-- 添加页面 -->
-    <insert id="add" parameterMap="WebPageVo">
+    <!-- 添加页面 --><!--useGeneratedKeys="true" keyProperty="id" -->
+    <insert id="add"  parameterMap="WebPageVo">
+
         insert into t_web_page(
         name,
         number,
@@ -30,23 +32,39 @@
         description
         )
         values(
-        # {name,jdbcType = VARCHAR},
-        # {number}, jdbcType = VARCHAR},
-        # {title, jdbcType = VARCHAR},
-        # {keyword, jdbcType= VARCHAR},
-        # {description, jdbcType = VARCHAR}
-
+        #{name,jdbcType = VARCHAR},
+        #{number,jdbcType = VARCHAR},
+        #{title,jdbcType = VARCHAR},
+        #{keyword,jdbcType= VARCHAR},
+        #{description,jdbcType = VARCHAR}
         )
         <selectKey resultType="long" keyProperty="id" order="AFTER">
             select @@IDENTITY as id
         </selectKey>
     </insert>
+    <insert id="insert"  parameterMap="WebPageVo">
 
+        insert into t_web_page(
+        `name`, `title`,`number`, `keyword`, `description`
+        )
+        values(
+        # {name},
+        # {title},
+        # {number},
+
+        # {keyword},
+        # {description}
+
+        )
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
     <!-- 修改页面  -->
     <update id="updateByUqKey" parameterMap="WebPageVo">
         update t_web_page SET
         <trim suffixOverrides=",">
-            <if test="name != null">name=#{userName,jdbcType=VARCHAR},</if>
+            <if test="name != null">name=#{name,jdbcType=VARCHAR},</if>
 
             number=#{number},
             <if test="title != null">title=#{title,jdbcType=VARCHAR},</if>

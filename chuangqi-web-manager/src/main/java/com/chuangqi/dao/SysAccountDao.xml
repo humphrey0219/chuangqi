@@ -6,7 +6,7 @@
 	<parameterMap type="com.chuangqi.vo.SysAccountVo" id="SysAccountVo"/> 
 	
 	<sql id="sqlField">
-	`id`, `userName`, `pwd`, `createTime`, `updateTime`, `remark`,realName,status	
+	`id`, `userName`, `pwd`, `createTime`, `updateTime`, `remark`,`realName`,`status`
 	</sql>
 	<sql id="sqlWhere">
 		<trim prefixOverrides="and">
@@ -69,12 +69,14 @@
 	   	insert into t_sys_account(
 		userName,
 		pwd,
-		realName
+		realName,
+        status
 		)
 		values(
-		# {userName,jdbcType = VARCHAR},
-		# {pwd,jdbcType = VARCHAR},
-		#{realName}
+		#{userName,jdbcType = VARCHAR},
+		#{pwd,jdbcType = VARCHAR},
+		#{realName},
+        #{status}
 		)
 		<selectKey resultType="long" keyProperty="id" order="AFTER">
 		    select @@IDENTITY as id
@@ -100,7 +102,11 @@
 	</update>
 	
 	<delete id="del" parameterMap="SysAccountVo">
-		delete from t_sys_account where 
+		delete from t_sys_account where
+        <if test="id != null">
+            id=#{id}
+        </if>
+
 		<if test="whereSql!=null">
  		${whereSql}
  		</if>
