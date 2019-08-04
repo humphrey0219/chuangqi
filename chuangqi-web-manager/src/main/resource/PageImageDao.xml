@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangqi.dao.WebPageDao" >
+
+    <resultMap id="PageImageVo" type="com.chuangqi.vo.PageImageVo"/>
+
+    <parameterMap id="PageImageVo" type="com.chuangqi.vo.PageImageVo"></parameterMap>
+
+    <sql id="sqlField">
+        `id`, `page`, `number` , `url`, `description` , `createTime`, `updateTime`
+    </sql>
+
+
+    <!-- 图片列表 -->
+    <select id="getList" parameterMap="PageImageVo" resultMap="PageImageVo">
+        SELECT <include refid="sqlField"></include>
+        from t_page_image
+        <if test="pageStartRow!=null">
+            limit #{pageStartRow},#{pageEndRow}
+        </if>
+    </select>
+
+
+    <!-- 添加图片 --><!--useGeneratedKeys="true" keyProperty="id" -->
+    <insert id="add"  parameterMap="PageImageVo">
+
+        insert into t_page_image(
+        page,
+        number,
+        url,
+        description
+        )
+        values(
+        #{page},
+        #{number,jdbcType = VARCHAR},
+        #{url,jdbcType = VARCHAR},
+        #{description,jdbcType = VARCHAR}
+        )
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            select @@IDENTITY as id
+        </selectKey>
+    </insert>
+
+    <!-- 修改图片  -->
+    <update id="updateByUqKey" parameterMap="PageImageVo">
+        update t_page_image SET
+        <trim suffixOverrides=",">
+            <if test="page != null">name=#{page},</if>
+
+            <if test="number != null">number=#{number},</if>
+            <if test="url != null">url=#{url,jdbcType=VARCHAR},</if>
+
+            <if test="description != null">description=#{description},</if>
+
+        </trim>
+        where
+        <trim prefixOverrides="and">
+            <if test="id!=null">
+                and id=#{id}
+            </if>
+        </trim>
+    </update>
+
+    <!-- 删除图片 -->
+    <delete id="del" parameterMap="PageImageVo">
+        delete from t_page_image where
+        <trim prefixOverrides="and">
+
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="whereSql!=null">
+                ${whereSql}
+            </if>
+        </trim>
+
+
+    </delete>
+
+</mapper>
