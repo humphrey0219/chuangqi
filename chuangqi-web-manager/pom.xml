@@ -176,6 +176,9 @@
 			<resource>
 				<directory>src/main/java/resource</directory>
 			</resource>
+			<resource>
+				<directory>src/main/resource</directory>
+			</resource>
 		</resources>
 	</build>
 
