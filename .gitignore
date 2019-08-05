@@ -2,3 +2,7 @@
 /chuangqi-web/target
 /chuangqi-service/target
 /chuangqi-common/target
+*.iml
+*.classpath
+*.project
+/.idea

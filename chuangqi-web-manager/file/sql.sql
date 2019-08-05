@@ -24,3 +24,16 @@ CREATE TABLE `t_web_page` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_number` (`number`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='网页管理';
+
+
+CREATE TABLE `t_page_image` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `page`bigint(20)  NOT NULL COMMENT '页面类型',
+  `number` varchar(64) NOT NULL COMMENT '编号',
+   `url`  varchar(100) NOT NULL COMMENT '图片路径',
+  `description` varchar(500)  DEFAULT NULL COMMENT '页面简介',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_number` (`number`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='网页图片管理';
