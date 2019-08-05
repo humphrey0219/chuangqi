@@ -56,7 +56,7 @@ public class CommonController extends BaseController{
 			vo.setUserName(sysAccountVo.getUserName());
 			vo.setPwd(sysAccountVo.getPwd());
 			vo=sysAccountService.get(vo);
-			if(vo!=null&&vo.getId()>0){
+			if(vo!=null&&vo.getId()>0){ 
 				if(Constant.STATUS_0.equals(vo.getStatus())){
 					resultCode.setFail("您的账户已被禁用，请联系管理员");
 					return ;
