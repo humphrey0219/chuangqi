@@ -4,5 +4,5 @@
 /chuangqi-common/target
 *.iml
 *.classpath
-*.project
+
 /.idea
