@@ -2,4 +2,17 @@
 /chuangqi-web/target
 /chuangqi-service/target
 /chuangqi-common/target
+*.iml
+*.classpath
+
 /.idea
+/.idea
+/chuangqi-web-manager/.settings
+/chuangqi-web-manager/.settings
+/.settings
+/chuangqi-web/chuangqi-web.iml
+/chuangqi-common/chuangqi-common.iml
+/chuangqi-service/chuangqi-service.iml
+/chuangqi-web-manager/chuangqi-web-manager.eml
+/chuangqi-web-manager/chuangqi-web-manager.iml
+/chuangqi.iml

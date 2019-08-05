@@ -12,5 +12,10 @@
             {url: "account/addUi", text: "创建账户"},
             {url: "account/list", text: "所有账号"}            
         ]
+    },
+    {
+        text: '页面图片管理', isexpand: true, children: [
+            {url: "image/list", text: "所有图片"}
+        ]
     }
 ];

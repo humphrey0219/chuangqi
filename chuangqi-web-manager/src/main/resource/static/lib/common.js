@@ -53,29 +53,3 @@ function strDateFormat(now,mask)
         }
     });
 };
-
-//父页面显示返回信息
-function showRetInfoParent(code, msg) {
-	if (code == '0000') {
-		parent.$.ligerDialog.hide();
-		parent.$.ligerDialog.success(msg);
-		parent.window.load();
-	} else if (code == '9999') {
-		parent.$.ligerDialog.hide();
-		parent.$.ligerDialog.error(msg);
-		parent.window.load();
-	}
-}
-//新增，或者修改父页面显示返回信息
-function addOrUpdateRetInfoParent(data) {
-	var code=data.code;
-	var msg=data.msg;
-	if (code == '0000') {
-		parent.$.ligerDialog.hide();
-		parent.$.ligerDialog.success(msg);
-		parent.window.load();
-	} else if (code == '9999') {
-		$.ligerDialog.hide();
-		$.ligerDialog.error(msg);
-	}
-}
