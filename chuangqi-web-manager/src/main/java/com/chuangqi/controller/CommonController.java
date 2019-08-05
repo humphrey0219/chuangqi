@@ -3,8 +3,12 @@
  */
 package com.chuangqi.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.chuangqi.bean.ResultCode;
 import com.chuangqi.common.constant.Constant;
+import com.chuangqi.common.utils.RandomCodeUtil;
 import com.chuangqi.service.SysAccountService;
 import com.chuangqi.vo.SysAccountVo;
 
@@ -33,6 +38,20 @@ public class CommonController extends BaseController{
 	public void login(SysAccountVo sysAccountVo){
 		ResultCode resultCode=new ResultCode();
 		try{
+			String code=getRequest().getParameter("code");
+			if(StringUtils.isBlank(code)){
+				resultCode.setFail("请输入验证码");
+				return ;
+			}
+			String sessoinCode=(String)getRequest().getSession().getAttribute(RandomCodeUtil.RD_CODE);
+			if(StringUtils.isBlank(sessoinCode)){
+				resultCode.setFail("验证码已过期,请重新获取");
+				return ;
+			}
+			if(!StringUtils.equalsIgnoreCase(code, sessoinCode)){
+				resultCode.setFail("输入验证码错误");
+				return ;
+			}
 			SysAccountVo vo=new SysAccountVo();
 			vo.setUserName(sysAccountVo.getUserName());
 			vo.setPwd(sysAccountVo.getPwd());
@@ -48,8 +67,9 @@ public class CommonController extends BaseController{
 			log.error("登录异常，sysAccount={},异常信息={}",sysAccountVo,e);
 			//TODO 重构
 			resultCode.setFail("登录异常");
+		}finally{
+			resWriteObjectJson(resultCode);
 		}
-		resWriteObjectJson(resultCode);
 	}
 	
 	@RequestMapping("/common/loginOut")
@@ -58,6 +78,25 @@ public class CommonController extends BaseController{
 		getRequest().getSession().removeAttribute(Constant.SESSION_LOGIN_USER);
 		resWriteObjectJson(resultCode);
 	}
+	
+	 /**
+     * 随机验证码
+     */
+    @RequestMapping("/common/vcode")
+    public void vcode(HttpServletRequest request,HttpServletResponse response)
+    {
+        try {
+             RandomCodeUtil rdnu=RandomCodeUtil.getInstance().createData();  
+             response.getOutputStream().write(rdnu.getImageBytes());//取得带有随机字符串的图片  
+             String str = rdnu.getString().toString();
+             request.getSession().setAttribute(RandomCodeUtil.RD_CODE, str);//取得随机字符串放入HttpSession
+             request.getSession().setMaxInactiveInterval(1000*60*10);
+             log.info("生成随机验证码={}",str);
+        } catch (Exception e) {
+            e.fillInStackTrace();
+            log.error("随机获取验证码错误", e);
+        }
+    }
 	
 	//登录后管理页面
 	@RequestMapping("/index")
