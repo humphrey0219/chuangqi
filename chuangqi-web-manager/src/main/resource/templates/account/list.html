@@ -27,24 +27,24 @@
             alert(item.text);
         }
         function renderDate(record, rowindex, value, column){
-
             if(value){
-                 return yyyyMMdd(value)
+                return yyyyMMdd(value)
             }else{
-                "---"
+                return "---"
             }
            
         }
         function renderStatus(record, rowindex, value, column){
-        var status = {
+            var status = {
                 "0": "禁用",
                 "1": "正常"
             }
             if(value){
-                 return status[value]
+                return status[value]
             }else{
                 "---"
             }
+
            
         }
 
@@ -56,7 +56,7 @@
                         { display: '用户ID', name: 'id', align: 'left', width: 100, minWidth: 60 },
                         { display: '账号名', name: 'userName', minWidth: 120 },
                         { display: '姓名', name: 'realName'},
-                        { display: '状态', name: 'status', minWidth: 140 ,render:renderStatus },
+                        { display: '状态', name: 'status', minWidth: 140 ,render: renderStatus },
                         { display: '创建时间', name: 'createTime', render: renderDate},
                         { display: '更新时间', name: 'updateTime', render: renderDate}
                     ],   pageSize: 10, rownumbers: true,
