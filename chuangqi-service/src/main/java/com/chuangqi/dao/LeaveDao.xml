@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangqi.dao.LeaveDao" >
+ 	
+ 	<resultMap type="com.chuangqi.vo.LeaveVo" id="LeaveVo"/> 
+	<parameterMap type="com.chuangqi.vo.LeaveVo" id="LeaveVo"/> 
+	
+	<sql id="sqlField">
+	`id`, `phone`, `email`, `content`, `leaveTime`, `status`, `feedback`, `feedbackTime`, `createTime`, `updateTime`
+	</sql>
+	<sql id="sqlWhere">
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 			<if test="status!=null">
+ 			and status=#{status}
+ 			</if>
+ 			<if test="phone!=null">
+ 			and instr(#{phone},phone)>0
+ 			</if>
+ 			<if test="email!=null">
+ 			and instr(#{email},email)>0
+ 			</if>
+ 		</trim>
+ 		<if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</sql>
+	
+	<select id="getMapList" parameterMap="LeaveVo" resultType="java.util.Map">
+		SELECT <include refid="sqlField"></include>
+ 		from t_leave where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	
+	<select id="getList" parameterMap="LeaveVo" resultMap="LeaveVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_leave where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	<select id="getCount" parameterMap="LeaveVo" resultType="long">
+		SELECT count(*)
+ 		from t_leave where 1=1
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 查询单个对象-->
+	<select id="get" parameterMap="LeaveVo" resultMap="LeaveVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_leave where 
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 添加单个对象-->
+	<insert id="add" parameterMap="LeaveVo">
+	   	insert into t_leave(
+		phone,
+		email,
+		content,
+		leaveTime,
+		status,
+		feedback,
+		feedbackTime
+		)
+		values(
+		#{phone},
+		#{email},
+		#{content},
+		#{leaveTime},
+		#{status},
+		#{feedback},
+		#{feedbackTime}
+		)
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+		    select @@IDENTITY as id
+		 </selectKey>	   
+	</insert>
+
+	<!-- 修改信息 -->
+	<update id="updateByUqKey" parameterMap="LeaveVo">
+		update t_leave SET 
+		<trim suffixOverrides=",">
+		<if test="phone != null">phone=#{phone},</if>
+		<if test="email != null">email=#{email},</if>
+		<if test="content != null">content=#{content},</if>
+		<if test="status != null">status=#{status},</if>
+		<if test="feedback != null">feedback=#{feedback},</if>
+		<if test="feedbackTime != null">feedbackTime=#{feedbackTime},</if>
+		</trim>
+		where 
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 		</trim>
+	</update>
+	
+	<delete id="del" parameterMap="LeaveVo">
+		delete from t_leave where
+        <if test="id != null">
+            id=#{id}
+        </if>
+        <if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</delete>
+	
+</mapper>

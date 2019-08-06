@@ -17,5 +17,10 @@
         text: '页面图片管理', isexpand: true, children: [
             {url: "image/list", text: "所有图片"}
         ]
+    },
+    {
+        text: '留言管理', isexpand: true, children: [
+            {url: "leave/leavelistUI", text: "留言列表"}
+        ]
     }
 ];

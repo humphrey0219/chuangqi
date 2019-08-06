@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  	<th:block th:include="js_css::copy" />
+    <script type="text/javascript">
+        $(function ()
+        {
+            $("#form1").ligerForm({
+                validate: true
+            });	
+            $("#status").ligerComboBox();//下拉框
+            $("#feedbackTime").ligerDateEditor({ showTime: true,width:200,value:'[[${#dates.format(vo.feedbackTime,'yyyy-MM-dd HH:mm:ss')}]]'});
+        });
+      //校验通过
+     function valid()
+     {
+         var form = liger.get("form1");
+         return form.valid();
+     }
+     
+     function submitForm()
+     {
+    	 if(valid()){
+    		 var data = {};
+             $("input,select,textarea").each(function ()
+             {
+                 var name = $(this).attr("name");
+                 if (name && name.indexOf('ligerui') == -1)
+                 {
+                    data[name] = this.value;
+                 }
+             });
+             data["id"]="[[${vo.id}]]";
+             $.post(basePath+"leave/updleave?t="+new Date(),data,function(data) {
+            	 addOrUpdateRetInfoParent(data);
+	    	});
+    	 }
+     }
+ 
+    </script>
+    <style type="text/css">
+            body{padding-left:10px;font-size:13px;}
+            h1{font-size:20px;font-family:Verdana;}
+            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
+            .description{padding-bottom:30px;font-family:Verdana;}
+            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
+			td {padding: 5px;}
+    </style>
+
+</head>
+<body style="padding:0px">
+    <form id="form1" >
+    	<table>
+            <tr>
+                <td><label for="phone">手机号码：</label></td>
+                <td>[[${vo.phone}]]</td>
+                <td><label for="email">电子邮件：</label></td>
+                <td>[[${vo.email}]]</td>
+            </tr>
+            <tr>
+                <td> <label for="leaveTime">留言时间：</label></td>
+                <td> [[${#dates.format(vo.leaveTime,'yyyy-MM-dd HH:mm:ss')}]]</td>
+                <td></td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>留言内容：</td>
+                <td colspan="3" width="500"><th:block th:text="${vo.content}" /> </td>
+                <!-- <td></td>
+                <td></td> -->
+            </tr>
+            <tr>
+                <td> <label >状态：</label></td>
+                <td> 
+               <!--  <th:block th:switch="${vo.status}">
+                		<th:block th:case="0">留言</th:block>
+                		<th:block th:case="1">已反馈</th:block>
+                		<th:block th:case="2">作废</th:block>
+                </th:block> -->
+                <select id="status" name="status">
+                	<option th:selected="${vo.status==0}" value="0" >留言</option>
+                	<option th:selected="${vo.status==1}" value="1" >已反馈</option>
+                	<option th:selected="${vo.status==2}" value="2" >作废</option>
+                </select> 
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>反馈内容：</td>
+                <td colspan="3">
+                <textarea id="feedback" rows="5" cols="80" name="feedback"><th:block th:text="${vo.feedback}" /></textarea>
+                 </td>
+                <!-- <td></td>
+                <td></td> -->
+            </tr>
+            <tr>
+                <td><label for="content">反馈时间：</label></td>
+                <td colspan="3">
+                 <input id="feedbackTime" name="feedbackTime" type="text"  validate="{required:true}"  />
+                 </td>
+                <!-- <td></td>
+                <td></td> -->
+            </tr>
+           
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    <input value=" 提交  " type="button" onclick="submitForm()" />
+                    
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>
