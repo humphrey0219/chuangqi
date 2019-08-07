@@ -37,7 +37,7 @@ public class LeaveController extends BaseController{
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/leavelist")
-	public void orderlist(){
+	public void leavelist(){
 		try{
 			LeaveVo vo= new LeaveVo();
 			vo.setWhereSql(getSearchRules());
@@ -48,7 +48,7 @@ public class LeaveController extends BaseController{
 			outPage(paginer);
 		}catch (Throwable e) {
 			e.printStackTrace();
-			log.error("查询订单列表错误", e);
+			log.error("查询留言列表错误", e);
 		}
 	}
 	
@@ -60,7 +60,7 @@ public class LeaveController extends BaseController{
 	
 	//添加数据
 	@RequestMapping("/addleave")
-	public void addOrder(LeaveVo vo){
+	public void addleave(LeaveVo vo){
 		ResultCode resultCode=ResultCode.newSuccess();
 		try{
 			Long rt=leaveService.add(vo);

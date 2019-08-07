@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+   <th:block th:include="js_css_list::copy" /> 
+
+  <script type="text/javascript" th:inline="javascript">
+		//搜索参数
+    	var params = {};
+		var searchData="";
+		var grid;
+        $(function (){
+        	load();
+        });
+
+        
+         //搜索字段
+    	var searchfields = [ 
+    	                     {display : "标题",name : "title",editor : {type : "String"}}
+ 
+    	                     , {display : "发布时间",name : "pubTime",type : "date",editor : {type : "date",options : {showTime : true}}}
+    	                     , {display : "状态",name : "status",editor : {type : "combobox",
+    	           				 										  options : {
+    																		valueField : "statusVal",textField : "statusTxt",
+														    				data : [ {statusVal : 0,statusTxt : "早稿"}, 
+														    				         {statusVal : 1,statusTxt : "上架"}, 
+														    				         {statusVal : 2,statusTxt : "下架"}
+														    				       ]
+    	                                                                   }
+    																	  }
+    					      }
+    	                     , {display : "来源",name : "resource",editor : {type : "String"}}
+    	                ];
+      //`id`, `serviceType`, `title`, `resource`, `resourceUrl`, `keyword`,
+      //`description`, `imgUrl`, `newDesc`, `status`, `pubTime`, `details`, `createTime`, `updateTime`
+        function load(){
+        	grid=$("#maingrid").ligerGrid({
+                height: '99%',
+                columns: [
+                { display: 'id', name: 'id',hide:true},
+                { display: '标题', name: 'title', width: 150, minWidth: 60 },
+                { display: '关键字', name: 'keyword', minWidth: 120 },
+                { display: '关键字描述', name: 'description', minWidth: 350 },
+                { display: '新闻简介', name: 'newDesc', minWidth: 350 },
+                { display: '发布时间', name: 'pubTime',minWidth: 80 ,
+                	render: function(rowdata, rowindex, value) {
+        				return  yyyyMMddHHmmss(value);
+        			}	
+                },
+                { display: '状态', name: 'status', minWidth: 140 ,
+                	render: function(rowdata, rowindex, value) {
+                		if(0==value){
+                			value="草稿";
+                		}else if(1==value){
+                			value="上架";
+                		}else if(2==value){
+                			value="下架";
+                		}
+        				return  value;
+        			}	
+                },
+               
+                { display: '来源', name: 'resource', minWidth: 100 },
+                { display: '来源URL', name: 'resourceUrl', minWidth: 120 },
+               
+                { display: '创建时间', name: 'createTime', minWidth: 140 ,
+                	render: function(rowdata, rowindex, value) {
+        				return  yyyyMMddHHmmss(value);
+        			}	
+                }
+                ],
+                url: basePath+"news/newslist?serviceType=[[${serviceType}]]",
+                parms: params,
+                pageSize: 10, pageSizeOptions: [10, 20, 30, 40, 50], rownumbers: true,
+                checkbox : true,// 复选
+				rownumbers : false,//行号隐藏
+                toolbar: {
+                    items: [
+                    { text: '增加', click: add, img: basePath+'lib/ligerUI/skins/icons/add.gif' },
+                    { line: true },
+                    { text: '修改', click: upd, img: basePath+'lib/ligerUI/skins/icons/modify.gif' },
+                    { line: true },
+                    { text: '删除', click: del, img: basePath+'lib/ligerUI/skins/icons/delete.gif' },
+                    {text : "高级查询",type : "quty",click : search,icon : "search2"}
+                    ]
+                }
+                //,autoFilter: true
+            });
+              
+            $("#pageloading").hide();
+        }
+        //新增
+        function add(item)
+        {
+        	$.ligerDialog.open({
+        		width: 1000,
+        		height: 800,
+        		title: "新增",
+        		url: basePath+"news/addNewsUI?serviceType=[[${serviceType}]]",
+        		showMax: true,
+        		showToggle: true,
+        		showMin: true,
+        		isResize: true
+        	});
+        }
+      	//修改
+        function upd(item) {
+        	var rows = grid.getCheckedRows();
+    		var idStr = "",flag=false;
+    		$(rows).each(function() {
+    			if ($.trim(idStr).length > 0) {
+    				flag=true;
+    				$.ligerDialog.error("只能选择一行");
+    				return ;
+    			} else {
+    				idStr = this.id;
+    			}
+    		});
+    		if(flag){
+    			return ;
+    		}
+    		if(idStr==""){
+    			$.ligerDialog.error("请选择一行数据");
+    			return ;
+    		}
+        	$.ligerDialog.open({
+        		width: 1000,
+        		height: 800,
+        		title: "修改",
+        		url: basePath+"news/updNewsUI?serviceType=[[${serviceType}]]&id=" + idStr,
+        		showMax: true,
+        		showToggle: true,
+        		showMin: true,
+        		isResize: true
+        	});
+        }
+ 		//删除
+        function del(item)
+        {
+        	var rows = grid.getCheckedRows();
+    		var idStr = "";
+    		$(rows).each(function() {
+    			if ($.trim(idStr).length > 0) {
+    				idStr += "," + this.id;
+    				return ;
+    			} else {
+    				idStr = this.id;
+    			}
+    		});
+    		if(idStr==""){
+    			$.ligerDialog.error("请选择要删除的数据");
+    			return ;
+    		}
+    		$.ligerDialog.confirm('确定要删除吗？', function (yes) {
+    			if(yes){
+    				$.post(basePath+"news/delNews?ids="+idStr, function(data) {
+    	    			if (data.code=="0000") {
+    	    				$.ligerDialog.success(data.msg);
+    	    				load();
+    	    			} else if (data.code =="9999") {
+    	    				$.ligerDialog.error(data.msg);
+    	    			}
+    	    		});
+    			}
+    		});
+        }
+        //搜索
+        function search(){
+        	if (window.winfilter) {
+    			window.winfilter.show();
+    		} else {
+    			var filtercontainer = $("<div id=\"filtercontainer\"></div>").width(500).height(200).hide();
+    			window.filter = filtercontainer.ligerFilter({fields : searchfields});
+    			window.winfilter = $.ligerDialog.open({
+    				width : 540,
+    				height : 288,
+    				target : filtercontainer,
+    				isResize : true,
+    				top : 50,
+    				buttons : [ {
+    					text : "确定",
+    					onclick : function(item, dialog) {
+    						var group = window.filter.getData();
+    						searchData= JSON.stringify(group);
+    						gridRefresh();
+    						dialog.hide();
+    					}
+    				},{
+    					text : "取消",
+    					onclick : function(item, dialog) {
+    						dialog.hide();
+    					}
+    				}]
+    			});
+    		}
+        }
+        //刷新列表
+        function gridRefresh() {
+    		if (grid!=null) {
+    			params["searchData"] = searchData;
+    			var p = grid.options;
+    			p.newPage = 1;
+    			grid.loadServerData(params);
+    		}
+    	}
+        
+ 
+    </script>
+
+  </head>
+  
+  <body>
+  	<div id="menuBar"></div>
+    <div id="maingrid"></div>
+  </body>
+</html>

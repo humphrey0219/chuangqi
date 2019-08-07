@@ -10,19 +10,18 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.chuangqi.bean.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chuangqi.bean.Paginer;
+import com.chuangqi.bean.ResultCode;
 import com.chuangqi.bean.SearchRules;
 
 /**
@@ -36,8 +35,12 @@ public class BaseController {
 	protected static final String CONTENTTYPE_JSON="text/x-json;charset=UTF-8";
 	
 	//上转文件根路径
-	//@Value("${excel.file.uploads.basedir}")
-	protected String  excelFileUploadsBasedir;
+	@Value("${upload.file.base.dir}")
+	protected String  uploadFileBaseDir;
+	//资源域名地址
+	@Value("${resource.domain.url}")
+	protected String  resourceDomainUrl;
+	
 
 	protected ModelAndView modelAndView;
 	protected ModelAndView modelAndView(String pageUrl) {
@@ -144,13 +147,6 @@ public class BaseController {
 		wb.write(output);
 		output.flush();
 		output.close();
-	}
-	
-	/**
-	 * @return 获取上转Excel文件路径
-	 */
-	protected String getExcelFileUploadsBasedir() {
-		return excelFileUploadsBasedir;
 	}
 
 	protected HttpServletResponse getResponse(){
