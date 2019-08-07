@@ -37,3 +37,22 @@ CREATE TABLE `t_page_image` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_number` (`number`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='网页图片管理';
+
+CREATE TABLE `t_news` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `serviceType` tinyint(10) NOT NULL DEFAULT '10' COMMENT '业务类型：10公司新闻，20行业新闻',
+  `title` varchar(255) NOT NULL COMMENT '新闻标题',
+  `resource` varchar(128) DEFAULT NULL COMMENT '新闻来源',
+  `resourceUrl` varchar(255) DEFAULT NULL COMMENT '来源URL',
+  `keyword` varchar(255) DEFAULT NULL COMMENT '关键词',
+  `description` varchar(1024) DEFAULT NULL COMMENT '关键字描述',
+  `imgUrl` varchar(255) DEFAULT NULL COMMENT '新闻图片',
+  `newDesc` varchar(1024) DEFAULT NULL COMMENT '新闻简介',
+  `status` tinyint(5) NOT NULL DEFAULT '0' COMMENT '状态（0：草稿，1上架，2下架）',
+  `pubTime` datetime DEFAULT NULL COMMENT '发布时间',
+  `details` text COMMENT '新闻详情',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_uq` (`title`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='新闻管理';
