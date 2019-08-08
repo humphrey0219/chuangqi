@@ -154,6 +154,13 @@ public class BaseController {
 		output.flush();
 		output.close();
 	}
+	
+	protected String showResourceDomainUrl(String dbPath) {
+		if(StringUtils.isBlank(dbPath)){
+			return dbPath;
+		}
+		return resourceDomainUrl+dbPath;
+	}
 
 	protected HttpServletResponse getResponse(){
 		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();

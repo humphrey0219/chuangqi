@@ -56,3 +56,20 @@ CREATE TABLE `t_news` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_uq` (`title`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='新闻管理';
+
+CREATE TABLE `t_smile_test` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `phone` varchar(20) DEFAULT NULL COMMENT '手机号码',
+  `smileTestImg` varchar(255) DEFAULT NULL COMMENT '微笑测试图片',
+  `applyTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '申请时间',
+  `status` tinyint(5) NOT NULL DEFAULT '0' COMMENT '状态（0申请中，1测试中，2已反馈，3作废）',
+  `backTime` datetime DEFAULT NULL COMMENT '反馈时间',
+  `testReport` text COMMENT '测试报告',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`),
+  KEY `idx_phone` (`phone`),
+  KEY `idx_applyTime` (`applyTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='微笑测试';
+

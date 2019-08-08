@@ -3,8 +3,6 @@
  */
 package com.chuangqi.controller;
 
-import java.util.List;
-
 import javax.websocket.server.PathParam;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,64 +16,57 @@ import com.chuangqi.bean.Paginer;
 import com.chuangqi.bean.RequestBean;
 import com.chuangqi.bean.ResultCode;
 import com.chuangqi.service.NewsService;
+import com.chuangqi.service.SmileTestService;
 import com.chuangqi.vo.NewsVo;
+import com.chuangqi.vo.SmileTestVo;
 
 /**
- * 新闻控制类
+ * 微笑测试控制类
  * @author wmk
  *
  */
 @Slf4j
 @RestController
-@RequestMapping("/news")
-public class NewsController extends BaseController{
+@RequestMapping("/smileTest")
+public class SmileTestController extends BaseController{
 	@Autowired
-	private NewsService newsService;
+	private SmileTestService smileTestService;
 	
-	@RequestMapping("/newslistUI")
-	public ModelAndView newslistUI(@PathParam(value="serviceType") Integer serviceType){
-		modelAndView("news/newslistUI");
-		this.modelAndView.addObject("serviceType", serviceType);
+	@RequestMapping("/smileTestlistUI")
+	public ModelAndView smileTestlistUI(){
+		modelAndView("smileTest/smileTestlistUI");
 		return modelAndView;
 	}
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping("/newslist")
-	public void newslist(@PathParam(value="serviceType") Integer serviceType){
+	@RequestMapping("/smileTestlist")
+	public void smileTestlist(){
 		try{
-			NewsVo vo= new NewsVo();
-			vo.setServiceType(serviceType);
+			SmileTestVo vo= new SmileTestVo();
 			vo.setWhereSql(getSearchRules());
 			vo.setOrderBySql(" order by id desc ");
-			Paginer<NewsVo> paginer=getPaginer();
+			Paginer<SmileTestVo> paginer=getPaginer();
 			paginer.setObj(vo);
-			paginer=newsService.getPaginer(paginer);
-			List<NewsVo> newsVos=paginer.getEntityList();
-			if(newsVos!=null&&!newsVos.isEmpty()){
-				for (NewsVo newsVo:newsVos) {
-					newsVo.setShowImgUrl(showResourceDomainUrl(newsVo.getImgUrl()));
-				}
-			}
+			paginer=smileTestService.getPaginer(paginer);
 			outPage(paginer);
 		}catch (Throwable e) {
 			e.printStackTrace();
-			log.error("查询订单列表错误", e);
+			log.error("查询列表错误", e);
 		}
 	}
 	
 	//添加数据页面
-	@RequestMapping("/addNewsUI")
-	public ModelAndView addleaveUI(@PathParam(value="serviceType") Integer serviceType){
-		
-		return modelAndView("news/addNewsUI").addObject("serviceType", serviceType);
+	@RequestMapping("/addSmileTestUI")
+	public ModelAndView addSmileTestUI(){
+		return modelAndView("smileTest/addSmileTestUI");
 	}
 	
 	//添加数据
-	@RequestMapping("/addNews")
-	public void addNews(NewsVo vo){
+	@RequestMapping("/addSmileTest")
+	public void addSmileTest(SmileTestVo vo){
 		ResultCode resultCode=ResultCode.newSuccess();
 		try{
-			Long rt=newsService.add(vo);
+			Long rt=smileTestService.add(vo);
 			if(rt==null||rt<=0){
 				resultCode.setFail("添加失败,请联系技术人员");
 			}
@@ -88,21 +79,20 @@ public class NewsController extends BaseController{
 	}
 	
 	//修改数据页面
-	@RequestMapping("/updNewsUI")
-	public ModelAndView updNewsUI(NewsVo vo){
-			vo=newsService.get(vo);
-			modelAndView("news/updNewsUI");
-			vo.setShowImgUrl(showResourceDomainUrl(vo.getImgUrl()));
+	@RequestMapping("/updSmileTestUI")
+	public ModelAndView updSmileTestUI(SmileTestVo vo){
+			vo=smileTestService.get(vo);
+			modelAndView("smileTest/updSmileTestUI");
 			modelAndView.addObject("vo", vo);
 			return modelAndView;
 	}
 		
 	//修改数据
-	@RequestMapping("/updNews")
-	public void updNews(NewsVo vo){
+	@RequestMapping("/updSmileTest")
+	public void updSmileTest(SmileTestVo vo){
 			ResultCode resultCode=ResultCode.newSuccess();
 			try{
-				Long rt=newsService.updateByUqKey(vo);
+				Long rt=smileTestService.updateByUqKey(vo);
 				if(rt==null||rt<=0){
 					resultCode.setFail("修改失败,请联系技术人员");
 				}
@@ -115,14 +105,14 @@ public class NewsController extends BaseController{
 	}
 	
 	//删除数据
-	@RequestMapping("/delNews")
+	@RequestMapping("/delSmileTest")
 	public void delNews(RequestBean requestBean){
 		ResultCode resultCode=ResultCode.newSuccess();
 		try{
 			String ids=requestBean.getIds();
-			NewsVo t=new NewsVo();
+			SmileTestVo t=new SmileTestVo();
 			t.setWhereSql(" id in("+ids+")");
-			int rt=newsService.del(t);
+			int rt=smileTestService.del(t);
 			if(rt<=0){
 				resultCode.setFail("删除失败,请联系技术人员");
 			}

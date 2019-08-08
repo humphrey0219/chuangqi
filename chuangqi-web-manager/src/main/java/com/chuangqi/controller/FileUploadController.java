@@ -60,7 +60,8 @@ public class FileUploadController extends BaseController{
     		
     		//上传成功，返回url
     		rtMap.put("error", 0);
-    		rtMap.put("url", resourceDomainUrl + dbPath);
+    		rtMap.put("url", showResourceDomainUrl(dbPath));
+    		rtMap.put("dbPath",dbPath);
 			
 		} catch (Throwable e) {
 			e.printStackTrace();

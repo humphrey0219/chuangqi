@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  	<th:block th:include="js_css::copy" />
+  	
+  	<link rel="stylesheet" th:href="@{/kindeditor/themes/default/default.css}" />
+	<link rel="stylesheet" th:href="@{/kindeditor/plugins/code/prettify.css}" />
+	<script charset="utf-8" th:src="@{/kindeditor/kindeditor-all-min.js}"></script>
+	<script charset="utf-8" th:src="@{/kindeditor/lang/zh-CN.js}"></script>
+	<script charset="utf-8" th:src="@{/kindeditor/plugins/code/prettify.js}"></script>
+	
+    <script type="text/javascript">
+    	var editor=null;
+	    KindEditor.ready(function(K) {
+			 editor = K.create('textarea[name="testReport"]', {
+				uploadJson : basePath+'fileUpload/newsImgFile',
+				//fileManagerJson : '../jsp/file_manager_json.jsp',
+				allowFileManager : false
+			});
+		});
+    
+        $(function ()
+        {
+            $("#form1").ligerForm({
+                validate: true
+            });	
+            $("#status").ligerComboBox();//下拉框
+            $("#backTime").ligerDateEditor({ showTime: true,width:200,value:'[[${#dates.format(vo.backTime,'yyyy-MM-dd HH:mm:ss')}]]'});
+       		
+            $("#imgObj").click(function(){
+            	$(this).toggleClass('min');
+            	$(this).toggleClass('max');
+            });
+        });
+        
+      //校验通过
+     function valid()
+     {
+         var form = liger.get("form1");
+         return form.valid();
+     }
+     
+     function submitForm()
+     {
+    	 if(valid()){
+    		 var data = {};
+             $("input,select,textarea").each(function ()
+             {
+                 var name = $(this).attr("name");
+                 if (name && name.indexOf('ligerui') == -1)
+                 {
+                    data[name] = this.value;
+                 }
+             });
+             data["id"]="[[${vo.id}]]";
+             data["testReport"]=editor.html();
+             
+             $.post(basePath+"smileTest/updSmileTest?t="+new Date(),data,function(data) {
+            	 addOrUpdateRetInfoParent(data);
+	    	});
+    	 }
+     }
+ 
+    </script>
+    <style type="text/css">
+            body{padding-left:10px;font-	size:13px;}
+            h1{font-size:20px;font-family:Verdana;}
+            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
+            .description{padding-bottom:30px;font-family:Verdana;}
+            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
+			td {padding: 5px;}
+			ui-textbox{width:500px}
+			.max{width:100%;height:auto;}
+			.min{width:100%;height:auto;}
+			img{width:100px;height:100px;}
+    </style>
+
+</head>
+<body style="padding:0px">
+    <form id="form1" >
+    	<table >
+            <tr>
+                <td><label for="phone">手机号码：</label></td>
+                <td colspan="3">[[${vo.phone}]] </td>
+                
+            </tr>
+            <tr>
+                <td>微笑图片：</td>
+                <td colspan="3" width="500"><img id="imgObj" th:src="${vo.smileTestImg}" />
+                </td>
+                <!-- <td></td>
+                <td></td> -->
+            </tr>
+            <tr>
+                <td> <label for="leaveTime">申请时间：</label></td>
+                <td>[[${#dates.format(vo.applyTime,'yyyy-MM-dd HH:mm:ss')}]]</td>
+                <td></td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td> <label >状态：</label></td>
+                <td> 
+                <select id="status" name="status">
+                	<option th:selected="${vo.status==0}"  value="0" >申请中</option>
+                	<option th:selected="${vo.status==1}"  value="1" >测试中</option>
+                	<option th:selected="${vo.status==2}"  value="2" >反馈</option>
+                	<option th:selected="${vo.status==3}"  value="3" >作废</option>
+                </select> 
+                </td>
+                <td>回馈时间：</td>
+                <td><input id="backTime" name="backTime" type="text"/></td>
+            </tr>
+            <tr>
+                <td>备注说明：</td>
+                <td colspan="3" width="500">
+                <textarea rows="2" cols="110" id="remark" name="remark">[[${vo.remark}]] </textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">测试报告：</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                	<textarea rows="" cols="" name="testReport" id="testReport"  style="width:950px;height:300px;visibility:hidden;">[[${vo.testReport}]]</textarea>
+                </td>
+            </tr>
+           
+            <tr>
+            	<td colspan="2"></td>
+                <td colspan="2">
+                    <input value=" 提交  " type="button" onclick="submitForm()" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>

@@ -19,6 +19,11 @@
         ]
     },
     {
+        text: '微笑测试管理', isexpand: true, children: [
+            {url: "smileTest/smileTestlistUI", text: "微笑测试列表"}
+        ]
+    },
+    {
         text: '新闻管理', isexpand: true, children: [
             {url: "news/newslistUI?serviceType=10", text: "国内新闻"},
             {url: "news/newslistUI?serviceType=20", text: "行业新闻"}

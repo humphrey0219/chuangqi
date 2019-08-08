@@ -29,4 +29,6 @@ public class NewsVo extends BaseVo{
 	private Integer status;//状态（0：草稿，1上架，2下架） [status, tinyint, 3]
 	private Date pubTime;//发布时间 [pubTime, datetime, 0]
 	private String details;//新闻详情 [details, text, 65535]
+	
+	private String showImgUrl;//显示图片地址
 }
