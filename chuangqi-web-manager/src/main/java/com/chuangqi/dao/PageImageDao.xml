@@ -14,7 +14,7 @@
     <!-- 图片列表 -->
     <select id="getList" parameterMap="PageImageVo" resultMap="PageImageVo">
         SELECT <include refid="sqlField"></include>
-        from t_page_image
+        from t_page_image where page=#{page}
         <if test="pageStartRow!=null">
             limit #{pageStartRow},#{pageEndRow}
         </if>

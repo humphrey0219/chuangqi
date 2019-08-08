@@ -99,7 +99,13 @@ public class BaseController {
 
             resultCode.setFail(msg+"失败" );
         }else {
-            resultCode.setMsg(msg+"成功");
+            //result 为1 时传送数据
+            if(result == 1) {
+                resultCode.setMsg(msg);
+            }else{
+                resultCode.setMsg(msg+"成功");
+            }
+
         }
 
         resWriteObjectJson(resultCode);

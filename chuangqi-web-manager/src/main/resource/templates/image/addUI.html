@@ -1,23 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title >创建图片</title>     
+    <title >管理页面图片</title>     
     <f th:include="js_css::copy"></f>
-    <!-- <th:block th:text="${msg}" /> 直接出 -->
-    <script th:src="@{/lib/jquery/jquery-1.9.0.min.js}" type="text/javascript"></script>    
-    <script th:src="@{/lib/ligerUI/js/ligerui.all.js}" type="text/javascript"></script>  
-    <script th:src="@{/lib/jquery.cookie.js}"></script>
-    
-    <script th:src="@{/lib/json2.js}"></script>
-    <script th:src="@{/indexdata.js}" type="text/javascript"></script>
+
     <script th:inline="javascript" type="text/javascript">
-    	 	var basePath =[[@{/}]];
-    </script>     
-    <script type="text/javascript">
+       
+            /*<![CDATA[*/
 
-
-            //Tab数据
-            var tid = ''
+            var imgStr = [[${images}]];
+    
+            /*]]>*/
             //是修改还是新建
             var isUpdate = false
 
@@ -27,7 +20,7 @@
                     debug: true,
                     errorLabelContainer: "#errorLabelContainer", wrapper: "li",
                     invalidHandler: function (form, validator) {
-                    
+                        console.log("验证错误")
                         setTimeout(function () {
                             $.ligerDialog.tip({ content: "验证失败"});
                         }, 10);
@@ -39,170 +32,367 @@
                 }); 
                 console.log("v :", v)               
             }
-
-            var pageData = {
-                url: basePath + 'webpage/data',
-                            //下拉框中显示内容 对应 的 id字段
-                valueField:'id',
-                            //下拉框中显示的内容 对应 的字段
-                textField:'name',
-
-                onSelected  :function(newvalue){
-                                //选中下拉框事件。。。
-                    },               
+            console.log("json str", imgStr)
+            var allImgs = JSON.parse(imgStr)
+            if(!allImgs){
+                allImgs = []
             }
+            console.log("原来的图片", allImgs)
 
-            $(function () {
-                
-                //测试
-                var test1 = $("#test1").ligerComboBox({
-                width : 200,
-                data: [
-                    { text: '北京', id: 'bj' },
-                    { text: '天津', id: 'tj' },
-                    { text: '厦门', id: '44' },
-                    { text: '广州', id: 'gz' },
-                    { text: '深圳', id: 'sz' },
-                    { text: '上海', id: 'ss' }
-                ], valueFieldID: 'test3',
-                autocomplete: true,
-                rowClsRender : function(row){
-                    if (row.id == "bj")
-                    {
-                        return "beijing";
-                    }
+            //空的图片图片数据
+            var images =allImgs.length > 0? allImgs: [
+                {
+                    id: 0,
+                    url: '',
+                    number: "",
+                    description: "",
                 },
- 
-                keySupport: true
-            }); 
-        
-
-               // $("#select2").ligerComboBox();
-
-                console.log(test1)
+                {
+                    id: 0,
+                    url: '',
+                    number: "",
+                    description: "",
+                },                
+            ]
+            $(function () {                
+                // 业务代码
+                
+                //console.log(parent);
+                //读取list传递的page
+                var curPage = JSON.parse($.cookie("image_page"))
+               // console.log("image_page", curPage)
                 //图片表单
                 var form = $("#form2").ligerForm({
                     validate: true,
                     inputWidth: 170, labelWidth: 90, space: 40,
                     fields: [
-                        { display: "", name: "id", type:"hidden"},
-                       
-                        { display: "页面", name: "page", newline: false, type: "select", comboboxName: "page", options: pageData,group: "图片基础信息" },
+                    { display: "", name: "id", type: "hidden" },
+                        { display: "", name: "url", type: "hidden"},
+                        // { display: "页面", name: "page", newline: false, type: "select", comboboxName: "page", options: pageData,group: "图片基础信息" },
+                        {
+                            display: "页面", name: "page", newline: false, type: "select",initValue: "234242", initText: "Baby" ,comboboxName: "page", options: {
+                                url: basePath + 'webpage/pages',
+                                //下拉框中显示内容 对应 的 id字段
+                                valueField: 'id',
+                                //下拉框中显示的内容 对应 的字段
+                                textField: 'title',
+                                //只读
+                                 
+                                
+                                //readonly: true ,
+                                onSelected: function (newvalue) {
+                                    //选中下拉框事件。。。
+                                },
+                            }
+                        },
+                        //{ display: "编号", name: "number", newline: false, type: "text" },
 
-                        { display: "编号", name: "number", newline: false, type: "text", validate: { required: true}},
+                        //{ display: "简介", name: "description", newline: true, type: "textarea", width: 470 ,validate: { required: true ,minlength:5} },                    
 
-                        { display: "简介", name: "description", newline: true, type: "textarea", width: 470},
-                   
                     ]
                 });
+                form.setData({page:curPage.id})
+                var image1 = $("#image1").ligerForm({
+                    validate: true,
+                    inputWidth: 170, labelWidth: 90, space: 40,
+                    fields: [
+                        { display: "", name: "id", type: "hidden" },
+                        { display: "", name: "url", type: "hidden"},
 
-                //更新图片数据
-                var imageToUpdate = parent. globalActionStatus["imageUpdate"]
-                if(imageToUpdate){
-                    isUpdate = true 
-                   // console.log(document.title)
-                    form.setData(imageToUpdate.data)
+                        { display: "图片编号", name: "number", newline: false, type: "text" },
+
+                        { display: "图片简介", name: "description", newline: false, type: "text",validate: { required: true ,minlength:5} },
+                       
+                        
+
+                    ]
+                });
+                // 创建新表单
+                function buildForm(index, image){
+                    var orgImg = image.url.length > 0 ? image.url : "/m/image/v.jpg" ;
+                    var html = '<div id="image_div_' + index + '" class="imageRow row">' +
+                                    '<form id="image' + index + '" class="liger-form inline_block">  </form>' +
+
+                                    '<div class="image_wrapper">' +
+                                        '<img class="preview_img"  id="org_' + index + '"alt="图片加载失败" src="' + orgImg + '" />'  +
+                                        '<p> 原图</p>' +
+                                    '</div>' +
+                                    '<div class="image_wrapper">' +
+                                        '<img id="img_' + index + '" class="preview_img" alt="图片加载失败" src="http://localhost:9999/m/image/v.jpg" />'  +
+                                        '<p> 新图</p>' +
+                                    '</div>' +                                    
+                                    
+                                    '<div  class="inline_block">'  +
+                                        '<button class="uploadBtn"  style="position: relative">'  +
+                                            '<span id="innerText">上传图片</span>'  +
+                                        ' <input id="uploadBtn_' + index + '" data-image="' + index + '" class="fileInput" type="file" accept="image/png,image/jpeg,image/gif" name="fileM" id="fileUp_'+ index + '">'  +
+                                        '</button> '  +
+                                    '</div>'  +
+                                    '<div  class="inline_block">'  +
+                                        '<button class="cancelBtn uploadBtn" id="cancelBtn_' + index + '" data-id="' + index + '" style="position: relative">'  +
+                                            '<span id="innerText">使用原图片</span>'  +
+
+                                        '</button> '  +
+                                    '</div>'  +
+                                    '<div  class="inline_block">'  +
+                                        '<button class="delBtn uploadBtn" id="delBtn_' + index + '" data-id="' + index + '" style="position: relative">'  +
+                                            '<span id="innerText">删除此项目</span>'  +
+
+                                        '</button> '  +
+                                    '</div>'  
+                            '</div>' ;
+                    $("#image_forms").append(html)
+
+                    //删除图片表单
+                    $("#delBtn_"+ index).click(function(e){
+                        var pageNo = $(this).data("id")
+                        console.log("Image No", pageNo)
+                        console.log(images)
+                        images.splice(pageNo, 1)
+                        $("#image_div_"+pageNo).remove()
+                    })
+                    //撤销新图片
+                    $("#cancelBtn_"+index).click(function(e){
+                        console.log($(this))
+                        var imageNo = $(this).data("id")
+                        var orgScr =  $("#org_"+ imageNo).attr("src")
+                        $("#img_"+imageNo).attr("src", orgScr)
+                        images[imageNo].url = orgScr
+                    })
+
+                    uploadImg("#uploadBtn_"+ index)
+
+                    var iform = $("#image"+index).ligerForm({
+                    validate: true,
+                    inputWidth: 170, labelWidth: 90, space: 40,
+                    fields: [
+                        { display: "", name: "id", type: "hidden" },
+                        { display: "", name: "url", type: "hidden"},
+
+                        { display: "图片编号", name: "number", newline: false, type: "text" , validate: { required: true ,minlength:5}},
+
+                        { display: "图片描述", name: "description", newline: false, type: "text", validate: { required: true ,minlength:5} },                    
+
+                    ]
+                });
+                //若是已有 设置数据
+                if(image.id > 0){
+                    iform.setData(image)
+                }
+                    //listenFile("#fileUpd_"+ index)
+                }
+                
+                //初始化图片项
+                function initImageForm(images){
+                    images.forEach(function(element, index) {
+                        console.log(element, index);
+                       buildForm(index, element)
+                    });
                 }
 
-                //提交
-                $("#submit").click(function(e){
-                    var path = "image/add"
-                    if(isUpdate){
-                        path = "image/update"
-                    }
-                    console.log("form 验证结果： "+ liger.get("form2").valid()) ;
-                    valid()
-                    return  
-                    if(liger.get("form2").valid()){
-                        let data =form.getData()
-                        $.post(basePath + path, data, function (data) {
-                            var code = data.code;
-                            var msg = data.msg;
-                            if (code == '0000') {
-                                $.ligerDialog.success(msg,function(r){
-                                //删除tab
-                                if(isUpdate){
-                                    parent.tab.removeTabItem(parent.page.tid) 
-                                }                                
-                                });
-                            } else if (code == '9999') {
-                                $.ligerDialog.error(msg);
+             //验证表单                  
+            function validForm(){
+                    var result = true  ;
+                    var log = console.log
+                    var pageNo = liger.get("form2").getData()
+                    log(pageNo)
+                    //console.log(validator.valid())
+                    images.forEach(function(ele, i){
+                        var form = liger.get("image"+i);
+                            var d = form.getData()
+                            var isV = form.valid()
+                            if(!isV){
+                                result = false
                             }
-                        });  
+                            images[i] = $.extend(ele, d, {page: curPage.id})
+                        console.log("验证表单", images[i])                          
+                    })
 
-                                          
+                    return result
+
+                }
+                //提交
+            $("#submit").click(function(e){
+
+                    path = "image/publish"
+                 
+                    console.log("form data", liger.get("form2").getData())
+                    console.log("form 验证结果： "+ liger.get("form2").valid()) ;
+                    
+                    if(validForm()){
+                        //let data =form.getData()
+                        console.log(images)
+
+                        $.ajax({
+
+                            url:basePath + path ,
+
+                            type: "Post",
+                            dataType: "json",
+                            contentType: 'application/json',
+                            data:JSON.stringify(images),
+                            dataType: "json",
+                            success: function(data){
+                                var code = data.code;
+                                var msg = data.msg;
+                                if (code == '0000') {
+                                    //$("#url").val(msg)
+                                    $.ligerDialog.success(msg,function(r, d){
+                                    d.close()                             
+                                    });
+                                } else if (code == '9999') {
+                                    $.ligerDialog.error(msg);
+                                }
+                            },
+                            error: function(e){
+                                $.ligerDialog.error("提交失败");
+                            }                            
+                        });
+                                         
                     }else {
                         $.ligerDialog.error("数据不完善！"); 
                     }
                     
                     
                 })
+            //文件监听
+            function listenFile(id){
+                    console.log("listenFileEven", id)
+                    console.log($(id))
+                    $(id).on("change", function(e){ 
+                    conselo.log("Log file")
+                    console.log($(this))
+                    return 
+                    var form = new FormData()
+                    var file = e.target.files[0];
+                    var f = $(this)
+                    console.log(f)
+                    console.log(file)
+                    form.append("file", file);
+                    $.ajax({
+                        url:basePath + "image/save",
+                        type: "Post",
+                        dataType: "json",
+                        
+                        processData: false,//用于对data参数进行序列化处理 这里必须false
+                        contentType: false, //必须
+                        data:form,
+                        success:function (res) {
+                            $("#upLoadImage").children("#innerText").text("重选图片");
+                            previewBtn.show()
+                            console.log(res);
+                        },
+                        error:function (error) {
+                            console.log(error);
+                        }
+                    })
+                })                   
+                }
 
+
+            initImageForm(images)
+
+            //上传图片$(":file")
+            function uploadImg(idStr){
+                $(idStr).on("change", function(e){
+
+                
+                    var form = new FormData()
+                    var file = e.target.files[0];
+                    var f = $(this)
+                    console.log(f.data("image"))
+                    console.log(file)
+                    
+                    form.append("file", file);
+                    $.ajax({
+                        url:basePath + "image/save",
+                        type: "Post",
+                        dataType: "json",
+                        
+                        processData: false,//用于对data参数进行序列化处理 这里必须false
+                        contentType: false, //必须
+                        data:form,
+                        success:function (res) {
+                            $("#upLoadImage").children("#innerText").text("重选图片");
+                            //previewBtn.show()
+                            var path = "/m/"+res.msg
+                            images[f.data("image")].url = path
+                            $("#img_"+f.data("image")).attr('src', path)
+                            console.log(res);
+                        },
+                        error:function (error) {
+                            console.log(error);
+                        }
+                    })
+                })                
+            }
+
+
+            //预览使用新图片的页面
+          var previewBtn = $("#previewImage")
+            previewBtn.click(function(e){
+                $.ligerDialog.open({
+                    url: "https://www.baidu.com",
+                    title: '预览图片',
+                    height: window.innerHeight, width: window.innerWidth,
+                    buttons: [
+                        { 
+                            text: '取消', 
+                            onclick: function (item, dialog) {
+                                dialog.hide(); 
+                                } 
+                        }
+                    ],
+                    isResize: true 
+                });
+            })
+            previewBtn.hide()
+
+
+            //增加图片表单
+            $("#addImageBtn").click(function(e){
+                var newImage = {                   
+                    id: 0,
+                    url: '',
+                    number: "",
+                    description: "",
+                   };
+                   images.push(newImage)
+                   buildForm(images.length -1 , newImage)
+                
+            })
+           
             });
+
+
  
     </script>
-    <style type="text/css">
-            body{font-size:13px;margin: 0 auto}
-            h1{font-size:20px;font-family:Verdana;}
-            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
-            .description{padding-bottom:30px;font-family:Verdana;}
-            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
-			td {padding: 5px;}
-            .uploadBtn {
-                padding: 10px 20px;
-                border-radius: 10px;
-                border: 2px solid aliceblue;
-            }
-            .fileInput{
-                            position: absolute;
-                left: 0px;
-                opacity: 0;
-                padding: 10px 20px;
-                max-width: 50px;
-                }
-            .mtop{
-                margin-top: 30px 
-            }
-    </style>
+
 
 </head>
 <body style="padding:0px">
-   
-    <div >
-       <button class="uploadBtn" id ="upLoadImage">上传图片</button> 
-       <input class="fileInput" type="file" accept="image/png,image/jpeg,image/gif" name="fileM" id="fileUp">
+
+    <div class="row">
+        <form style="flex: 1" id="form2" class="liger-form">
+        </form>
+        <button id="addImageBtn" class="uploadBtn" style="position: relative">
+            <span id="innerText">增加图片</span>
+         </button>                 
     </div>
-    
-    <button class="mtop uploadBtn" id="submit">完成</button>
+
+    <div id="image_forms">
+
+    </div>
+
+ 
+    <div class="centerBtn center_btn">
+        <button class="mtop uploadBtn" id="submit">确认发布</button>
+        <button class="mtop uploadBtn" id="previewPage">预览</button>
+    </div>
 
 
- <!--
-    <input type="hidden" id="test2">
-    <div style="display:none;">
-    <h3>sucker</h3>
-    <select name="select2" id="select2" ligerid="select2">
-        <option value="a">Apple</option>
-        <option value="b">Babel</option>
-    </select>
 
--->
-
-    <!-- 测试 comboBox-->
-    <div class="l-text-wrapper">
-            <h4>测试下拉框</h4>
-            <div class="l-text l-text-combobox" style="width: 200px;">
-                <input type="text" id="test1" data-comboboxid="test1"class="l-text-field" style="width: 180px;" ligeruiid="test1">
-                <div class="l-text-l"></div>
-                <div class="l-text-r"></div>
-                <div class="l-trigger">
-                    <div class="l-trigger-icon"></div>
-                </div>
-                <div class="l-trigger l-trigger-cancel" style="display: none;">
-                    <div class="l-trigger-icon"></div>
-                </div>
-            </div>
-            <input type="hidden" name="test3" id="test3" data-ligerid="test1" value="">
-        </div>
+        
 
     
            

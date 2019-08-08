@@ -4,22 +4,13 @@
     <title >全部页面图片</title>     
     <f th:include="js_css::copy"></f>
     <!-- <th:block th:text="${msg}" /> 直接出 -->
-    
 
-    <style type="text/css">
-            body{font-size:13px;margin: 0 auto}
-            h1{font-size:20px;font-family:Verdana;}
-            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
-            .description{padding-bottom:30px;font-family:Verdana;}
-            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
-			td {padding: 5px;}
-    </style>
 
 </head>
 <body style="padding:0px">
 
     <script type="text/javascript">
-        var  p = parent.globalActionStatus["imageUpdate"] = {
+        var  p = imageUpdate = {
                     modified : false,
                     data: null,
                     tid : ""
@@ -31,73 +22,52 @@
 
         $(function () {
             window['g'] =
-                $("#maingrid").ligerGrid({
+            $("#maingrid").ligerGrid({
                     height: '100%',
                     columns: [
-                        { display: '图片ID', name: 'id', align: 'left', width: 100, minWidth: 60 },
-                        { display: '页面类型', name: 'page', minWidth: 120 },
-                        { display: '编号', name: 'number'},
-                        { display: '图片地址', name: 'url', minWidth: 140 },
-                    
-                        { display: '描述', name: 'description'}
+
+                        { display: '页面名称', name: 'name', minWidth: 120 },
+                        { display: '页面编号', name: 'number'},
+                        { display: '页面标题', name: 'title', minWidth: 140 },
+
                     ],   pageSize: 10, rownumbers: true,
                     toolbar: {
                         items: [
-                            { text: '增加', click: onAdd, icon: 'add' },
+                        { text: '设置/更新页面图片', click: onAddDialog, icon: 'add' },
                             { line: true },
-                            { text: '修改', click: onUpdate, icon: 'modify' },
-                            { line: true },
-                            { text: '删除', click: onDelItme, img: 'delete' }
+                            //{ text: '删除', click: onDelItme, img: 'delete' }
                         ]
                     },
-                    url: basePath + 'image/data'
-                });
+                    url: basePath + 'webpage/data'
+                });            
+
 
 
             $("#pageloading").hide();
         });
         
-        // 新建
-        function onAdd(e){
-            parent.tab.addTabItem({
-                tidid: "addNewPage",
-                text: "新建图片",
-                url: "image/addUI"
-            })
-        }
+        //在对话框中新创建
+        function onAddDialog(e) {
+            var page = g.getSelectedRow()
+            //选中数据通过cookie传递
+            $.cookie("image_page",JSON.stringify(page))
+            $.ligerDialog.open({
+                url: basePath + "image/addUI/"+page.id,
+                title: '管理 ['+ page.title + "] 图片",
+                height: 380, width: 1200,
+                buttons: [
 
-        //更新或新建图片
-        function onUpdate(e){
-            console.log(e)
-            
-            
-
-            $.ligerDialog.confirm("确定修改此图片？",function(r){
-                if(r){
-                    console.log( g.getSelectedRow())
-                    p.modified = true 
-                    p.data = g.getSelectedRow() 
-                    p.tid = "imageUpdate"+ p.data.id 
-
-                    //g.deleteSelectedRow() 
-                    //console.log(parent.tab)
-                    parent.tab.addTabItem({
-                    tabid: p.tid ,
-                    text: "修改图片",
-                    url: "image/add",
-                    callback: function ()
-                    {
-                        p.modified = false
+                    { 
+                        text: '取消', 
+                        onclick: function (item, dialog) {
+                             dialog.hide(); 
+                            } 
                     }
-                });
-                }
-            })
+                ],
+                isResize: true 
+            });
         }
 
-        //删除ltth
-        function onDelItme(e){
-
-        }
 
     </script>
 

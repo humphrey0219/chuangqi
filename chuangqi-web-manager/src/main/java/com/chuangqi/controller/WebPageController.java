@@ -5,6 +5,7 @@ package com.chuangqi.controller;
 
 import com.chuangqi.bean.GridData;
 import com.chuangqi.service.WebPageService;
+import com.chuangqi.vo.PageImageVo;
 import com.chuangqi.vo.WebPageVo;
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,7 +74,7 @@ public class WebPageController extends BaseController{
         return modelAndView;
     }
 
-
+    //页面列表数据
     @RequestMapping("webpage/data")
     public void allPage(){
        List pages = webPageService.getList(new WebPageVo());
@@ -87,6 +88,19 @@ public class WebPageController extends BaseController{
        }
 
     }
+
+    //所有页面数据 comboBox
+    @RequestMapping("webpage/pages")
+    public void pages(){
+        try {
+            List pages = webPageService.getList(new WebPageVo());
+            resWriteObjectJson(pages);
+        } catch (Throwable e){
+            sendOperationResult(-1, "页面数据");
+        }
+
+    }
+
     // 修改页面
     @RequestMapping("page/update")
     public void  modify(WebPageVo pageVo){
