@@ -37,16 +37,16 @@
                 height: '99%',
                 columns: [
                 { display: 'id', name: 'id',hide:true},
-                { display: '标题', name: 'title', width: 150, minWidth: 60 },
-                { display: '关键字', name: 'keyword', minWidth: 120 },
+                { display: '标题', name: 'title', minWidth: 180 },
+                { display: '关键字', name: 'keyword', minWidth: 180 },
                 { display: '关键字描述', name: 'description', minWidth: 350 },
                 { display: '新闻简介', name: 'newDesc', minWidth: 350 },
-                { display: '发布时间', name: 'pubTime',minWidth: 80 ,
+                { display: '发布时间', name: 'pubTime',minWidth: 140 ,
                 	render: function(rowdata, rowindex, value) {
         				return  yyyyMMddHHmmss(value);
         			}	
                 },
-                { display: '状态', name: 'status', minWidth: 140 ,
+                { display: '状态', name: 'status', minWidth: 50 ,
                 	render: function(rowdata, rowindex, value) {
                 		if(0==value){
                 			value="草稿";

@@ -1,4 +1,4 @@
-﻿/**
+/**
 * jQuery ligerUI 1.2.2
 * 
 * http://ligerui.com
