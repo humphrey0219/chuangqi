@@ -5,7 +5,7 @@
     <base th:href="@{/}">
     <link th:href="@{/lib/ligerUI/skins/Aqua/css/ligerui-all.css}" rel="stylesheet" type="text/css" />  
     <link rel="stylesheet" type="text/css" id="mylink"/>   
-    <script th:src="@{/lib/jquery/jquery-1.9.0.min.js}" type="text/javascript"></script>    
+    <script th:src="@{/lib/jquery/jquery-1.5.2.min.js}" type="text/javascript"></script>    
     <script th:src="@{/lib/ligerUI/js/ligerui.all.js}" type="text/javascript"></script>  
     <script th:src="@{/lib/jquery.cookie.js}"></script>
     <script th:src="@{/lib/json2.js}"></script>
@@ -14,51 +14,35 @@
     	 	var basePath =[[@{/}]];
     </script> 
         <script type="text/javascript">
-
-        // 页面状态
-            var page = {
-                modified: false ,
-                tid: '',
-                data: null
-            }
-        // 账号状态
-            var account = {
-                modified : false,
-                tid: '',
-                data: null 
-            }
-        
-        //
-        var globalActionStatus = { }
+     // 页面状态
+        var page = {
+            modified: false ,
+            tid: '',
+            data: null
+        }
+    // 账号状态
+        var account = {
+            modified : false,
+            tid: '',
+            data: null 
+        }
+    
+    //
+    
             var tab = null;
             var accordion = null;
             var tree = null;
             var tabItems = [];
-            var tabidStr="";
             $(function ()
             {
 
                 //布局
-                $("#layout1").ligerLayout({
-                    leftWidth: 190,
-                    height: '100%',
-                    heightDiff: -34,
-                    space: 4,
-                    onHeightChanged: f_heightChanged,
-                    onLeftToggle: function ()
-                    {
-                        tab && tab.trigger('sysWidthChange');
-                    },
-                    onRightToggle: function ()
-                    {
-                        tab && tab.trigger('sysWidthChange');
-                    }
-                });
+                $("#layout1").ligerLayout({ leftWidth: 190, height: '100%',heightDiff:-34,space:4, onHeightChanged: f_heightChanged });
 
                 var height = $(".l-layout-center").height();
 
                 //Tab
-                tab = $("#framecenter").ligerTab({
+                $("#framecenter").ligerTab({
                     height: height,
                     showSwitchInTab : true,
                     showSwitch: true,
@@ -74,8 +58,6 @@
                             var o = tabItems[i];
                             if (o.tabid == tabid)
                             {
-                            	tabidStr=tabidStr.replace(o.url, "");
-
                                 tabItems.splice(i, 1);
                                 saveTabStatus();
                                 break;
@@ -160,17 +142,8 @@
                 if (accordion && options.middleHeight - 24 > 0)
                     accordion.setHeight(options.middleHeight - 24);
             }
-            function f_addModifyTab(tabid, text, url){
-
-            }
             function f_addTab(tabid, text, url)
             {
-            	//存在就不添加,过滤没有用
-            	if(tabidStr.indexOf(url)!=-1){
-            		return ;
-            	}
-            	tabidStr=tabidStr+url+";";
-            	
                 tab.addTabItem({
                     tabid: tabid,
                     text: text,
@@ -184,9 +157,9 @@
             }
             function addShowCodeBtn(tabid)
             {
-                var viewSourceBtn = $('<a class="viewsourcelink" href="javascript:void(0)">查看源码</a>');
+                /* var viewSourceBtn = $('<a class="viewsourcelink" href="javascript:void(0)">查看源码</a>');
                 var jiframe = $("#" + tabid);
-                //viewSourceBtn.insertBefore(jiframe);
+                viewSourceBtn.insertBefore(jiframe);
                 viewSourceBtn.click(function ()
                 {
                     showCodeView(jiframe.attr("src"));
@@ -196,13 +169,13 @@
                 }, function ()
                 {
                     viewSourceBtn.removeClass("viewsourcelink-over");
-                }); 
+                }); */
             }
             function showCodeView(src)
             {
                 $.ligerDialog.open({
                     title : '源码预览',
-                    url: '' + src,
+                    url: 'xxxx?src=' + src,
                     width: $(window).width() *0.9,
                     height: $(window).height() * 0.9
                 });
@@ -246,10 +219,10 @@
                 { 
                     if (this.value)
                     {
-                        location.href = "index.htm?skin=" + this.value;
+                        location.href = "index.html?skin=" + this.value;
                     } else
                     {
-                        location.href = "index.htm";
+                        location.href = "index.html";
                     }
                 });
 
@@ -311,6 +284,9 @@
 	    	});
             }
      </script> 
+     
+     
+
 <style type="text/css"> 
     body,html{height:100%;}
     body{ padding:0px; margin:0;   overflow:hidden;}  
