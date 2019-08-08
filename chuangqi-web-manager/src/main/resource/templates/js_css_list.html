@@ -1,0 +1,6 @@
+<f th:fragment="copy"> <!-- 单独列表页面分开，是因为新版本不支持搜索下拉框出现时间文本框 -->
+    <link th:href="@{/lib/ligerUI/skins/Aqua/css/ligerui-all.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{/lib/jquery/jquery-1.5.2.min.js}" type="text/javascript"></script> 
+    <script th:src="@{/lib/ligerUI/js/ligerui.all.old.js}"></script>
+    <th:block th:include="js::js_copy" /><!-- 复制配公共js --> 
+</f>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangqi.dao.NewsDao" >
+ 	
+ 	<resultMap type="com.chuangqi.vo.NewsVo" id="NewsVo"/> 
+	<parameterMap type="com.chuangqi.vo.NewsVo" id="NewsVo"/> 
+	
+	<sql id="sqlField">
+	`id`, `serviceType`, `title`, `resource`, `resourceUrl`, `keyword`, `description`, `imgUrl`
+	, `newDesc`, `status`, `pubTime`, `details`, `createTime`, `updateTime`
+	</sql>
+	<sql id="sqlWhere">
+		<trim prefixOverrides="">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 			<if test="status!=null">
+ 			and status=#{status}
+ 			</if>
+ 			<if test="serviceType!=null">
+ 			and serviceType=#{serviceType}
+ 			</if>
+ 			<if test="title!=null">
+ 			and instr(#{title},title)>0
+ 			</if>
+ 		</trim>
+ 		<if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</sql>
+	
+	<select id="getMapList" parameterMap="NewsVo" resultType="java.util.Map">
+		SELECT <include refid="sqlField"></include>
+ 		from t_news where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	
+	<select id="getList" parameterMap="NewsVo" resultMap="NewsVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_news where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	<select id="getCount" parameterMap="NewsVo" resultType="long">
+		SELECT count(*)
+ 		from t_news where 1=1
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 查询单个对象-->
+	<select id="get" parameterMap="NewsVo" resultMap="NewsVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_news where 1=1 
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 添加单个对象-->
+	<insert id="add" parameterMap="NewsVo">
+	   	insert into t_news(
+		serviceType,
+		title,
+		resource,
+		resourceUrl,
+		keyword,
+		description,
+		imgUrl,
+		newDesc,
+		status,
+		pubTime,
+		details
+		)
+		values(
+		#{serviceType},
+		#{title},
+		#{resource},
+		#{resourceUrl},
+		#{keyword},
+		#{description},
+		#{imgUrl},
+		#{newDesc},
+		#{status},
+		#{pubTime},
+		#{details}
+		)
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+		    select @@IDENTITY as id
+		 </selectKey>	   
+	</insert>
+
+	<!-- 修改信息 -->
+	<update id="updateByUqKey" parameterMap="NewsVo">
+		update t_news SET 
+		<trim suffixOverrides=",">
+		<if test="serviceType != null">serviceType=#{serviceType},</if>
+		<if test="title != null">title=#{title},</if>
+		<if test="resource != null">resource=#{resource},</if>
+		<if test="resourceUrl != null">resourceUrl=#{resourceUrl},</if>
+		<if test="keyword != null">keyword=#{keyword,jdbcType=VARCHAR},</if>
+		<if test="description != null">description=#{description},</if>
+		<if test="imgUrl != null">imgUrl=#{imgUrl,jdbcType=VARCHAR},</if>
+		<if test="newDesc != null">newDesc=#{newDesc},</if>
+		<if test="status != null">status=#{status},</if>
+		<if test="pubTime != null">pubTime=#{pubTime},</if>
+		<if test="details != null">details=#{details},</if>
+		</trim>
+		where 
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 		</trim>
+	</update>
+	
+	<delete id="del" parameterMap="NewsVo">
+		delete from t_news where
+        <if test="id != null">
+            id=#{id}
+        </if>
+        <if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</delete>
+	
+</mapper>

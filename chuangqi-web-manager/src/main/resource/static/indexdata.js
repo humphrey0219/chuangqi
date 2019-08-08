@@ -15,8 +15,18 @@
     },
     {
         text: '页面图片管理', isexpand: true, children: [
-            {url: "image/list", text: "页面图片管理"},
-          
+            {url: "image/list", text: "所有图片"}
+        ]
+    },
+    {
+        text: '新闻管理', isexpand: true, children: [
+            {url: "news/newslistUI?serviceType=10", text: "国内新闻"},
+            {url: "news/newslistUI?serviceType=20", text: "行业新闻"}
+        ]
+    },
+    {
+        text: '留言管理', isexpand: true, children: [
+            {url: "leave/leavelistUI", text: "留言列表"}
         ]
     }
 ];
