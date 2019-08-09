@@ -62,6 +62,9 @@
     	  $("#file").on("change", function(e){
               var form = new FormData()
               var file = e.target.files[0];
+              if(file.length<=0){
+            	  return ;
+              }
               form.append("imgFile", file);
               $.ajax({
                   url:basePath + "fileUpload/newsImgFile",

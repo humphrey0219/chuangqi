@@ -9,6 +9,7 @@ import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +41,12 @@ public class FileUploadController extends BaseController{
 	public void newsImgFile(@RequestParam(value = "imgFile", required = true) MultipartFile file){
 		Map<String, Object> rtMap=new HashMap<String, Object>();
 		try {
+			//自定义目录，如果没有就用新闻图片目录
+			String dir=getRequest().getParameter("dir");
+			if(StringUtils.isNotBlank(dir)){
+				uploadFileNewsImgsDir=dir;
+			}
+			
 			//动态目录
 			String dyDir="/"+DateUtils.getFormatNowDate(DateUtils.YYYY_MM);
 			dyDir=uploadFileNewsImgsDir+dyDir;

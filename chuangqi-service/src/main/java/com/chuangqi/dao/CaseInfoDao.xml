@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangqi.dao.CaseInfoDao" >
+ 	
+ 	<resultMap type="com.chuangqi.vo.CaseInfoVo" id="CaseInfoVo"/> 
+	<parameterMap type="com.chuangqi.vo.CaseInfoVo" id="CaseInfoVo"/> 
+	
+	<sql id="sqlField">
+	`id`, `cateId`, `proCate`, `caseSpecial`, `doctorName`, `hospital`,status, `beforeImg`, `afterImg`, `experience`, `problem`, `target`, `plan`, `createTime`, `updateTime`
+	,(select name  from t_case_cate where id=cateId) as cateName
+	</sql>
+	<sql id="sqlWhere">
+		<trim prefixOverrides="">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 			<if test="status!=null">
+ 			and status=#{status}
+ 			</if>
+ 			<if test="cateId!=null">
+ 			and cateId=#{cateId}
+ 			</if>
+ 			<if test="proCate!=null">
+ 			and proCate=#{proCate}
+ 			</if>
+ 			<if test="hospital!=null">
+ 			and instr(#{hospital},hospital)>0
+ 			</if>
+ 			<if test="hospital!=null">
+ 			and instr(#{hospital},hospital)>0
+ 			</if>
+ 			<if test="caseSpecial!=null">
+ 			and instr(#{caseSpecial},caseSpecial)>0
+ 			</if>
+ 		</trim>
+ 		<if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</sql>
+	
+	<select id="getMapList" parameterMap="CaseInfoVo" resultType="java.util.Map">
+		SELECT <include refid="sqlField"></include>
+ 		from t_case_info where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	
+	<select id="getList" parameterMap="CaseInfoVo" resultMap="CaseInfoVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_case_info where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	<select id="getCount" parameterMap="CaseInfoVo" resultType="long">
+		SELECT count(*)
+ 		from t_case_info where 1=1
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 查询单个对象-->
+	<select id="get" parameterMap="CaseInfoVo" resultMap="CaseInfoVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_case_info where 1=1 
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 添加单个对象-->
+	<insert id="add" parameterMap="CaseInfoVo">
+	   	insert into t_case_info(
+			cateId,
+			proCate,
+			caseSpecial,
+			doctorName,
+			hospital,
+			beforeImg,
+			afterImg,
+			experience,
+			problem,
+			target,
+			plan,
+			status
+			)
+			values(
+			#{cateId},
+			#{proCate},
+			#{caseSpecial,jdbcType = VARCHAR},
+			#{doctorName,jdbcType = VARCHAR},
+			#{hospital,jdbcType = VARCHAR},
+			#{beforeImg,jdbcType = VARCHAR},
+			#{afterImg,jdbcType = VARCHAR},
+			#{experience},
+			#{problem},
+			#{target},
+			#{plan},
+			#{status}
+			)
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+		    select @@IDENTITY as id
+		 </selectKey>	   
+	</insert>
+
+	<!-- 修改信息 -->
+	<update id="updateByUqKey" parameterMap="CaseInfoVo">
+		update t_case_info SET 
+		<trim suffixOverrides=",">
+		<if test="cateId != null">cateId=#{cateId},</if>
+		<if test="proCate != null">proCate=#{proCate},</if>
+		<if test="caseSpecial != null">caseSpecial=#{caseSpecial},</if>
+		<if test="doctorName != null">doctorName=#{doctorName},</if>
+		<if test="hospital != null">hospital=#{hospital},</if>
+		<if test="beforeImg != null">beforeImg=#{beforeImg,jdbcType=VARCHAR},</if>
+		<if test="afterImg != null">afterImg=#{afterImg,jdbcType=VARCHAR},</if>
+		<if test="experience != null">experience=#{experience},</if>
+		<if test="problem != null">problem=#{problem},</if>
+		<if test="target != null">target=#{target},</if>
+		<if test="plan != null">plan=#{plan},</if>
+		<if test="status != null">status=#{status},</if>
+		</trim>
+		where 
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 		</trim>
+	</update>
+	
+	<delete id="del" parameterMap="CaseInfoVo">
+		delete from t_case_info where
+        <if test="id != null">
+            id=#{id}
+        </if>
+        <if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</delete>
+	
+</mapper>

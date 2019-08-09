@@ -24,6 +24,12 @@
         ]
     },
     {
+        text: '病例管理', isexpand: true, children: [
+            {url: "case/caseCatelistUI", text: "病例分类"}
+            ,{url: "case/caseInfolistUI", text: "病例案例"}
+        ]
+    },
+    {
         text: '新闻管理', isexpand: true, children: [
             {url: "news/newslistUI?serviceType=10", text: "国内新闻"},
             {url: "news/newslistUI?serviceType=20", text: "行业新闻"}
