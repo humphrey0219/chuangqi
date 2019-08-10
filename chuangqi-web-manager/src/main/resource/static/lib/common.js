@@ -101,3 +101,14 @@ function showResult(data) {
 		$.ligerDialog.error(msg);
 	}
 }
+//格式化表格日期；若更新日期为null,使用创建日期
+function renderDate(record, rowindex, value, column){
+    console.log(record)
+    if(value){
+
+         return yyyyMMdd(value)
+    }else{
+        return yyyyMMdd(record.createTime)
+    }
+   
+}
