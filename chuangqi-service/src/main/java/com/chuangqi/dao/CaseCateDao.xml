@@ -17,7 +17,7 @@
  			and status=#{status}
  			</if>
  			<if test="name!=null">
- 			and instr(#{name},name)>0
+ 			and name=#{name}
  			</if>
  		</trim>
  		<if test="whereSql!=null">

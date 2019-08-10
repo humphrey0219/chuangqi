@@ -9,6 +9,7 @@ import javax.websocket.server.PathParam;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,6 +76,16 @@ public class NewsController extends BaseController{
 	public void addNews(NewsVo vo){
 		ResultCode resultCode=ResultCode.newSuccess();
 		try{
+			if(StringUtils.isNotBlank(vo.getTitle())){
+				NewsVo newsVo=new NewsVo();
+				newsVo.setTitle(vo.getTitle());
+				long count=newsService.getCount(vo);
+				if(count>=1){
+					resultCode.setFail("标题已存在");
+					return ;
+				}
+			}
+			
 			Long rt=newsService.add(vo);
 			if(rt==null||rt<=0){
 				resultCode.setFail("添加失败,请联系技术人员");
@@ -83,8 +94,9 @@ public class NewsController extends BaseController{
 			e.printStackTrace();
 			log.error("添加异常,data={},异常信息={}",vo, e);
 			resultCode.setFail("添加异常,请联系技术人员");
+		}finally{
+			resWriteObjectJson(resultCode);
 		}
-		resWriteObjectJson(resultCode);
 	}
 	
 	//修改数据页面

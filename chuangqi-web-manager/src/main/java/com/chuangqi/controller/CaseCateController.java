@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -60,11 +61,19 @@ public class CaseCateController extends BaseController{
 	
 	//添加数据
 	@RequestMapping("/addCaseCate")
-	public void addCaseCate(CaseCateVo vo){
+	@ResponseBody
+	public Object addCaseCate(CaseCateVo vo){
 		ResultCode resultCode=ResultCode.newSuccess();
 		try{
-			Long rt=caseCateService.add(vo);
-			if(rt==null||rt<=0){
+			CaseCateVo qCaseCateVo=new CaseCateVo();
+			qCaseCateVo.setName(vo.getName());
+			long rt=caseCateService.getCount(qCaseCateVo);
+			if(rt>=1){
+				resultCode.setFail("分类名称已存在");
+				return resultCode;
+			}
+			 rt=caseCateService.add(vo);
+			if(rt<=0){
 				resultCode.setFail("添加失败,请联系技术人员");
 			}
 		}catch (Throwable e) {
@@ -72,7 +81,7 @@ public class CaseCateController extends BaseController{
 			log.error("添加异常,data={},异常信息={}",vo, e);
 			resultCode.setFail("添加异常,请联系技术人员");
 		}
-		resWriteObjectJson(resultCode);
+		return resultCode;
 	}
 	
 	//修改数据页面

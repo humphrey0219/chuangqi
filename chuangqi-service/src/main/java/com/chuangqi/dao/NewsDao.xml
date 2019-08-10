@@ -21,7 +21,7 @@
  			and serviceType=#{serviceType}
  			</if>
  			<if test="title!=null">
- 			and instr(#{title},title)>0
+ 			and title=#{title}
  			</if>
  		</trim>
  		<if test="whereSql!=null">
