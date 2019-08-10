@@ -79,11 +79,25 @@ function addOrUpdateRetInfoParent(data) {
 	var code=data.code;
 	var msg=data.msg;
 	if (code == '0000') {
+
 		parent.$.ligerDialog.hide();
 		parent.$.ligerDialog.success(msg);
-		parent.window.load();
+        //parent.window.load();
+        parent.location.reload()
 	} else if (code == '9999') {
 		$.ligerDialog.hide();
+		$.ligerDialog.error(msg);
+	}
+}
+
+function showResult(data) {
+	var code=data.code;
+	var msg=data.msg;
+	if (code == '0000') {
+      		
+		$.ligerDialog.success(msg);
+
+	} else if (code == '9999') {
 		$.ligerDialog.error(msg);
 	}
 }

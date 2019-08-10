@@ -10,11 +10,31 @@
         `id`, `page`, `number` , `url`, `description` , `createTime`, `updateTime`
     </sql>
 
+    <sql id="sqlWhere">
+        <trim prefixOverrides="and">
+            <if test="id!=null">
+                and id=#{id}
+            </if>
 
+            <if test="number!=null">
+                and number=#{number}
+            </if>
+            <if test="url!=null">
+                and url=#{url}
+            </if>
+        </trim>
+        <if test="whereSql!=null">
+            ${whereSql}
+        </if>
+    </sql>
     <!-- 图片列表 -->
     <select id="getList" parameterMap="PageImageVo" resultMap="PageImageVo">
         SELECT <include refid="sqlField"></include>
-        from t_page_image where page=#{page}
+        from t_page_image where 1=1 and page=#{page}
+        <include refid="sqlWhere"></include>
+        <if test="orderBySql!=null">
+            ${orderBySql}
+        </if>
         <if test="pageStartRow!=null">
             limit #{pageStartRow},#{pageEndRow}
         </if>
@@ -45,7 +65,7 @@
     <update id="updateByUqKey" parameterMap="PageImageVo">
         update t_page_image SET
         <trim suffixOverrides=",">
-            <if test="page != null">name=#{page},</if>
+            <if test="page != null">page=#{page},</if>
 
             <if test="number != null">number=#{number},</if>
             <if test="url != null">url=#{url,jdbcType=VARCHAR},</if>
@@ -76,5 +96,10 @@
 
 
     </delete>
+    <select id="getCount" parameterMap="PageImageVo" resultType="long">
+        SELECT count(*)
+        from  t_page_image where 1=1
+        <include refid="sqlWhere"></include>
+    </select>
 
 </mapper>

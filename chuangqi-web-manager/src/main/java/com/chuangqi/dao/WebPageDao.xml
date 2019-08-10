@@ -9,12 +9,29 @@
     <sql id="sqlField">
         `id`, `name`, `number`, `title` , `keyword`, `description` , `createTime`, `updateTime`
     </sql>
+    <sql id="sqlWhere">
+        <trim prefixOverrides="and">
+            <if test="id!=null">
+                and id=#{id}
+            </if>
+            <if test="number!=null">
+                and number=#{number}
+            </if>
+            <if test="title!=null">
+                and title=#{title}
+            </if>
 
+        </trim>
+        <if test="whereSql!=null">
+            ${whereSql}
+        </if>
+    </sql>
 
     <!-- 页面列表 -->
     <select id="getList" parameterMap="WebPageVo" resultMap="WebPageVo">
         SELECT <include refid="sqlField"></include>
-        from t_web_page
+        from t_web_page where 1=1
+        <include refid="sqlWhere"></include>
         <if test="pageStartRow!=null">
             limit #{pageStartRow},#{pageEndRow}
         </if>
@@ -83,9 +100,16 @@
     <!-- 删除页面 -->
     <delete id="del" parameterMap="WebPageVo">
         delete from t_web_page where
+        <if test="id != null">
+            id=#{id}
+        </if>
         <if test="whereSql!=null">
             ${whereSql}
         </if>
     </delete>
-
+    <select id="getCount" parameterMap="WebPageVo" resultType="long">
+        SELECT count(*)
+        from t_web_page where 1=1
+        <include refid="sqlWhere"></include>
+    </select>
 </mapper>

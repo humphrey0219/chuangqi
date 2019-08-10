@@ -7,137 +7,161 @@
     
     <script type="text/javascript">
 
-            //Tab数据
-            var tid = ''
-            //是修改还是新建
-            var isUpdate = false
-            $(function () {
 
-                var proData =
-                    [{ id: 1, text: '广东' },
-                    { id: 2, text: '福建' }];
+        //是修改还是新建
+        var isUpdate = false
+        var page 
+        //var form
+        function submitForm(){
 
-                function getMumData() {
-
-                    return proData
-
+            var path = "page/create";
+                if(isUpdate){
+                    path = "page/update";
+                }            
+            var form = liger.get("page");
+            if(form.valid()){
+                let data =form.getData()
+                if(isUpdate){
+                    $.extend(data,{id: page.id})
                 }
+                $.post(basePath + path, data, function (data) {
+                    addOrUpdateRetInfoParent(data);
+                }); 
+            }else{
+                $.ligerDialog.error("表单验证失败")
+            }
 
-                $("#mum1").ligerComboBox({
-                    data: proData, isMultiSelect: false,
-                    columns: [
-                        { header: 'ID', name: 'id' },
-                        { header: 'Text', name: 'text' }
-                    ],
-                    onSelected: function (newvalue) {
-                        var newData = new Array();
-                        for (i = 0; i < cityData.length; i++) {
-                            if (cityData[i].pid == newvalue) {
-                                newData.push(cityData[i]);
-                            }
-                        }
-                        liger.get("#mum1").setData(newData);
+
+        }
+        $(function () {
+            $.metadata.setType("attr", "validate");
+            var v = $("#page").validate({
+
+                errorPlacement: function (lable, element) {
+                    if (element.hasClass("l-textarea")) {
+                        element.ligerTip({ content: lable.html(), target: element[0] });
                     }
-                });
-
-                var form = $("#form2").ligerForm({
-                    inputWidth: 170, labelWidth: 90, space: 40,
-                    fields: [
-                        { display: "", name: "id", type:"hidden"},
-                        { display: "名称", name: "name", newline: true, type: "text", group: "页面基础信息" },
-                        { display: "标题", name: "title", newline: false, type: "text"},
-                        { display: "编号", name: "number", newline: false, type: "text"},
-                        { display: "关键词", name: "keyword", newline: true, type: "text", width: 470},
-                        { display: "简介", name: "description", newline: true, type: "textarea", width: 470},
-                   
-                    ]
-                });
-
-                if(parent.page.modified && document.title != "增加新页面"){
-                    isUpdate = true 
-                   // console.log(document.title)
-                    form.setData(parent.page.data)
+                    else if (element.hasClass("l-text-field")) {
+                        element.parent().ligerTip({ content: lable.html(), target: element[0] });
+                    }
+                    else {
+                        lable.appendTo(element.parents("td:first").next("td"));
+                    }
+                },
+                success: function (lable) {
+                    lable.ligerHideTip();
+                    lable.remove();
+                },
+                submitHandler: function () {
+                    //$("form .l-text,.l-textarea").ligerHideTip();
+                    alert("Submitted!")
                 }
-                $("#submit").click(function(e){
-                    var path = "page/create"
-                    if(isUpdate){
-                        path = "page/update"
-                    }
-                    let data =form.getData()
-                    $.post(basePath + path, data, function (data) {
-                        var code = data.code;
-                        var msg = data.msg;
-                        if (code == '0000') {
-                            $.ligerDialog.success(msg,function(r){
-                            //删除tab
-                            if(isUpdate){
-                                parent.tab.removeTabItem(parent.page.tid) 
-                            }                                
-                            });
-                        } else if (code == '9999') {
-                            $.ligerDialog.error(msg);
-                        }
-                    });                    
-                    console.log(data)
-                })
-
             });
-            //校验通过
-            function valid() {
-                var form = liger.get("form1");
-                return form.valid();
+    
+            //$("#forms").append('<form id="page" class="liger-form">')
+    
+    /*         var form = $("#page").ligerForm({
+                inputWidth: 170, labelWidth: 90, space: 40,
+                validate:true ,
+                fields: [
+                    { display: "", name: "id", type:"hidden"},
+                    { display: "名称", name: "name", newline: true, type: "text", group: "页面基础信息" },
+                    { display: "标题", name: "title", newline: false, type: "text"},
+                    { display: "编号", name: "number", newline: false, type: "text",  validate: {
+                            required: true,
+                            minlength: 5
+                        }},
+                    { display: "关键词", name: "keyword", newline: true, type: "text", width: 470},
+                    { display: "简介", name: "description", newline: true, type: "textarea", width: 470},
+               
+                ]
+            }); */
+            var form = $("#page").ligerForm({
+                    validate: true
+                });
+            if(parent.V.updated){
+                isUpdate = true
+                parent.V.updated = false
+                page = parent.V.data
+                form.setData(page)
             }
-
-            function submitForm() {
-                if (valid()) {
-                    var data = {};
-                    data["pwd"] = MD5($("#pwd").val());
-                    data["userName"] = $("#userName").val();
-                    $.post(basePath + "common/login", data, function (data) {
-                        var code = data.code;
-                        var msg = data.msg;
-                        if (code == '0000') {
-                            $.ligerDialog.success(msg);
-                            location.href = basePath + "index.htm";
-                        } else if (code == '9999') {
-                            $.ligerDialog.error(msg);
-                        }
-                    });
+           
+            $("#submit").click(function(e){
+                var path = "page/create"
+                if(isUpdate){
+                    path = "page/update"
                 }
-            }
- 
-    </script>
-    <style type="text/css">
-            body{font-size:13px;margin: 0 auto}
-            h1{font-size:20px;font-family:Verdana;}
-            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
-            .description{padding-bottom:30px;font-family:Verdana;}
-            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
-			td {padding: 5px;}
-    </style>
+                let data =form.getData()
+                $.post(basePath + path, data, function (data) {
+                    addOrUpdateRetInfoParent(data);
+                });                    
+               
+            })
+    
+        });
+        //校验通过
+        function valid() {
+            var form = liger.get("page");
+            return form.valid();
+        }   
+    
+    
+    </script>  
 
+<style type="text/css">
+    body{padding-left:10px;font-size:13px;}
+    h1{font-size:20px;font-family:Verdana;}
+    h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
+    .description{padding-bottom:30px;font-family:Verdana;}
+    .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
+    td {padding: 5px;}
+</style>
 </head>
 <body style="padding:0px">
+    <div>
+        <form  id="page" >
+                <table >
+                    <tr>
 
-    <div id="form2" class="liger-form">
-    
+                        <td><label for="phone">页面名称：</label></td>
+                        
+                        <td><input id="name"  name="name" type="text" class="ui-textbox"  validate="{required:true, minlength:2}"  /></td>
 
+                        <td><label for="phone">页面编号：</label></td>
+                        <td><input id="number"  name="number" type="text" class="ui-textbox"  validate="{required:true, minlength:2}"  /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="title">页面标题：</label></td>
+                        <td><input id="title"  name="title" type="text" class="ui-textbox"  validate="{required:true}"  /></td>
+                        <!-- <td></td>
+                        <td></td> -->
+                    </tr>
+                    <tr>
+                        <td><label for="phone">页面关键词：</label></td>
+                        <td><input id="keyword"  name="keyword" type="text" class="ui-textbox"  validate="{required:true, minlength:2}"  /></td>
+                        <!-- <td></td>
+                        <td></td> -->
+                    </tr>
+                    <tr>
+                        <td colspan="4">页面描述：</td>
+                    </tr>                  
+                    <tr>
+                        <td colspan="4">
+                            <textarea name="description" rows="" cols=""  id="description"  style="width:400px;height:100px"></textarea>
+                        </td>
+                    </tr>                            
+                  
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2">
+                            <input value=" 提交  " type="button" onclick="submitForm()" />
+                        </td>
+                    </tr>
+                </table>
+        </form>          
     </div>
-    <button id="submit">完成</button>
-        
-            <script>
+            
+</body> 
 
-
-             $("#city").ligerComboBox({ data: null, isMultiSelect: true, isShowCheckBox: true });
-                //国家 改变事件：清空城市,重新绑定数据
-                function f_onCountryChanged(value) {
-                    var combo = liger.get('City');
-                    var data = getCityData(value);
-                    combo.clear();
-                    combo.set('data', data);
-                } 
-            </script>
-           
-</body>
 </html>
 

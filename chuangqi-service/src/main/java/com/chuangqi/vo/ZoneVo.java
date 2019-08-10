@@ -1,6 +1,7 @@
 package com.chuangqi.vo;
 
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,17 +12,17 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageImageVo extends BaseVo{
+public class ZoneVo extends BaseVo{
 
-    private Long id;//主键 [id, bigint, 19]
+    private Long id;//主见 [id, bigint, 19]
 
-    private Long page ; //页面
+    private String province ; //省
 
-    private String number  ;   //图片编号
+    private String city  ;   //城市
 
-    private String  url ;     // 图片路径
+    private String  title ;     // 标题
 
-    private String  oldUrl;     //旧图片路径
+    private String keyword  ;   //关键词
 
     private String description ;    // 简介
 

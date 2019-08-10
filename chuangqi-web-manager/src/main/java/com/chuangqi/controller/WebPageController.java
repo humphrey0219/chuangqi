@@ -4,12 +4,14 @@
 package com.chuangqi.controller;
 
 import com.chuangqi.bean.GridData;
+import com.chuangqi.bean.Paginer;
 import com.chuangqi.service.WebPageService;
 import com.chuangqi.vo.PageImageVo;
 import com.chuangqi.vo.WebPageVo;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,16 +79,33 @@ public class WebPageController extends BaseController{
     //页面列表数据
     @RequestMapping("webpage/data")
     public void allPage(){
-       List pages = webPageService.getList(new WebPageVo());
-        GridData data = new GridData(pages, pages.size());
-       if(pages != null ){
-           resWriteObjectJson(data);
-       }else{
-           ResultCode resultCode =ResultCode.newSuccess();
-           resultCode.setFail("数据不可用");
-           resWriteObjectJson(resultCode);
-       }
+        try {
 
+            WebPageVo v = new WebPageVo();
+            v.setWhereSql(getSearchRules());
+            Paginer<WebPageVo> paginer = getPaginer();
+            paginer.setObj(v);
+            paginer = webPageService.getPaginer(paginer);
+            outPage(paginer);
+
+        }catch (Throwable e){
+            log.error("读取用户数据错误 error={}", e);
+        }
+
+
+    }
+    //删除页面
+    @RequestMapping("webpage/del")
+    public void  del( Long id){
+        try {
+            WebPageVo v = new WebPageVo();
+            v.setId(id);
+            webPageService.del(v);
+            sendOperationResult(1, "已删除页面");
+        }catch (Throwable e){
+            log.error("删除页面失败 pageID = {}  error = {}", id, e);
+            sendOperationResult(-1, "删除页面");
+        }
     }
 
     //所有页面数据 comboBox
@@ -104,10 +123,15 @@ public class WebPageController extends BaseController{
     // 修改页面
     @RequestMapping("page/update")
     public void  modify(WebPageVo pageVo){
+        try{
+            Long newPage = webPageService.updateByUqKey(pageVo);
 
-        Long newPage = webPageService.updateByUqKey(pageVo);
+            sendOperationResult(newPage.intValue(), "更新页面");
+        }catch (Throwable e){
+            log.error("修改页面错误；更新的页面数据={} error={}", pageVo,  e);
+            sendOperationResult(0, "更新页面");
+        }
 
-        sendOperationResult(newPage.intValue(), "更新页面");
     }
 
 

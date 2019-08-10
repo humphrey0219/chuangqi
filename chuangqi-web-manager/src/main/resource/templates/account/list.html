@@ -2,30 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title >全部账号</title>     
-    <f th:include="js_css::copy"></f>
+    <th:block th:include="js_css_list::copy" />
     <!-- <th:block th:text="${msg}" /> 直接出 -->
     
 
-    <style type="text/css">
-            body{font-size:13px;margin: 0 auto}
-            h1{font-size:20px;font-family:Verdana;}
-            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
-            .description{padding-bottom:30px;font-family:Verdana;}
-            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
-			td {padding: 5px;}
-    </style>
+    <script type="text/javascript" th:inline="javascript">
 
-</head>
-<body style="padding:0px">
-
-    <script type="text/javascript">
-
-
-
-
-        function itemclick(item) {
-            alert(item.text);
+		//搜索参数
+    	var params = {};
+        var grid = null ;
+    
+        //更新数据
+        var V = {
+            updated : false,
+            data : null
         }
+        
+         //搜索字段
+         var searchfields = [ 
+                            { display: '用户ID', name: 'id', align: 'left', width: 100,editor : {type : "String"}},
+                            { display: '用户名', name: 'userName', minWidth: 120 , editor : {type : "String"}},
+                            { display: '姓名', name: 'realName' , editor : {type : "String"}},
+                            { display: '状态', name: 'status' ,editor : {
+                                                                            type : "combobox",
+                                                                            options : {
+                                                                                valueField : "statusVal",textField : "statusTxt",
+                                                                                data : [ {statusVal : 0,statusTxt : "禁用"}, 
+                                                                                            {statusVal : 1,statusTxt : "正常"}, 
+                                                                                                
+                                                                                        ]
+                                                                            }
+    																	  }
+                            }       
+
+    					      
+    	                ];
+
+
         function renderDate(record, rowindex, value, column){
 
             if(value){
@@ -36,37 +49,31 @@
            
         }
         function renderStatus(record, rowindex, value, column){
-        var status = {
-                "0": "禁用",
-                "1": "正常"
-            }
-            if(value){
-                 return status[value]
-            }else{
-                "---"
-            }
+        var status = ["禁用","正常"]
+ 
+            return status[value]
            
         }
 
         $(function () {
-            window['g'] =
-                $("#maingrid").ligerGrid({
-                    height: '100%',
+         grid = $("#maingrid").ligerGrid({
+                     height: '100%',
                     columns: [
-                        { display: '用户ID', name: 'id', align: 'left', width: 100, minWidth: 60 },
-                        { display: '账号名', name: 'userName', minWidth: 120 },
+                        { display: '用户ID', name: 'id', align: 'left', minWidth: 60 },
+                        { display: '用户名', name: 'userName', minWidth: 120 },
                         { display: '姓名', name: 'realName'},
                         { display: '状态', name: 'status', minWidth: 140 ,render:renderStatus },
                         { display: '创建时间', name: 'createTime', render: renderDate},
                         { display: '更新时间', name: 'updateTime', render: renderDate}
                     ],   pageSize: 10, rownumbers: true,
                     toolbar: {
-                        items: [
-                            //{ text: '增加', click: itemclick, icon: 'add' },
-                            { line: true },
-                            { text: '修改', click: onModifyed, icon: 'modify' },
-                            { line: true },
-                            { text: '删除', click: onDelItme, img: '../../../lib/ligerUI/skins/icons/delete.gif' }
+                    items: [
+                        { text: '增加', click: add, img: basePath+'lib/ligerUI/skins/icons/add.gif' },
+                        { line: true },
+                        { text: '修改', click: upd, img: basePath+'lib/ligerUI/skins/icons/modify.gif' },
+                        { line: true },
+                        { text: '删除', click: del, img: basePath+'lib/ligerUI/skins/icons/delete.gif' },
+                        {text : "高级查询",type : "quty",click : search,icon : "search2"}
                         ]
                     },
                     url: basePath + 'account/data'
@@ -77,82 +84,124 @@
         });
 
         //
+        function anddOrMod(data){
+            var title ="创建账号";
+            var url =  "account/addUi" ;
+            if(data){
+               
+                //console.log(data)
+                title ="修改用户账号"
+                //$.cookie("account_data", JSON.stringify(data))
+                V.updated = true
+                V.data = data
+                url = "account/updateUI";
 
+            }
+            $.ligerDialog.open({
+        		width: 800,
+        		height: 350,
+        		title: title,
+        		url: basePath+  url,
+        		showMax: true,
+        		showToggle: true,
+        		showMin: true,
+        		isResize: true
+        	});
+        }
         //修改账号
-        function onModifyed(e) {
+        function upd(e) {
+            var account = grid.getSelectedRow()
 
-            $.ligerDialog.confirm("确定修改账户？",function(r){
-                if(r){
-                    
-                    var a = parent.account
-                    console.log( g.getSelectedRow())
-                    a.data = g.getSelectedRow()                     
-                    a.modified = true
-                    a.tid =  "maccount"+ a.data.id
-
-                     
-                    console.log(parent)
-                    parent.tab.addTabItem({
-                    tabid: a.tid,
-                    text: "修改账号",
-                    url: "account/addUi",
-                    callback: function ()
-                    {
-                        parent.account.modified = false
-                        //addShowCodeBtn(tabid); 
-                        //addFrameSkinLink(tabid); 
-                    }
-                });
-                }
-            })
+            if(account){  
+                anddOrMod(account);  
+            }else{
+                $.ligerDialog.warn("请选择要删除的账号")
+            }       
         }
-
+        //add
+        function add(e){
+            anddOrMod(null)
+        }
         //删除账号
-        function onDelItme(e){
-            $.ligerDialog.confirm("确定删除账户？",function(r){
-                if(r){
-                  
-                    var account = g.getSelectedRow()
-                     console.log( )
-                  $.post(basePath + "account/del",{id: account.id}, function(data){
+        function del(e){
+            var account = grid.getSelectedRow()
 
-                    var code = data.code;
-                        var msg = data.msg;
-                        if (code == '0000') {
-                            $.ligerDialog.success(msg);
-                             // TODO: 删除账户 
-                             g.deleteSelectedRow();
-                                                   
-                        
-                        } else if (code == '9999') {
-                            $.ligerDialog.error(msg);
-                        }
-                
+            if(account){
+                $.ligerDialog.confirm("确定删除ID为 "+ account.id + " 的账号吗",function(r){
+                    if(r){
+                    
+                    $.post(basePath + "account/del",{id: account.id}, function(data){
 
-                  })
+                        var code = data.code;
+                            var msg = data.msg;
+                            if (code == '0000') {
+                                $.ligerDialog.success(msg);
+                                // TODO: 删除账户 
+                                grid.deleteSelectedRow();
+                                                    
+                            
+                            } else if (code == '9999') {
+                                $.ligerDialog.error(msg);
+                            }
+                    
+
+                    })
 
 
-                }
-            })            
+                    }
+                }) 
+            }else{
+                $.ligerDialog.warn("请选择要删除的账号")
+            }
+            
+           
 
         }
 
-
+        //搜索
+        function search(){
+        	if (window.winfilter) {
+    			window.winfilter.show();
+    		} else {
+    			var filtercontainer = $("<div id=\"filtercontainer\"></div>").width(500).height(200).hide();
+    			window.filter = filtercontainer.ligerFilter({fields : searchfields});
+    			window.winfilter = $.ligerDialog.open({
+    				width : 540,
+    				height : 288,
+    				target : filtercontainer,
+    				isResize : true,
+    				top : 50,
+    				buttons : [ {
+    					text : "确定",
+    					onclick : function(item, dialog) {
+    						var group = window.filter.getData();
+    						searchData= JSON.stringify(group);
+    						gridRefresh();
+    						dialog.hide();
+    					}
+    				},{
+    					text : "取消",
+    					onclick : function(item, dialog) {
+    						dialog.hide();
+    					}
+    				}]
+    			});
+    		}
+        }
+        //刷新列表
+        function gridRefresh() {
+    		if (grid!=null) {
+    			params["searchData"] = searchData;
+    			var p = grid.options;
+    			p.newPage = 1;
+    			grid.loadServerData(params);
+    		}
+    	}
     </script>
-
-
-    <div class="l-loading" style="display:block" id="pageloading"></div>
-    <a class="l-button" style="width:120px;float:left; margin-left:10px; display:none;" onclick="deleteRow()">删除选择的行</a>
-
-
-    <div class="l-clear"></div>
-
-    <div id="maingrid"></div>
-
-    <div style="display:none;">
-
-    </div>
-
+</head>
+<body>
+    <div id="menuBar"></div>
+  <div id="maingrid"></div>
 </body>
 </html>
 

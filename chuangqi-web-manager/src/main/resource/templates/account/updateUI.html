@@ -1,8 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title >创建账号</title>     
+    <title >更新账号</title>     
     <f th:include="js_css::copy"></f>
+    <th:block th:include="js_css_list::copy" /> 
     <!-- <th:block th:text="${msg}" /> 直接出 -->
     
     <script type="text/javascript">
@@ -11,33 +12,31 @@
             var isUpdate = false
             //是修改还是新建
             var account
+            var v
 
             function submitForm(){
                     var form = liger.get("form_account");
                     let data =form.getData()
                     console.log(data)
                     console.log(valid())
+                    //console.log(v.valid())
                    if(!valid()){
-                       $.ligerDialog.error("账号验证错误，请检查输入的信息是否正确！");
+                       $.ligerDialog.er("账号验证错误，请检查输入的信息是否正确！");
                        return
                        
                    }
                     var path = "account/add"
 
-                    if(isUpdate){
-
-                        path = "account/update"
-                        data.id = account.id
-                        
-                        //是否更新密码
-                        if(account.pwd != data.pwd){
+                    path = "account/update"
+                     data.id = account.id;
+                     
+                        // MD5 密码
+                        if(data.pwd && data.pwd.length > 0){
                             data.pwd = MD5(data.pwd)
-                        }
-                    }else{
-                         data.pwd = MD5(data.pwd);
-                    }
+                        }                     
+
                     
-                    // MD5 密码
+                    
                     
                     $.post(basePath + path, data, function (data) {
 
@@ -46,55 +45,20 @@
                                        
                 }
             $(function () {
-                $.metadata.setType("attr", "validate");
-                var v = $("#form_account").validate({
-                   
-                    errorPlacement: function (lable, element)
-                    {
-                        if (element.hasClass("l-textarea"))
-                        {
-                            element.ligerTip({ content: lable.html(), target: element[0] }); 
-                        }
-                        else if (element.hasClass("l-text-field"))
-                        {
-                            element.parent().ligerTip({ content: lable.html(), target: element[0] });
-                        }
-                        else
-                        {
-                            lable.appendTo(element.parents("td:first").next("td"));
-                        }
-                    },
-                    success: function (lable)
-                    {
-                        lable.ligerHideTip();
-                        lable.remove();
-                    },
-                    submitHandler: function ()
-                    {
-                        //$("form .l-text,.l-textarea").ligerHideTip();
-                        alert("Submitted!")
-                    }
-                });
+                //$.metadata.setType("attr", "validate");
+
                 var form = $("#form_account").ligerForm({
                     validate: true
                 });	
+
                 $("#status").ligerComboBox();//下拉框
 
-                if(parent.V.updated){
-                    isUpdate = true
-                    parent.V.updated = false
-                    account = parent.V.data
-                }
-
+                isUpdate = true
+                parent.V.updated = false
+                account = parent.V.data
+                account.pwd = "";
+                form.setData(account)
  
-
-                if(isUpdate){
-
-                    form.setData(account)
-                }
-
-
-
             });
             //校验通过
             function valid() {
@@ -120,26 +84,26 @@
     	<table >
             <tr>
                 <td><label for="phone">用户名：</label></td>
-                <td><input id="name"  name="userName" type="text" class="ui-textbox"  validate="{required:true, minlength:1}"  /></td>
+                <td><input id="name"  name="userName" type="text" class="ui-textbox"  validate="{required:true}"  /></td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
-                <td>密码：</td>
-                <td colspan="3" width="500">
-                        <input id="pwd"  name="pwd" type="password" class="ui-textbox"  validate="{required:true, minlength:1}"/>
-                </td>
-                <!-- <td></td>
-                <td></td> -->
-            </tr>
-            <tr>
-                <td>确认密码：</td>
+                <td>新密码：</td>
                     <td colspan="3" width="500">
-                            <input id="comfirm"  name="pwdComfirm" type="password" class="ui-textbox"  validate="{required:true, equalTo: '#pwd'}"/>
+                            <input id="pwd"  name="pwd" type="password" class="ui-textbox"  />
                     </td>
                     <!-- <td></td>
                     <td></td> -->
-                </tr>            
+                </tr>
+                <tr>
+                    <td>确认密码：</td>
+                        <td colspan="3" width="500">
+                                <input id="comfirm"  name="pwdComfirm" type="password" class="ui-textbox"  validate="{equalTo: '#pwd'}"/>
+                        </td>
+                        <!-- <td></td>
+                        <td></td> -->
+                </tr>           
             <tr>
                 <td> <label for="leaveTime">姓名：</label></td>
                 <td><input id="name"  name="realName" type="text" class="ui-textbox" validate="{required:true, minlength:1}" /></td>
@@ -147,6 +111,7 @@
                 <td>
                 </td>
             </tr>
+
             <tr>
                 <td> <label >状态：</label></td>
                 <td> 

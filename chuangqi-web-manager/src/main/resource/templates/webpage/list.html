@@ -19,9 +19,27 @@
 <body style="padding:0px">
 
     <script type="text/javascript">
-        function itemclick(item) {
-            alert(item.text);
+
+        
+        //搜索参数
+    	var params = {};
+        //更新数据
+        var V = {
+            updated : false,
+            data : null
         }
+        var grid 
+
+         //搜索字段
+         var searchfields = [ 
+                            { display: '页面ID', name: 'id', align: 'left', width: 100,editor : {type : "Integer"}},
+                            { display: '页面标题', name: 'title', minWidth: 120 , editor : {type : "String"}},
+                            { display: '页面编号', name: 'number', minWidth: 120 , editor : {type : "String"}},
+                            { display: '页面关键词', name: 'keyword', minWidth: 120 , editor : {type : "String"}},
+                            { display: '页面简介', name: 'description', minWidth: 120 , editor : {type : "String"}},
+                            { display: '姓名', name: 'realName' , editor : {type : "String"}},          
+   					      
+    	                ];
         var da = [{ "createTime": 1564697233000, "description": "23423", "id": 2, "keyword": "w3r", "name": "2", "number": "2324", "title": "ksdf" }, { "createTime": 1564697988000, "description": "23423", "id": 4, "keyword": "w3r", "name": "2", "number": "23sdf24", "title": "ksdf" }, { "createTime": 1564698812000, "description": "23423", "id": 5, "keyword": "w3r", "name": "2", "number": "ksdf", "title": "2324" }, { "createTime": 1564699771000, "description": "好大夫", "id": 6, "keyword": "欧美，艾", "name": "主页", "number": "2.12", "title": "首页" }, { "createTime": 1564700024000, "description": "我的简介", "id": 7, "keyword": "很大关键词", "name": "名称", "number": "小编号", "title": "大标题" }]
         var d =[{
             id: 2342,
@@ -34,6 +52,28 @@
         var dataJson = {
             Rows: d,
             Total: d.length
+        }
+        //打开新窗口
+        function anddOrMod(data){
+            var title ="创建新页面"
+            if(data){
+
+                title ="修改页面"
+                //$.cookie("account_data", JSON.stringify(data))
+                V.updated = true
+                V.data = data
+
+            }
+            $.ligerDialog.open({
+        		width: 800,
+        		height: 600,
+        		title: title,
+        		url: basePath+  "webpage/add",
+        		showMax: true,
+        		showToggle: true,
+        		showMin: true,
+        		isResize: true
+        	});
         }
         $(function () {
             window['g'] =
@@ -51,52 +91,109 @@
                         items: [
                             { text: '增加', click: onAdd, icon: 'add' },
                             { line: true },
-                            { text: '修改', click: onUpdate, icon: 'modify' },
+                            { text: '修改', click: onModifyed, icon: 'modify' },
                             { line: true },
-                            //{ text: '删除', click: onDelItme, img: 'delete' }
+                            { text: '删除', click: onDelItme, img: basePath+'lib/ligerUI/skins/icons/delete.gif' },
+                            {text : "高级查询",type : "quty",click : search,icon : "search2"}
                         ]
                     },
                     url: basePath + 'webpage/data'
                 });
 
+            grid = g
 
             $("#pageloading").hide();
         });
         
         // 新建
         function onAdd(e){
-            parent.tab.addTabItem({
-                tidid: "addNewPage",
-                text: "新建页面",
-                url: "webpage/add"
-            })
+            anddOrMod(null)
+        }
+        //修改页面
+        function onModifyed(e) {
+            var account = grid.getSelectedRow()
+
+            if(account){  
+                anddOrMod(account);  
+            }else{
+                $.ligerDialog.warn("请选择页面")
+            }       
         }
 
-        //更新
-        function onUpdate(e){
-            var p = parent.page 
-            $.ligerDialog.confirm("确定修改此页面？",function(r){
-                if(r){
-                    console.log( g.getSelectedRow())
-                    p.modified = true 
-                    p.data = g.getSelectedRow() 
-                    p.tid = "mpage"+ p.data.id 
+        //搜索
+        function search(){
+        	if (window.winfilter) {
+    			window.winfilter.show();
+    		} else {
+    			var filtercontainer = $("<div id=\"filtercontainer\"></div>").width(500).height(200).hide();
+    			window.filter = filtercontainer.ligerFilter({fields : searchfields});
+    			window.winfilter = $.ligerDialog.open({
+    				width : 540,
+    				height : 288,
+    				target : filtercontainer,
+    				isResize : true,
+    				top : 50,
+    				buttons : [ {
+    					text : "确定",
+    					onclick : function(item, dialog) {
+    						var group = window.filter.getData();
+    						searchData= JSON.stringify(group);
+    						gridRefresh();
+    						dialog.hide();
+    					}
+    				},{
+    					text : "取消",
+    					onclick : function(item, dialog) {
+    						dialog.hide();
+    					}
+    				}]
+    			});
+    		}
+        }
+                //刷新列表
+        function gridRefresh() {
+    		if (grid!=null) {
+    			params["searchData"] = searchData;
+    			var p = grid.options;
+    			p.newPage = 1;
+    			grid.loadServerData(params);
+    		}
+    	}
+        //删除账号
+        function onDelItme(e){
+            var account = grid.getSelectedRow()
 
-                    //g.deleteSelectedRow() 
-                    //console.log(parent.tab)
-                    parent.tab.addTabItem({
-                    tabid: p.tid ,
-                    text: "修改主页",
-                    url: "webpage/add",
-                    callback: function ()
-                    {
-                        parent.page.modified = false
+            if(account){
+                $.ligerDialog.confirm("确定删除该页面？",function(r){
+                    if(r){
+                    
+                    $.post(basePath + "webpage/del",{id: account.id}, function(data){
+
+                        var code = data.code;
+                            var msg = data.msg;
+                            if (code == '0000') {
+                                $.ligerDialog.success(msg);
+                                // TODO: 删除账户 
+                                grid.deleteSelectedRow();
+                                                    
+                            
+                            } else if (code == '9999') {
+                                $.ligerDialog.error(msg);
+                            }
+                    
+
+                    })
+
+
                     }
-                });
-                }
-            })
-        }
+                }) 
+            }else{
+                $.ligerDialog.warn("请选择要删除的账号")
+            }
+            
+           
 
+        }
 
     </script>
 
