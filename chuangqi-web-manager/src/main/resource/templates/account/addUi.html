@@ -23,19 +23,7 @@
                        
                    }
                     var path = "account/add"
-
-                    if(isUpdate){
-
-                        path = "account/update"
-                        data.id = account.id
-                        
-                        //是否更新密码
-                        if(account.pwd != data.pwd){
-                            data.pwd = MD5(data.pwd)
-                        }
-                    }else{
-                         data.pwd = MD5(data.pwd);
-                    }
+                    data.pwd = MD5(data.pwd);
                     
                     // MD5 密码
                     
@@ -47,7 +35,7 @@
                 }
             $(function () {
                 $.metadata.setType("attr", "validate");
-                var v = $("#form_account").validate({
+/*                 var v = $("#form_account").validate({
                    
                     errorPlacement: function (lable, element)
                     {
@@ -74,27 +62,14 @@
                         //$("form .l-text,.l-textarea").ligerHideTip();
                         alert("Submitted!")
                     }
-                });
+                }); */
                 var form = $("#form_account").ligerForm({
-                    validate: true
+                    validate: {
+                        focusCleanup: true,
+                        focusInvalid: false
+                    }
                 });	
                 $("#status").ligerComboBox();//下拉框
-
-                if(parent.V.updated){
-                    isUpdate = true
-                    parent.V.updated = false
-                    account = parent.V.data
-                }
-
- 
-
-                if(isUpdate){
-
-                    form.setData(account)
-                }
-
-
-
             });
             //校验通过
             function valid() {
@@ -104,21 +79,7 @@
  
     </script>
 
-<style type="text/css">
-    body{padding-left:10px;font-size:13px;}
-    h1{font-size:20px;font-family:Verdana;}
-    h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
-    .description{padding-bottom:30px;font-family:Verdana;}
-    .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
-    td {padding: 5px;}
-    .error{
-        color: #CC0000;
-        border-bottom: 1px solid #CC0000
-    }
-    .valid{
-        border-bottom: 1px solid blue
-    }
-</style>
+
 </head>
 <body style="padding:0px">
 
@@ -149,7 +110,7 @@
                 </tr>            
             <tr>
                 <td> <label for="leaveTime">姓名：</label></td>
-                <td><input id="name"  name="realName" type="text" class="ui-textbox" validate="{required:true, minlength:1}" /></td>
+                <td><input id="realName"  name="realName" type="text" class="ui-textbox" validate="{required:true, minlength:1}" /></td>
                 <td></td>
                 <td>
                 </td>

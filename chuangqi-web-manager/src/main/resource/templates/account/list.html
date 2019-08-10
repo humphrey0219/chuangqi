@@ -11,7 +11,8 @@
 		//搜索参数
     	var params = {};
         var grid = null ;
-    
+        //更新时间
+        var updatedTime
         //更新数据
         var V = {
             updated : false,
@@ -38,16 +39,8 @@
     					      
     	                ];
 
+        
 
-        function renderDate(record, rowindex, value, column){
-
-            if(value){
-                 return yyyyMMdd(value)
-            }else{
-                "---"
-            }
-           
-        }
         function renderStatus(record, rowindex, value, column){
         var status = ["禁用","正常"]
  
