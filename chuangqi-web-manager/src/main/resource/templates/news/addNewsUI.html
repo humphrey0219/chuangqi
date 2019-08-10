@@ -22,7 +22,9 @@
         $(function ()
         {
             $("#form1").ligerForm({
-                validate: true
+                validate:{
+                    focusCleanup :true ,
+                }
             });	
             $("#status").ligerComboBox();//下拉框
             $("#pubTime").ligerDateEditor({ showTime: true,width:200});

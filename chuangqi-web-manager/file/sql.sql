@@ -11,7 +11,7 @@ CREATE TABLE `t_sys_account` (
   UNIQUE KEY `uq_userName` (`userName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统账号';
 
-
+DROP TABLE IF EXISTS `t_web_page` ;
 CREATE TABLE `t_web_page` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(50) NOT NULL COMMENT '页面名称',
@@ -25,7 +25,12 @@ CREATE TABLE `t_web_page` (
   UNIQUE KEY `uq_number` (`number`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='网页分类管理';
 
+INSERT INTO   t_web_page (name, number,title,keyword,description) values
+    ("首页", "1000","创启官网", "创启；美容","创启首页"),
+  ("微笑测试产品A", "5000","A产品测试", "微笑；A产品","A产品的测试页面"),
+  ("微笑测试产品B", "5100","B产品测试", "微笑；B产品","B产品的测试页面");
 
+DROP TABLE IF EXISTS `t_page_image`;
 CREATE TABLE `t_page_image` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `page`bigint(20)  NOT NULL COMMENT '页面类型',
@@ -37,6 +42,16 @@ CREATE TABLE `t_page_image` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_number` (`number`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='网页图片管理';
+
+
+INSERT INTO `t_page_image` (`page`, `number`, `url`, `description`) values
+(1, "100", "", "主页创启团队图片"),
+(1, "101", "", "主页创启技术实力图片"),
+(2, "500", "", "测试案例A产品使用前图片"),
+(2, "501",  "", "测试案例A产品使用后图片"),
+(3, "600", "", "测试案例B产品使用前图片"),
+(3, "601", "", "测试案例B产品使用后图片");
+
 
 CREATE TABLE `t_news` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
