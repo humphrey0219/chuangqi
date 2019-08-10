@@ -3,6 +3,8 @@
  */
 package com.chuangqi.config.interceptor;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.chuangqi.bean.ResultCode;
 import com.chuangqi.common.constant.Constant;
 
 /**
@@ -50,9 +54,15 @@ public class LoginHandlerInterceptor implements HandlerInterceptor{
 	        if(session.getAttribute(Constant.SESSION_LOGIN_USER)== null){
 	        	//判断session中有没有user信息
 	            if("XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))){
-	                response.sendError(401);
+	        		ResultCode resultCode=ResultCode.newSuccess();
+	        		resultCode.setFail("操作超时,请重新登录");
+	        		response.setCharacterEncoding("UTF-8");
+	    			response.setContentType("text/x-json;charset=UTF-8");
+	        		PrintWriter printWriter= response.getWriter();
+	        		printWriter.print(JSONObject.toJSONString(resultCode));
+	            }else{
+	            	response.sendRedirect(request.getContextPath()+"/common/loginUI");     //没有user信息的话进行路由重定向
 	            }
-	            response.sendRedirect(request.getContextPath()+"/common/loginUI");     //没有user信息的话进行路由重定向
 	            return false;
 	        }
 	        return true;        //有的话就继续操作
