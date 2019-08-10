@@ -52,45 +52,100 @@
  
     </script>
     <style type="text/css">
-            body{font-size:13px;margin: 0 auto}
+            body{font-size:14px;margin: 0 auto;font-family: "微软雅黑";}
             h1{font-size:20px;font-family:Verdana;}
             h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
             .description{padding-bottom:30px;font-family:Verdana;}
             .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
 			td {padding: 5px;}
+			
+			label{font-size:16px;}
+			.min_login {
+			    width: 520px;
+			    height: 378px;
+			    position: fixed;
+			    top: 50%;
+			    left: 50%;
+			    margin-left: -260px;
+			    margin-top: -189px;
+			    -moz-box-shadow: 10px 10px 40px #ccc;
+			    -webkit-box-shadow: 10px 10px 40px #ccc;
+			    box-shadow: 10px 10px 40px #ccc;
+			}
+			.min_login tr {height:50px;}
+			.login_T {
+			    width: 520px;
+			    height: 90px;
+			    background-color: #0095fd;
+			    border-radius: 5px 5px 0px 0px;
+			}
+			.login_T span {
+			    display: table;
+			    margin: 0 auto;
+			    overflow: hidden;
+			}
+			.login_T span em {
+			    display: block;
+			    float: left;
+			    font-size: 28px;
+			    color: #FFF;
+			    font-style: normal;
+			    line-height: 90px;
+			}
+			.login_submit{
+			    background-color: #079dff;
+			    border-radius: 25px;
+			    margin: 0 auto;
+			    display: block;
+			    width: 170px;
+			    height: 48px;
+			    line-height: 48px;
+			    color: #FFF;
+			    text-align: center;
+			    font-size: 18px;
+			    text-decoration: none;
+			    -moz-box-shadow: 0px 0px 10px #e9f7ff;
+			    -webkit-box-shadow: 0px 0px 10px #e9f7ff;
+			    box-shadow: 0px 0px 10px #e9f7ff;
+			}
     </style>
 
 </head>
 <body style="padding:0px">
     <form id="form1" action="#" onsubmit="return false">
-        <table style="margin-left:35%;margin-top: 15%">
-        	<tr>
-                <td style="font-size:20px;" colspan="3">欢迎来到创启网站后台管理系统</td>
-            </tr>
+    	<div class="min_login">
+    	<div class="login_T">
+                  <span>
+                        <em>欢迎来到创启网站后台管理系统</em>
+                    </span>
+         </div>
+        <table style="margin-left:15%;margin-top: 5%">
             <tr>
-                <td><label for="no">用户名：</label></td>
+                <td><label >用户名：</label></td>
                 <td><input id="userName"  name="userName" type="text" class="ui-textbox"  validate="{required:true}"  /></td>
             	<td></td>
             </tr>
             <tr>
-                <td> <label for="address">密  	码：</label></td>
+                <td> <label >密&ensp;&ensp;码：</label></td>
                 <td> <input id="pwd" name="pwd" type="password" class="ui-textbox"  validate="{required:true}" /></td>
                 <td></td>
             </tr>
             <tr>
-                <td> <label for="address">验证码：</label></td>
+                <td> <label >验证码：</label></td>
                 <td> <input id="code" name="code" type="text" class="ui-textbox"  validate="{required:true}" /> </td>
                  <td style="padding-left:0px"><img id="codeImg" src="" alt="请输入验证码" onclick="reCode()" style="cursor:hand;"/> </td>
             </tr>
+             
             <tr>
                 <td>
                     
                 </td>
                 <td>
-                    <input value=" 登录  " type="submit" onclick="submitForm()" />
+                    <input value=" 登录  " type="submit" onclick="submitForm()" class="login_submit"/>
                 </td>
             </tr>
         </table>
+        </div>
     </form>
 </body>
 </html>
