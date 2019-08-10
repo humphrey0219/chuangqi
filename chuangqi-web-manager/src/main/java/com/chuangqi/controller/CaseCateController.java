@@ -3,10 +3,6 @@
  */
 package com.chuangqi.controller;
 
-import java.util.List;
-
-import javax.websocket.server.PathParam;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,65 +13,57 @@ import org.springframework.web.servlet.ModelAndView;
 import com.chuangqi.bean.Paginer;
 import com.chuangqi.bean.RequestBean;
 import com.chuangqi.bean.ResultCode;
-import com.chuangqi.service.NewsService;
-import com.chuangqi.vo.NewsVo;
+import com.chuangqi.service.CaseCateService;
+import com.chuangqi.vo.CaseCateVo;
 
 /**
- * 新闻控制类
+ * 留言控制类
  * @author wmk
  *
  */
+
 @Slf4j
 @RestController
-@RequestMapping("/news")
-public class NewsController extends BaseController{
+@RequestMapping("/case")
+public class CaseCateController extends BaseController{
 	@Autowired
-	private NewsService newsService;
+	private CaseCateService caseCateService;
 	
-	@RequestMapping("/newslistUI")
-	public ModelAndView newslistUI(@PathParam(value="serviceType") Integer serviceType){
-		modelAndView("news/newslistUI");
-		this.modelAndView.addObject("serviceType", serviceType);
+	@RequestMapping("/caseCatelistUI")
+	public ModelAndView caseCatelistUI(){
+		modelAndView("cases/caseCatelistUI");
 		return modelAndView;
 	}
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping("/newslist")
-	public void newslist(@PathParam(value="serviceType") Integer serviceType){
+	@RequestMapping("/caseCatelist")
+	public void caseCatelist(){
 		try{
-			NewsVo vo= new NewsVo();
-			vo.setServiceType(serviceType);
+			CaseCateVo vo= new CaseCateVo();
 			vo.setWhereSql(getSearchRules());
 			vo.setOrderBySql(" order by id desc ");
-			Paginer<NewsVo> paginer=getPaginer();
+			Paginer<CaseCateVo> paginer=getPaginer();
 			paginer.setObj(vo);
-			paginer=newsService.getPaginer(paginer);
-			List<NewsVo> newsVos=paginer.getEntityList();
-			if(newsVos!=null&&!newsVos.isEmpty()){
-				for (NewsVo newsVo:newsVos) {
-					newsVo.setShowImgUrl(showResourceDomainUrl(newsVo.getImgUrl()));
-				}
-			}
+			paginer=caseCateService.getPaginer(paginer);
 			outPage(paginer);
 		}catch (Throwable e) {
 			e.printStackTrace();
-			log.error("查询订单列表错误", e);
+			log.error("查询列表错误", e);
 		}
 	}
 	
 	//添加数据页面
-	@RequestMapping("/addNewsUI")
-	public ModelAndView addleaveUI(@PathParam(value="serviceType") Integer serviceType){
-		
-		return modelAndView("news/addNewsUI").addObject("serviceType", serviceType);
+	@RequestMapping("/addCaseCateUI")
+	public ModelAndView addCaseCateUI(){
+		return modelAndView("cases/addCaseCateUI");
 	}
 	
 	//添加数据
-	@RequestMapping("/addNews")
-	public void addNews(NewsVo vo){
+	@RequestMapping("/addCaseCate")
+	public void addCaseCate(CaseCateVo vo){
 		ResultCode resultCode=ResultCode.newSuccess();
 		try{
-			Long rt=newsService.add(vo);
+			Long rt=caseCateService.add(vo);
 			if(rt==null||rt<=0){
 				resultCode.setFail("添加失败,请联系技术人员");
 			}
@@ -88,21 +76,20 @@ public class NewsController extends BaseController{
 	}
 	
 	//修改数据页面
-	@RequestMapping("/updNewsUI")
-	public ModelAndView updNewsUI(NewsVo vo){
-			vo=newsService.get(vo);
-			modelAndView("news/updNewsUI");
-			vo.setShowImgUrl(showResourceDomainUrl(vo.getImgUrl()));
+	@RequestMapping("/updCaseCateUI")
+	public ModelAndView updcaseCateUI(CaseCateVo vo){
+			vo=caseCateService.get(vo);
+			modelAndView("cases/updCaseCateUI");
 			modelAndView.addObject("vo", vo);
 			return modelAndView;
 	}
 		
 	//修改数据
-	@RequestMapping("/updNews")
-	public void updNews(NewsVo vo){
+	@RequestMapping("/updCaseCate")
+	public void updCaseCate(CaseCateVo vo){
 			ResultCode resultCode=ResultCode.newSuccess();
 			try{
-				Long rt=newsService.updateByUqKey(vo);
+				Long rt=caseCateService.updateByUqKey(vo);
 				if(rt==null||rt<=0){
 					resultCode.setFail("修改失败,请联系技术人员");
 				}
@@ -115,14 +102,14 @@ public class NewsController extends BaseController{
 	}
 	
 	//删除数据
-	@RequestMapping("/delNews")
-	public void delNews(RequestBean requestBean){
+	@RequestMapping("/delCaseCate")
+	public void delCaseCate(RequestBean requestBean){
 		ResultCode resultCode=ResultCode.newSuccess();
 		try{
 			String ids=requestBean.getIds();
-			NewsVo t=new NewsVo();
+			CaseCateVo t=new CaseCateVo();
 			t.setWhereSql(" id in("+ids+")");
-			int rt=newsService.del(t);
+			int rt=caseCateService.del(t);
 			if(rt<=0){
 				resultCode.setFail("删除失败,请联系技术人员");
 			}

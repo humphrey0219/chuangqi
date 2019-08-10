@@ -4,18 +4,29 @@
     {
         text: '页面管理', isexpand: true, children: [
             {url: "webpage/list", text: "所有页面"},
-           
+            {url: "webpage/add", text: "增加新页面"}
         ]
     },
     {
         text: '账号管理', isexpand: true, children: [
-        
+            {url: "account/addUi", text: "创建账户"},
             {url: "account/list", text: "所有账号"}            
         ]
     },
     {
         text: '页面图片管理', isexpand: true, children: [
             {url: "image/list", text: "所有图片"}
+        ]
+    },
+    {
+        text: '微笑测试管理', isexpand: true, children: [
+            {url: "smileTest/smileTestlistUI", text: "微笑测试列表"}
+        ]
+    },
+    {
+        text: '病例管理', isexpand: true, children: [
+            {url: "case/caseCatelistUI", text: "病例分类"}
+            ,{url: "case/caseInfolistUI", text: "病例案例"}
         ]
     },
     {

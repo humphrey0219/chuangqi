@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangqi.dao.CaseCateDao" >
+ 	
+ 	<resultMap type="com.chuangqi.vo.CaseCateVo" id="CaseCateVo"/> 
+	<parameterMap type="com.chuangqi.vo.CaseCateVo" id="CaseCateVo"/> 
+	
+	<sql id="sqlField">
+	`id`, `name`,  `status`,`createTime`, `updateTime`
+	</sql>
+	<sql id="sqlWhere">
+		<trim prefixOverrides="">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 			<if test="status!=null">
+ 			and status=#{status}
+ 			</if>
+ 			<if test="name!=null">
+ 			and instr(#{name},name)>0
+ 			</if>
+ 		</trim>
+ 		<if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</sql>
+	
+	<select id="getMapList" parameterMap="CaseCateVo" resultType="java.util.Map">
+		SELECT <include refid="sqlField"></include>
+ 		from t_case_cate where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	
+	<select id="getList" parameterMap="CaseCateVo" resultMap="CaseCateVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_case_cate where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	<select id="getCount" parameterMap="CaseCateVo" resultType="long">
+		SELECT count(*)
+ 		from t_case_cate where 1=1
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 查询单个对象-->
+	<select id="get" parameterMap="CaseCateVo" resultMap="CaseCateVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_case_cate where 1=1 
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 添加单个对象-->
+	<insert id="add" parameterMap="CaseCateVo">
+	   	insert into t_case_cate(
+			name,
+			status
+			)
+			values(
+			#{name},
+			#{status}
+		)
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+		    select @@IDENTITY as id
+		 </selectKey>	   
+	</insert>
+
+	<!-- 修改信息 -->
+	<update id="updateByUqKey" parameterMap="CaseCateVo">
+		update t_case_cate SET 
+		<trim suffixOverrides=",">
+		<if test="name != null">name=#{name},</if>
+		<if test="status != null">status=#{status},</if>
+		</trim>
+		where 
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 		</trim>
+	</update>
+	
+	<delete id="del" parameterMap="CaseCateVo">
+		delete from t_case_cate where
+        <if test="id != null">
+            id=#{id}
+        </if>
+        <if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</delete>
+	
+</mapper>

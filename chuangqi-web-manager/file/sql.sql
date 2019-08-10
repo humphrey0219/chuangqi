@@ -56,3 +56,53 @@ CREATE TABLE `t_news` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_uq` (`title`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='新闻管理';
+
+CREATE TABLE `t_smile_test` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `phone` varchar(20) DEFAULT NULL COMMENT '手机号码',
+  `smileTestImg` varchar(255) DEFAULT NULL COMMENT '微笑测试图片',
+  `applyTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '申请时间',
+  `status` tinyint(5) NOT NULL DEFAULT '0' COMMENT '状态（0申请中，1测试中，2已反馈，3作废）',
+  `backTime` datetime DEFAULT NULL COMMENT '反馈时间',
+  `testReport` text COMMENT '测试报告',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`),
+  KEY `idx_phone` (`phone`),
+  KEY `idx_applyTime` (`applyTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='微笑测试';
+
+CREATE TABLE `t_case_cate` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(64) NOT NULL COMMENT '分类名称',
+  `status` tinyint(5) NOT NULL DEFAULT '1' COMMENT '状态：1启用，0禁用',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `uq_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='病例分类';
+
+CREATE TABLE `t_case_info` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `cateId` bigint(20) DEFAULT NULL COMMENT '分类ID',
+  `proCate` tinyint(5) DEFAULT '10' COMMENT '矫正产品：10舌侧，20隐形矫治器',
+  `caseSpecial` varchar(128) DEFAULT NULL COMMENT '病例特点',
+  `doctorName` varchar(64) DEFAULT NULL COMMENT '主治医生',
+  `hospital` varchar(255) DEFAULT NULL COMMENT '治疗机构',
+  `status` tinyint(5) DEFAULT '1' COMMENT '状态：1上架，0下架',
+  `beforeImg` varchar(255) DEFAULT NULL COMMENT '整形前图片',
+  `afterImg` varchar(255) DEFAULT NULL COMMENT '整形后图片',
+  `experience` text COMMENT '矫治体会',
+  `problem` text COMMENT '问题列表',
+  `target` text COMMENT '治疗目标',
+  `plan` text COMMENT '治疗计划',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_cateid` (`cateId`),
+  KEY `idx_caseSpecial` (`caseSpecial`),
+  KEY `idx_doctorName` (`doctorName`),
+  KEY `idx_hospital` (`hospital`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='病例信息';
+

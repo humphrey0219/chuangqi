@@ -26,6 +26,8 @@
             });	
             $("#status").ligerComboBox();//下拉框
             $("#pubTime").ligerDateEditor({ showTime: true,width:200,value:'[[${#dates.format(vo.pubTime,'yyyy-MM-dd HH:mm:ss')}]]'});
+            
+            uploadFile();
         });
         
       //校验通过
@@ -55,6 +57,37 @@
 	    	});
     	 }
      }
+     
+     function uploadFile(){
+   	  $("#file").on("change", function(e){
+             var form = new FormData()
+             var file = e.target.files[0];
+             if(file.length<=0){
+           	  return ;
+             }
+             form.append("imgFile", file);
+             $.ajax({
+                 url:basePath + "fileUpload/newsImgFile",
+                 type: "Post",
+                 dataType: "json",
+                 processData: false,//用于对data参数进行序列化处理 这里必须false
+                 contentType: false, //必须
+                 data:form,
+                 success:function (res) {
+               	 if(res.error==0){//成功
+               		 $("#showImgUrl").attr("src",res.url);//显示图片
+               		 $("#imgUrl").val(res.dbPath);
+               	 }else{
+               		 $.ligerDialog.hide();
+               		$.ligerDialog.error(res.message);
+               	 }
+                 },
+                 error:function (error) {
+               	  alert("上传图片异常"+error);
+                 }
+             })
+         })
+    }
  
     </script>
     <style type="text/css">
@@ -102,11 +135,12 @@
                 <td><input id="resourceUrl"  name="resourceUrl" type="text" class="ui-textbox"  th:value="${vo.resourceUrl}"/>
                 </td>
             </tr>
-             <tr >
-                <td> <label for="leaveTime">新闻图片：</label></td>
-                <td><input id="file"  name="file" type="file"/></td>
-                <td></td>
-                <td><img src="" alt="" />
+            <tr >
+                <td> 新闻图片：</td>
+                <td><input id="file" name="file" type="file"/></td>
+                <td colspan="2">
+                	<img th:src="${vo.showImgUrl}" alt="" id="showImgUrl" width="100" height="100"/>
+                	<input type="hidden" name="imgUrl" id="imgUrl" th:value="${vo.imgUrl}"/>
                 </td>
             </tr>
             <tr>

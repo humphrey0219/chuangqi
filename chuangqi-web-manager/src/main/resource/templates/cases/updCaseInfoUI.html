@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  	<th:block th:include="js_css::copy" />
+  	
+  	<link rel="stylesheet" th:href="@{/kindeditor/themes/default/default.css}" />
+	<link rel="stylesheet" th:href="@{/kindeditor/plugins/code/prettify.css}" />
+	<script charset="utf-8" th:src="@{/kindeditor/kindeditor-all-min.js}"></script>
+	<script charset="utf-8" th:src="@{/kindeditor/lang/zh-CN.js}"></script>
+	<script charset="utf-8" th:src="@{/kindeditor/plugins/code/prettify.js}"></script>
+	
+    <script type="text/javascript">
+    	var dir="/case/imgs";//上传存储目录
+    	var experience=null;
+    	var problem=null;
+    	var target=null;
+    	var plan=null;
+	    KindEditor.ready(function(K) {
+	    	experience = K.create('textarea[name="experience"]', {
+				uploadJson : basePath+'fileUpload/newsImgFile?dir='+dir,
+				allowFileManager : false
+			});
+	    	
+	    	problem = K.create('textarea[name="problem"]', {
+				uploadJson : basePath+'fileUpload/newsImgFile?dir='+dir,
+				allowFileManager : false
+			});
+	    	
+	    	target = K.create('textarea[name="target"]', {
+				uploadJson : basePath+'fileUpload/newsImgFile?dir='+dir,
+				allowFileManager : false
+			});
+	    	
+	    	plan = K.create('textarea[name="plan"]', {
+				uploadJson : basePath+'fileUpload/newsImgFile?dir='+dir,
+				allowFileManager : false
+			});
+		});
+    
+        $(function ()
+        {
+            $("#form1").ligerForm({
+                validate: true
+            });	
+            $("#status").ligerComboBox();//下拉框
+            
+            uploadFile();
+        });
+        
+      //校验通过
+     function valid()
+     {
+         var form = liger.get("form1");
+         return form.valid();
+     }
+     
+     function submitForm()
+     {
+    	 if(valid()){
+    		 var data = {};
+             $("input,select,textarea").each(function ()
+             {
+                 var name = $(this).attr("name");
+                 if (name && name.indexOf('ligerui') == -1)
+                 {
+                    data[name] = this.value;
+                 }
+             });
+             data["id"]="[[${vo.id}]]";
+             data["experience"]=experience.html();
+             data["problem"]=problem.html();
+             data["target"]=target.html();
+             data["plan"]=plan.html();
+             $.post(basePath+"case/updCaseInfo?t="+new Date(),data,function(data) {
+            	 addOrUpdateRetInfoParent(data);
+	    	});
+    	 }
+     }
+
+     function uploadFile(){
+    	  $("input[name=\"file\"]").on("change", function(e){
+    		  var id=e.target.id;//获取ID
+              var form = new FormData()
+              var file = e.target.files[0];
+              if(file.length<=0){
+            	  return ;
+              }
+              form.append("imgFile", file);
+              $.ajax({
+                  url:basePath + "fileUpload/newsImgFile?dir="+dir,
+                  type: "Post",
+                  dataType: "json",
+                  processData: false,//用于对data参数进行序列化处理 这里必须false
+                  contentType: false, //必须
+                  data:form,
+                  success:function (res) {
+                	 if(res.error==0){//成功
+                		 if("file1"==id){
+                			 $("#showbeforeImg").attr("src",res.url);//显示图片
+                    		 $("#beforeImg").val(res.dbPath);
+                		 }else if("file2"==id){
+                			 $("#showAfterImg").attr("src",res.url);//显示图片
+                    		 $("#afterImg").val(res.dbPath);
+                		 }
+                	 }else{
+                		 $.ligerDialog.hide();
+                		 $.ligerDialog.error(res.message);
+                	 }
+                  },
+                  error:function (error) {
+                	  alert("上传图片异常"+error);
+                  }
+              })
+          })
+     }
+ 
+    </script>
+    <style type="text/css">
+            body{padding-left:10px;font-size:13px;}
+            h1{font-size:20px;font-family:Verdana;}
+            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
+            .description{padding-bottom:30px;font-family:Verdana;}
+            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
+			td {padding: 5px;}
+    </style>
+
+</head>
+<body style="padding:0px">
+    <form id="form1" >
+    	<table >
+            <tr>
+                <td><label >病例分类：</label></td>
+                <td>
+                	<select id="cateId" name="cateId">
+                		<option th:each="votmp:${caseCateVos}" th:value="${votmp.id}" th:text="${votmp.name}" th:selected="${vo.cateId==votmp.id}"></option>
+                	</select>
+                </td>
+                <td>治疗产品：</td>
+                <td>
+                	<select name="proCate" id="proCate">
+                		<option th:selected="${vo.proCate==10}" value="10">舌侧产品</option>
+                		<option th:selected="${vo.proCate==20}" value="20">隐形矫治器</option>
+                	</select>
+                </td>
+            </tr>
+            <tr>
+                <td><label >病例特点：</label></td>
+                <td><input id="caseSpecial"  name="caseSpecial" type="text" class="ui-textbox"  validate="{required:true}"  th:value="${vo.caseSpecial}" /></td>
+                <td>主治医生：</td>
+                <td>
+                	<input id="doctorName"  name="doctorName" type="text" class="ui-textbox"  validate="{required:true}" th:value="${vo.doctorName}" />
+                </td>
+            </tr>
+            <tr>
+                <td><label >治疗机构：</label></td>
+                <td><input id="hospital"  name="hospital" type="text" class="ui-textbox"  validate="{required:true}"  th:value="${vo.hospital}"/></td>
+                <td>状态：</td>
+                <td>
+                	<select name="status" id="status">
+                		<option value="1">上架</option>
+                		<option value="0">下架</option>
+                	</select>
+                </td>
+            </tr>
+            <tr >
+                <td> 治疗前图片：</td>
+                <td><input id="file1" name="file" type="file"/></td>
+                <td colspan="2">
+                	<img th:src="${vo.showbeforeImg}" alt="" id="showbeforeImg" width="100" height="100"/>
+                	<input type="hidden" name="beforeImg" id="beforeImg"  th:value="${vo.beforeImg}"/>
+                </td>
+            </tr>
+            <tr >
+                <td> 治疗后图片：</td>
+                <td><input id="file2" name="file" type="file"/></td>
+                <td colspan="2">
+                	<img th:src="${vo.showAfterImg}" alt="" id="showAfterImg" width="100" height="100"/>
+                	<input type="hidden" name="afterImg" id="afterImg" th:value="${vo.afterImg}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>矫治体会：</td>
+                <td colspan="3" width="500"><textarea id="experience" rows="3" cols="120" name="experience" style="width:900px;height:300px;visibility:hidden;">[[${vo.experience}]]</textarea> </td>
+            </tr>
+            <tr>
+                <td>问题列表：</td>
+                <td colspan="3" width="500"><textarea id="problem" rows="3" cols="120" name="problem" style="width:900px;height:300px;visibility:hidden;">[[${vo.problem}]]</textarea> </td>
+            </tr>
+            <tr>
+                <td>治疗目标：</td>
+                <td colspan="3" width="500"><textarea id="target" rows="3" cols="120" name="target" style="width:900px;height:300px;visibility:hidden;">[[${vo.target}]]</textarea> </td>
+            </tr>
+            <tr>
+                <td>治疗计划：</td>
+                <td colspan="3" width="500"><textarea id="plan" rows="3" cols="120" name="plan" style="width:900px;height:300px;visibility:hidden;">[[${vo.plan}]]</textarea> </td>
+            </tr>
+           
+            <tr>
+            	<td colspan="2"></td>
+                <td colspan="2">
+                    <input value=" 提交  " type="button" onclick="submitForm()" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>

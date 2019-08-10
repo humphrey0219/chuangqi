@@ -8,8 +8,13 @@
     <!-- <th:block th:text="${name}" /> [[${name}]]（3.0版本后才支持） --直接出  -->
 
     <script type="text/javascript" th:inline="javascript">
+    
         $(function ()
         {
+        	if(window !=top){//iframe session 过去自动跳转到登录页面  
+        		top.location.href = location.href;  
+        	}  
+        	
             $("#form1").ligerForm({
                 validate: true
             });	

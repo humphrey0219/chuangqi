@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangqi.dao.SmileTestDao" >
+ 	
+ 	<resultMap type="com.chuangqi.vo.SmileTestVo" id="SmileTestVo"/> 
+	<parameterMap type="com.chuangqi.vo.SmileTestVo" id="SmileTestVo"/> 
+	
+	<sql id="sqlField">
+	`id`, `phone`, `smileTestImg`, `applyTime`, `status`, `backTime`, `testReport`, `createTime`, `updateTime`, `remark`
+	</sql>
+	<sql id="sqlWhere">
+		<trim prefixOverrides="">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 			<if test="status!=null">
+ 			and status=#{status}
+ 			</if>
+ 			<if test="phone!=null">
+ 			and instr(#{phone},phone)>0
+ 			</if>
+ 		</trim>
+ 		<if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</sql>
+	
+	<select id="getMapList" parameterMap="SmileTestVo" resultType="java.util.Map">
+		SELECT <include refid="sqlField"></include>
+ 		from t_smile_test where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	
+	<select id="getList" parameterMap="SmileTestVo" resultMap="SmileTestVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_smile_test where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	<select id="getCount" parameterMap="SmileTestVo" resultType="long">
+		SELECT count(*)
+ 		from t_smile_test where 1=1
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 查询单个对象-->
+	<select id="get" parameterMap="SmileTestVo" resultMap="SmileTestVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_smile_test where 1=1 
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 添加单个对象-->
+	<insert id="add" parameterMap="SmileTestVo">
+	   	insert into t_smile_test(
+			phone,
+			smileTestImg,
+			applyTime,
+			status
+			)
+			values(
+			# {phone,jdbcType = VARCHAR},
+			# {smileTestImg,jdbcType = VARCHAR},
+			# {applyTime},
+			# {status}
+		)
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+		    select @@IDENTITY as id
+		 </selectKey>	   
+	</insert>
+
+	<!-- 修改信息 -->
+	<update id="updateByUqKey" parameterMap="SmileTestVo">
+		update t_smile_test SET 
+		<trim suffixOverrides=",">
+		<if test="phone != null">phone=#{phone},</if>
+		<if test="smileTestImg != null">smileTestImg=#{smileTestImg},</if>
+		<if test="applyTime != null">applyTime=#{applyTime},</if>
+		<if test="status != null">status=#{status},</if>
+		<if test="backTime != null">backTime=#{backTime},</if>
+		<if test="testReport != null">testReport=#{testReport},</if>
+		<if test="remark != null">remark=#{remark},</if>
+		</trim>
+		where 
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 		</trim>
+	</update>
+	
+	<delete id="del" parameterMap="SmileTestVo">
+		delete from t_smile_test where
+        <if test="id != null">
+            id=#{id}
+        </if>
+        <if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</delete>
+	
+</mapper>
