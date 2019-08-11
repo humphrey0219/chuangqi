@@ -37,7 +37,7 @@
                             { display: '页面编号', name: 'number', minWidth: 120 , editor : {type : "String"}},
                             { display: '页面关键词', name: 'keyword', minWidth: 120 , editor : {type : "String"}},
                             { display: '页面简介', name: 'description', minWidth: 120 , editor : {type : "String"}},
-                            { display: '姓名', name: 'realName' , editor : {type : "String"}},          
+                            { display: '页面名称', name: 'name' , editor : {type : "String"}},          
    					      
     	                ];
         var da = [{ "createTime": 1564697233000, "description": "23423", "id": 2, "keyword": "w3r", "name": "2", "number": "2324", "title": "ksdf" }, { "createTime": 1564697988000, "description": "23423", "id": 4, "keyword": "w3r", "name": "2", "number": "23sdf24", "title": "ksdf" }, { "createTime": 1564698812000, "description": "23423", "id": 5, "keyword": "w3r", "name": "2", "number": "ksdf", "title": "2324" }, { "createTime": 1564699771000, "description": "好大夫", "id": 6, "keyword": "欧美，艾", "name": "主页", "number": "2.12", "title": "首页" }, { "createTime": 1564700024000, "description": "我的简介", "id": 7, "keyword": "很大关键词", "name": "名称", "number": "小编号", "title": "大标题" }]
@@ -94,6 +94,7 @@
                             { text: '修改', click: onModifyed, icon: 'modify' },
                             { line: true },
                             { text: '删除', click: onDelItme, img: basePath+'lib/ligerUI/skins/icons/delete.gif' },
+                            { line: true },
                             {text : "高级查询",type : "quty",click : search,icon : "search2"}
                         ]
                     },

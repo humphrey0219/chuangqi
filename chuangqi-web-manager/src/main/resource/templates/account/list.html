@@ -54,10 +54,10 @@
                     columns: [
                         { display: '用户ID', name: 'id', align: 'left', minWidth: 60 },
                         { display: '用户名', name: 'userName', minWidth: 120 },
-                        { display: '姓名', name: 'realName'},
+                        { display: '姓名', name: 'realName',minWidth: 120},
                         { display: '状态', name: 'status', minWidth: 140 ,render:renderStatus },
-                        { display: '创建时间', name: 'createTime', render: renderDate},
-                        { display: '更新时间', name: 'updateTime', render: renderDate}
+                        { display: '创建时间', name: 'createTime', render: renderDate,minWidth: 120},
+                        { display: '更新时间', name: 'updateTime', render: renderDate,minWidth: 120}
                     ],   pageSize: 10, rownumbers: true,
                     toolbar: {
                     items: [
@@ -66,6 +66,7 @@
                         { text: '修改', click: upd, img: basePath+'lib/ligerUI/skins/icons/modify.gif' },
                         { line: true },
                         { text: '删除', click: del, img: basePath+'lib/ligerUI/skins/icons/delete.gif' },
+                        { line: true },
                         {text : "高级查询",type : "quty",click : search,icon : "search2"}
                         ]
                     },
