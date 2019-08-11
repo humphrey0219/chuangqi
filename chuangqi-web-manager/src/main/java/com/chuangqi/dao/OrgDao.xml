@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangqi.dao.OrgDao" >
+
+    <resultMap type="com.chuangqi.vo.OrgVo" id="org"/>
+    <parameterMap type="com.chuangqi.vo.OrgVo" id="org"/>
+
+    <sql id="sqlField">
+        `id`, `orgName`, `agent`, `phone`, `address`, `status`
+    </sql>
+    <sql id="sqlWhere">
+        <trim prefixOverrides="and">
+            <if test="id!=null">
+                and id=#{id}
+            </if>
+            <if test="orgName!=null">
+                and orgName=#{orgName}
+            </if>
+            <if test="agent!=null">
+                and agent=#{agent}
+            </if>
+            <if test="phone!=null">
+                and phone=#{phone}
+            </if>
+            <if test="address!=null">
+                and address=#{address}
+            </if>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+        </trim>
+        <if test="whereSql!=null">
+            ${whereSql}
+        </if>
+    </sql>
+
+    <select id="getMapList" parameterMap="org" resultType="java.util.Map">
+        SELECT <include refid="sqlField"></include>
+        from t_org where 1=1
+        <include refid="sqlWhere"></include>
+        <if test="orderBySql!=null">
+            ${orderBySql}
+        </if>
+        <if test="pageStartRow!=null">
+            limit #{pageStartRow},#{pageEndRow}
+        </if>
+    </select>
+
+    <select id="getList" parameterMap="org" resultMap="org">
+        SELECT <include refid="sqlField"></include>
+        from t_org where 1=1
+        <include refid="sqlWhere"></include>
+        <if test="orderBySql!=null">
+            ${orderBySql}
+        </if>
+        <if test="pageStartRow!=null">
+            limit #{pageStartRow},#{pageEndRow}
+        </if>
+    </select>
+    <select id="getCount" parameterMap="org" resultType="long">
+        SELECT count(*)
+        from t_org where 1=1
+        <include refid="sqlWhere"></include>
+    </select>
+
+    <!-- 查询单个对象-->
+    <select id="get" parameterMap="org" resultMap="org">
+        SELECT <include refid="sqlField"></include>
+        from t_org where
+        <include refid="sqlWhere"></include>
+    </select>
+
+    <!-- 添加单个对象-->
+    <insert id="add" parameterMap="org">
+        insert into t_org(
+        orgName,
+        agent,
+        phone,
+        address,
+        status
+        )
+        values(
+        #{orgName,jdbcType = VARCHAR},
+        #{agent,jdbcType = VARCHAR},
+        #{phone},
+        #{address},
+        #{status}
+        )
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            select @@IDENTITY as id
+        </selectKey>
+    </insert>
+
+    <!-- 修改信息 -->
+    <update id="updateByUqKey" parameterMap="org">
+        update t_org SET
+        <trim suffixOverrides=",">
+            <if test="orgName!=null">
+                orgName=#{orgName},
+            </if>
+            <if test="agent!=null">
+                agent=#{agent},
+            </if>
+            <if test="phone!=null">
+                phone=#{phone},
+            </if>
+            <if test="address!=null">
+                address=#{address},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+
+        </trim>
+        where
+        <trim prefixOverrides="and">
+            <if test="id!=null">
+                and id=#{id}
+            </if>
+        </trim>
+    </update>
+
+    <delete id="del" parameterMap="org">
+        delete from t_org where
+        <if test="id != null">
+            id=#{id}
+        </if>
+
+        <if test="whereSql!=null">
+            ${whereSql}
+        </if>
+    </delete>
+
+</mapper>

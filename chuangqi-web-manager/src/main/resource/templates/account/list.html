@@ -52,12 +52,12 @@
          grid = $("#maingrid").ligerGrid({
                      height: '100%',
                     columns: [
-                        { display: '用户ID', name: 'id', align: 'left', minWidth: 60 },
+                        { display: '用户ID', name: 'id', align: 'left', minWidth: 180 },
                         { display: '用户名', name: 'userName', minWidth: 120 },
-                        { display: '姓名', name: 'realName'},
+                        { display: '姓名', name: 'realName', minWidth: 180},
                         { display: '状态', name: 'status', minWidth: 140 ,render:renderStatus },
-                        { display: '创建时间', name: 'createTime', render: renderDate},
-                        { display: '更新时间', name: 'updateTime', render: renderDate}
+                        { display: '创建时间', name: 'createTime',minWidth: 180, render: renderDate},
+                        { display: '更新时间', name: 'updateTime',minWidth: 180,  render: renderDate}
                     ],   pageSize: 10, rownumbers: true,
                     toolbar: {
                     items: [

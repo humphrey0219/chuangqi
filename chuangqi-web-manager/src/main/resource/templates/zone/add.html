@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title >创建区域</title>     
+    <f th:include="js_css::copy"></f>
+    <!-- <th:block th:text="${msg}" /> 直接出 -->
+    <link th:href="@{/address/js/city.css}" rel="stylesheet" />
+    <script th:src="@{/address/js/city.min.js}"></script>
+    <script type="text/javascript">
+
+
+        //是修改还是新建
+        var isUpdate = false
+        //更新数据
+        var orgAdrress 
+ 
+
+        var selectCity
+        function submitForm(){
+            var data 
+            var path = "zone/add";
+
+            //转换数据
+            var j = selectCity.data;          
+            var address = {
+                province: j[selectCity.province] ,
+                city:       j[selectCity.city],
+                county:     j[selectCity.county]
+            }
+                //处理更新
+                if(isUpdate){
+                    path = "zone/update";
+                    
+                }            
+
+            if(selectCity && selectCity.finish){
+                console.log(selectCity)
+                
+                if(isUpdate){
+                    data = $.extend(orgAdrress, address)
+                    data.createTime = null ;
+                }else{
+                    data = address
+                }
+                console.log(data)
+                $.post(basePath + path, data, function (data) {
+                    addOrUpdateRetInfoParent(data);
+                }); 
+            }else{
+                $.ligerDialog.error("请选择全部选项！")
+            }
+
+
+        }
+        $(function () {
+            
+            //城市选择
+            var cityOps = { url: "/m/address/js/jquery-citys.json" }
+            if(parent.V.updated){
+                isUpdate = true
+                parent.V.updated = false
+                var city = orgAdrress = parent.V.data
+                console.log(city);
+                var selected = {
+                    province: city.province,
+                    city: city.city,
+                    area: city.county
+                }
+                console.log(selected)
+                cityOps = $.extend(cityOps, selected, {type: "name"});
+                console.log(cityOps)
+            }
+            var ct= $('#c').citys(cityOps  , function(v){
+                selectCity = v 
+                console.log(v)
+            });
+
+        });
+        //校验通过
+        function valid() {
+            var form = liger.get("page");
+            return form.valid();
+        }   
+    
+    
+    </script>  
+
+
+</head>
+<body style="padding:0px">
+
+    <div style="margin: 20px; text-align: center">
+        <div class="citys" id="c" style="max-width: 500px">
+            <select class="city-select" name="province"></select>
+            <select class="city-select" name="city"></select>
+            <select class="city-select" name="area"></select>
+        </div>
+
+
+    <div style="max-width: 500px">
+        <button style="margin: 20px" onclick="submitForm()">提交</button>
+    </div>
+    </div>
+
+</body>
+
+</html>
+

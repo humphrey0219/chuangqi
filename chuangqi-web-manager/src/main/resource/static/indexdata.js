@@ -14,6 +14,17 @@
         ]
     },
     {
+        text: '区域管理', isexpand: true , children: [
+
+            {url: "zone/listUI", text: "区域管理"}
+        ]
+    },
+/*     {
+        text: '医疗机构管理', isexpand: true, children: [
+            {url: "org/listUI", text: "医疗机构管理"}
+        ]
+    }, */
+    {
         text: '页面图片管理', isexpand: true, children: [
             {url: "image/list", text: "所有图片"}
         ]

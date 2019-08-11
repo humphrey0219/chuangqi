@@ -1,7 +1,6 @@
 package com.chuangqi.vo;
 
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,18 +11,19 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ZoneVo extends BaseVo{
+public class OrgVo extends BaseVo{
 
     private Long id;//主见 [id, bigint, 19]
 
-    private String province ; //省
+    private String orgName ;// 机构名称
 
-    private String city  ;   //城市
+    private String agent  ; //联系人
 
-    private String county ;  //区
+    private String phone    ; //联系电话
 
-    private String street ;  //街道;详细地址
+    private String address   ; //联系地址
 
+    private Integer status ;  //机构状态
 
 
 }
