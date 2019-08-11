@@ -9,7 +9,6 @@
 	`id`, `userName`, `pwd`, `createTime`, `updateTime`, `remark`,`realName`,`status`
 	</sql>
 	<sql id="sqlWhere">
-		<trim prefixOverrides="and">
  			<if test="id!=null">
  			and id=#{id}
  			</if>
@@ -19,10 +18,6 @@
  			<if test="pwd!=null">
  			and pwd=#{pwd}
  			</if>
- 			<if test="realName!=null">
- 			and instr(#{pwd},realName)>0
- 			</if>
- 		</trim>
  		<if test="whereSql!=null">
  		${whereSql}
  		</if>
@@ -60,7 +55,7 @@
 	<!-- 查询单个对象-->
 	<select id="get" parameterMap="SysAccountVo" resultMap="SysAccountVo">
 		SELECT <include refid="sqlField"></include>
- 		from t_sys_account where 
+ 		from t_sys_account where 1=1 
  		<include refid="sqlWhere"></include>
 	</select>
 	

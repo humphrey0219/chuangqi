@@ -70,10 +70,23 @@ public class AccountController extends BaseController {
     //创建新账户
     @RequestMapping("account/add")
     public void  add(SysAccountVo accountVo) {
+    	try {
+    		SysAccountVo accountVoQy=new SysAccountVo();
+    		accountVoQy.setUserName(accountVo.getUserName());
+    		long rt=sysAccountService.getCount(accountVoQy);
+    		if(rt>=1){
+    			 ResultCode resultCode = ResultCode.newSuccess();
+    			 resultCode.setFail("该用户名已存在");
+    			 resWriteObjectJson(resultCode);
+    			 return ;
+    		}
+    		 Long id = sysAccountService.add(accountVo);
 
-        Long id = sysAccountService.add(accountVo);
-
-        sendOperationResult(id.intValue(), "创建账户");
+    	       sendOperationResult(id.intValue(), "创建账户");
+		} catch (Throwable e) {
+			log.error("创建账号异常", e);
+		}
+       
 
     }
     @RequestMapping("account/updateUI")
