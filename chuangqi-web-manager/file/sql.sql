@@ -4,12 +4,13 @@ CREATE TABLE `t_sys_account` (
   `pwd` varchar(64) NOT NULL COMMENT '密码',
   `realName` varchar(64) DEFAULT NULL COMMENT '真实姓名',
   `status` tinyint(2) DEFAULT '1' COMMENT '状态：1启用，0禁用',
+  `level` tinyint(5) DEFAULT '1' COMMENT '角色：1超级管理员，2普通管理员',
   `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_userName` (`userName`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统账号';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统账号';
 
 DROP TABLE IF EXISTS `t_web_page` ;
 CREATE TABLE `t_web_page` (

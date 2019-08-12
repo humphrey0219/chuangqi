@@ -35,22 +35,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			 <!-- <exclusions>                
-				 <exclusion>                    
-				 <groupId>org.springframework.boot</groupId>                    
-				 <artifactId>spring-boot-starter-tomcat</artifactId>                
-				 </exclusion>            
-			 </exclusions> -->
-		</dependency>
-		<!-- 采用 undertow 高性能服务器，去掉默认tomcat服务器，可惜不支持jsp技术，暂时去掉
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
-		</dependency>
-		-->
+		
 		
 		<dependency>
 			<groupId>mysql</groupId>
@@ -102,12 +87,7 @@
 		    <version>2.6</version>
 		</dependency>
 		
-		<dependency>
-		    <groupId>com.alibaba</groupId>
-		    <artifactId>fastjson</artifactId>
-		    <version>1.2.56</version>
-		</dependency>
-		
+	
 		
 		<dependency>
 			<groupId>org.apache.poi</groupId>

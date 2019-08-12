@@ -21,4 +21,12 @@ public interface Constant {
 	 * 登录用户信息
 	 */
 	public static final String SESSION_LOGIN_USER="user";
+	/**
+	 * 超级管理员
+	 */
+	public static final Integer LEVEL_ROLE_1=1;
+	/**
+	 * 管理员
+	 */
+	public static final Integer LEVEL_ROLE_2=2;
 }

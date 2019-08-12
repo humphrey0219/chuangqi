@@ -34,7 +34,18 @@
                                                                                         ]
                                                                             }
     																	  }
-                            }       
+                            },
+                            { display: '角色', name: 'level' ,editor : {
+                                type : "combobox",
+                                options : {
+                                    valueField : "statusVal",textField : "statusTxt",
+                                    data : [ {statusVal : "2",statusTxt : "管理员"}, 
+                                                {statusVal : "1",statusTxt : "超级管理员"}, 
+                                                    
+                                            ]
+                                }
+							  }
+							}       
 
     					      
     	                ];
@@ -56,8 +67,24 @@
                         { display: '用户名', name: 'userName', minWidth: 120 },
                         { display: '姓名', name: 'realName',minWidth: 120},
                         { display: '状态', name: 'status', minWidth: 140 ,render:renderStatus },
-                        { display: '创建时间', name: 'createTime', render: renderDate,minWidth: 120},
-                        { display: '更新时间', name: 'updateTime', render: renderDate,minWidth: 120}
+                        { display: '角色', name: 'level', minWidth: 140 ,render:
+                        	function(record, rowindex, value, column){
+                           		if(value==1){
+                           			return "超级管理员";
+                           		}
+                            	return "管理员";
+                        	} 
+                        },
+                        { display: '创建时间', name: 'createTime', minWidth: 150,
+                        	render: function(rowdata, rowindex, value) {
+                				return  yyyyMMddHHmmss(value);
+                			}	
+                        },
+                        { display: '更新时间', name: 'updateTime', minWidth: 150,
+                        	render: function(rowdata, rowindex, value) {
+                				return  yyyyMMddHHmmss(value);
+                			}	
+                        }
                     ],   pageSize: 10, rownumbers: true,
                     toolbar: {
                     items: [

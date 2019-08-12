@@ -3,8 +3,6 @@
  */
 package com.chuangqi.config.interceptor;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,9 +10,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSONObject;
 import com.chuangqi.bean.ResultCode;
 import com.chuangqi.common.constant.Constant;
+import com.chuangqi.common.utils.AjaxUtils;
+import com.chuangqi.vo.SysAccountVo;
 
 /**
  * 拦截器
@@ -50,21 +49,28 @@ public class LoginHandlerInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
 			Object arg2) throws Exception {
-		HttpSession session = request.getSession();
-	        if(session.getAttribute(Constant.SESSION_LOGIN_USER)== null){
+			HttpSession session = request.getSession();
+			SysAccountVo accountVo=(SysAccountVo)session.getAttribute(Constant.SESSION_LOGIN_USER);
+	        if(accountVo== null){
 	        	//判断session中有没有user信息
 	            if("XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))){
 	        		ResultCode resultCode=ResultCode.newSuccess();
 	        		resultCode.setFail("操作超时,请重新登录");
-	        		response.setCharacterEncoding("UTF-8");
-	    			response.setContentType("text/x-json;charset=UTF-8");
-	        		PrintWriter printWriter= response.getWriter();
-	        		printWriter.print(JSONObject.toJSONString(resultCode));
+	        		AjaxUtils.respWrite(resultCode, response);
 	            }else{
 	            	response.sendRedirect(request.getContextPath()+"/common/loginUI");     //没有user信息的话进行路由重定向
 	            }
 	            return false;
 	        }
+	        //有权限且已登录
+	        String uri=request.getRequestURI();
+	       
+	        //如果账号权限,且不是超级管理，不能操作
+	        if(uri.contains("/account")&&!Constant.LEVEL_ROLE_1.equals(accountVo.getLevel())){
+	        	response.sendRedirect(request.getContextPath()+"/no_auth.htm");
+	        	return false;
+	        }
+	        
 	        return true;        //有的话就继续操作
 	}
 
