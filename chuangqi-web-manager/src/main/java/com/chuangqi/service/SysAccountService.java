@@ -11,5 +11,5 @@ import com.chuangqi.vo.SysAccountVo;
  *
  */
 public interface SysAccountService extends BaseService<SysAccountVo>{
-
+	
 }

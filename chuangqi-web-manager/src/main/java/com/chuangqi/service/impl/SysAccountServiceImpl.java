@@ -5,6 +5,7 @@ package com.chuangqi.service.impl;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.chuangqi.dao.BaseDao;
@@ -28,4 +29,14 @@ public class SysAccountServiceImpl extends BaseServiceImpl<SysAccountVo> impleme
 		return sysAccountDao;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.chuangqi.service.impl.BaseServiceImpl#updateByUqKey(java.lang.Object)
+	 */
+	@Override
+	public Long updateByUqKey(SysAccountVo t) {
+		if(StringUtils.isBlank(t.getPwd())){
+			t.setPwd(null);
+		}
+		return super.updateByUqKey(t);
+	}
 }

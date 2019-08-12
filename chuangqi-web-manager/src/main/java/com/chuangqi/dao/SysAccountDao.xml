@@ -6,7 +6,7 @@
 	<parameterMap type="com.chuangqi.vo.SysAccountVo" id="SysAccountVo"/> 
 	
 	<sql id="sqlField">
-	`id`, `userName`, `pwd`, `createTime`, `updateTime`, `remark`,`realName`,`status`
+	`id`, `userName`, `pwd`, `createTime`, `updateTime`, `remark`,`realName`,`status`,level
 	</sql>
 	<sql id="sqlWhere">
  			<if test="id!=null">
@@ -17,6 +17,9 @@
  			</if>
  			<if test="pwd!=null">
  			and pwd=#{pwd}
+ 			</if>
+ 			<if test="level!=null">
+ 			and level=#{level}
  			</if>
  		<if test="whereSql!=null">
  		${whereSql}
@@ -65,13 +68,15 @@
 		userName,
 		pwd,
 		realName,
-        status
+        status,
+        level
 		)
 		values(
 		#{userName,jdbcType = VARCHAR},
 		#{pwd,jdbcType = VARCHAR},
 		#{realName},
-        #{status}
+        #{status},
+        #{level}
 		)
 		<selectKey resultType="long" keyProperty="id" order="AFTER">
 		    select @@IDENTITY as id
@@ -83,10 +88,11 @@
 		update t_sys_account SET 
 		<trim suffixOverrides=",">
 		<if test="userName != null">userName=#{userName,jdbcType=VARCHAR},</if>
-		<if test="pwd != null">pwd=#{pwd,jdbcType=VARCHAR},</if>
+		<if test="pwd != null and pwd!=''">pwd=#{pwd,jdbcType=VARCHAR},</if>
 		<if test="remark != null">remark=#{remark,jdbcType=VARCHAR},</if>
 		<if test="realName != null">realName=#{realName},</if>
 		<if test="status != null">status=#{status},</if>
+		<if test="level != null">level=#{level},</if>
 		</trim>
 		where 
 		<trim prefixOverrides="and">

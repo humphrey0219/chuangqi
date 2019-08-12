@@ -10,6 +10,7 @@ public class SysAccountVo extends BaseVo{
 	private String pwd;//密码 [pwd, varchar, 64]
 	private Integer status;//状态 1,正常，0禁用
 	private String realName;//真实姓名
+	private Integer level;//角色：1超级管理员，2普通管理员
 	
 	/**
 	 * @return the id
@@ -70,5 +71,17 @@ public class SysAccountVo extends BaseVo{
 	 */
 	public void setRealName(String realName) {
 		this.realName = realName;
+	}
+	/**
+	 * @return the level
+	 */
+	public Integer getLevel() {
+		return level;
+	}
+	/**
+	 * @param level the level to set
+	 */
+	public void setLevel(Integer level) {
+		this.level = level;
 	}
 }
