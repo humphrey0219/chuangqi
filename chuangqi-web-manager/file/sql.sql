@@ -121,25 +121,30 @@ CREATE TABLE `t_case_info` (
   KEY `idx_hospital` (`hospital`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='病例信息';
 
+DROP TABLE IF EXISTS `t_zone`;
 CREATE TABLE `t_zone` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `province` varchar(20) NOT NULL COMMENT '省份',
   `city`    varchar(20) NOT NULL COMMENT '城市',
   `county`  varchar(20) DEFAULT NULL COMMENT    '区、县',
   `street`  varchar(100) DEFAULT NULL COMMENT '街道',
+  `zip`    varchar(10) DEFAULT NULL  COMMENT '区域代码',
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='区域地址管理';
 
+DROP TABLE IF EXISTS `t_org`;
 CREATE TABLE `t_org` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `orgName`      varchar(20) NOT NULL COMMENT '机构名称',
-  `agent`       varchar(20) NOT NULL COMMENT '机构联系人'
+  `agent`       varchar(20) NOT NULL COMMENT '机构联系人',
   `phone`       varchar(30) NOT NULL COMMENT '联系电话',
-  `address`     varchar(50) NOT NULL COMMENT '机构地址'
+  `address`     bigint(20) NOT NULL COMMENT '机构地址ID',
+  `code`        int(8)  DEFAULT NULL COMMENT '机构地址代码',
   `status` tinyint(5) NOT NULL DEFAULT '1' COMMENT '状态：1启用，0禁用',
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
+
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='机构管理';

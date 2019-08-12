@@ -8,6 +8,13 @@
     <sql id="sqlField">
         `id`, `orgName`, `agent`, `phone`, `address`, `status`
     </sql>
+    <sql id="sqlZone">
+        o.id as id , o.orgName as orgName, o.agent as agent, o.phone as phone, o.code as code,
+        o.createTime as createTime, o.updateTime as  updateTime,
+        a.province as province, a.city as city, a.county as county, o.status as status FROM t_org as o
+        LEFT JOIN t_zone  as a
+        ON o.address = a.id
+    </sql>
     <sql id="sqlWhere">
         <trim prefixOverrides="and">
             <if test="id!=null">
@@ -35,8 +42,8 @@
     </sql>
 
     <select id="getMapList" parameterMap="org" resultType="java.util.Map">
-        SELECT <include refid="sqlField"></include>
-        from t_org where 1=1
+        SELECT <include refid="sqlZone"></include>
+        where 1=1
         <include refid="sqlWhere"></include>
         <if test="orderBySql!=null">
             ${orderBySql}
@@ -47,8 +54,8 @@
     </select>
 
     <select id="getList" parameterMap="org" resultMap="org">
-        SELECT <include refid="sqlField"></include>
-        from t_org where 1=1
+        SELECT <include refid="sqlZone"></include>
+        where 1=1
         <include refid="sqlWhere"></include>
         <if test="orderBySql!=null">
             ${orderBySql}
@@ -77,6 +84,7 @@
         agent,
         phone,
         address,
+        code,
         status
         )
         values(
@@ -84,6 +92,7 @@
         #{agent,jdbcType = VARCHAR},
         #{phone},
         #{address},
+        #{code},
         #{status}
         )
         <selectKey resultType="long" keyProperty="id" order="AFTER">

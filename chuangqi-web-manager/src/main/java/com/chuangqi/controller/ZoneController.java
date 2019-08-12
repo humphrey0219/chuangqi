@@ -38,7 +38,7 @@ public class ZoneController extends BaseController{
         String action = "创建地址";
         try {
             Long result = mService.add(v) ;
-            sendOperationResult(result.intValue(), action) ;
+            sendOperationResult(result.intValue(), action+"成功") ;
         }catch (Throwable e){
             log.error(action + " v={}, error", v, e);
             sendOperationResult(-1, action);
@@ -52,7 +52,7 @@ public class ZoneController extends BaseController{
         v.setId(id);
         try {
             int  result = mService.del(v);
-            sendOperationResult(result, action);
+            sendOperationResult(result, action+"成功");
         }catch (Throwable e){
             log.error(action + " v={}, error", v, e);
             sendOperationResult(-1, action);
@@ -64,7 +64,7 @@ public class ZoneController extends BaseController{
         String action = "创建地址";
         try {
             Long result = mService.updateByUqKey(v) ;
-            sendOperationResult(result.intValue(), action) ;
+            sendOperationResult(result.intValue(), action+"成功") ;
         }catch (Throwable e){
             log.error(action + " v={}, error", v, e);
             sendOperationResult(-1, action);

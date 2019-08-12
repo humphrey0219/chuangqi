@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title >全部账号</title>     
+    <th:block th:include="js_css_list::copy" />
+    <!-- <th:block th:text="${msg}" /> 直接出 -->
+    
+
+    <script type="text/javascript" th:inline="javascript">
+
+		//搜索参数
+    	var params = {};
+        var grid = null ;
+        //更新时间
+        var updatedTime
+        //更新数据
+        var V = {
+            updated : false,
+            data : null
+        }
+		var dataGridColumns = [
+                    { header: 'ID', name: 'id', width: 20 },
+                    { header: '省份', name: 'province' },
+                    { header: '城市', name: 'city' },
+                    { header: '县/区', name: 'county'}
+                ];
+         //搜索字段
+         var searchfields = [ 
+							{ display: '机构ID', name: 'id', align: 'left', width: 100,editor : {type : "String"}},
+							{ display: '机构名称', name: "orgName", editor: {type: "String"}},
+                            { display: '机构联系人', name: 'agent', minWidth: 120 , editor : {type : "String"}},
+                            { display: '机构联系电话', name: 'phone' , editor : {type : "String"}},
+                            { display: '状态', name: 'status' ,editor : {
+                                                                            type : "combobox",
+                                                                            options : {
+                                                                                valueField : "statusVal",textField : "statusTxt",
+                                                                                data : [ {statusVal : 0,statusTxt : "禁用"}, 
+                                                                                            {statusVal : 1,statusTxt : "正常"}, 
+                                                                                                
+                                                                                        ]
+                                                                            }
+    																	  }
+							},
+							{
+										display: "机构地址", name: 'code', editor: {
+											type: "combobox",
+											options: {
+												valueField: 'zip', 
+												textField: 'province',
+												selectBoxWidth: 500, 
+												selectBoxHeight:100,
+												isMultiSelect: false,
+												grid: {
+													columns: dataGridColumns,
+													url: "/m/zone/data",
+													//data: dataGrid,
+													pageSize: 30,
+													onSelectRow: function (d) {
+														
+													},
+													allowAdjustColWidth: true,
+													//checkbox: true,
+												}
+											}
+										}
+									}
+
+
+								];
+
+							
+
+        function renderStatus(record, rowindex, value, column){
+        var status = ["禁用","正常"]
+ 
+            return status[value]
+           
+        }
+
+        $(function () {
+         grid = $("#org").ligerGrid({
+                     height: '100%',
+                    columns: [
+						{ display: '机构ID', name: 'id', align: 'left', minWidth: 60 },
+						{ display: "机构名称", name: 'orgName', minWidth: 120,},
+                        {display: '机构联系人', name: 'agent', minWidth: 120 },
+						{ display: '机构联系电话', name: 'phone' , minWidth: 120},
+						{ display: '省/自治区', name: 'province', minWidth: 120},
+						{ display: '城市', 		name: 'city', minWidth: 120},
+						{ display: '县/区',		name: 'county',minWidth: 120},
+                        { display: '状态', name: 'status', minWidth: 140 ,render:renderStatus },
+                        { display: '创建时间', name: 'createTime', render: renderDate,minWidth: 120},
+                        { display: '更新时间', name: 'updateTime', render: renderDate,minWidth: 120}
+                    ],   pageSize: 10, rownumbers: true,
+                    toolbar: {
+                    items: [
+                        { text: '增加', click: add, img: basePath+'lib/ligerUI/skins/icons/add.gif' },
+                        { line: true },
+                        { text: '修改', click: upd, img: basePath+'lib/ligerUI/skins/icons/modify.gif' },
+                        { line: true },
+                        { text: '删除', click: del, img: basePath+'lib/ligerUI/skins/icons/delete.gif' },
+                        { line: true },
+                        {text : "高级查询",type : "quty",click : search,icon : "search2"}
+                        ]
+                    },
+                    url: basePath + 'org/data'
+                });
+
+
+            $("#pageloading").hide();
+        });
+
+        //
+        function anddOrMod(data){
+            var title ="创建机构";
+            var url =  "org/addUI" ;
+            if(data){
+               
+                console.log(data)
+                title ="修改机构"
+                //$.cookie("account_data", JSON.stringify(data))
+                V.updated = true
+                V.data = data
+                url = "org/addUI";
+
+            }
+            $.ligerDialog.open({
+        		width: 800,
+        		height: 350,
+        		title: title,
+        		url: basePath+  url,
+        		showMax: true,
+        		showToggle: true,
+        		showMin: true,
+        		isResize: true
+        	});
+        }
+        //修改账号
+        function upd(e) {
+            var account = grid.getSelectedRow()
+
+            if(account){  
+                anddOrMod(account);  
+            }else{
+                $.ligerDialog.warn("请选择要修改的账号")
+            }       
+        }
+        //add
+        function add(e){
+            anddOrMod(null)
+        }
+        //删除账号
+        function del(e){
+            var account = grid.getSelectedRow()
+
+            if(account){
+                $.ligerDialog.confirm("确定删除ID为 "+ account.id + " 的机构吗",function(r){
+                    if(r){
+                    
+                    $.post(basePath + "org/del",{id: account.id}, function(data){
+
+                        var code = data.code;
+                            var msg = data.msg;
+                            if (code == '0000') {
+                                $.ligerDialog.success(msg);
+                                // TODO: 删除账户 
+                                grid.deleteSelectedRow();
+                                                    
+                            
+                            } else if (code == '9999') {
+                                $.ligerDialog.error(msg);
+                            }
+                    
+
+                    })
+
+
+                    }
+                }) 
+            }else{
+                $.ligerDialog.warn("请选择要删除的账号")
+            }
+            
+           
+
+        }
+
+        //搜索
+        function search(){
+        	if (window.winfilter) {
+    			window.winfilter.show();
+    		} else {
+    			var filtercontainer = $("<div id=\"filtercontainer\"></div>").width(500).height(200).hide();
+    			window.filter = filtercontainer.ligerFilter({fields : searchfields});
+    			window.winfilter = $.ligerDialog.open({
+    				width : 540,
+    				height : 288,
+    				target : filtercontainer,
+    				isResize : true,
+    				top : 50,
+    				buttons : [ {
+    					text : "确定",
+    					onclick : function(item, dialog) {
+							var group = window.filter.getData();
+							var r = group.rules
+							if(r){
+							r.forEach(function(e,i ){
+								if(e.field == 'code'){
+									//e.field = 'o.code';
+									e.value = e.value.substring(0,2);
+								}
+							})								
+							}
+
+    						searchData= JSON.stringify(group);
+    						gridRefresh();
+    						dialog.hide();
+    					}
+    				},{
+    					text : "取消",
+    					onclick : function(item, dialog) {
+    						dialog.hide();
+    					}
+    				}]
+    			});
+    		}
+        }
+        //刷新列表
+        function gridRefresh() {
+    		if (grid!=null) {
+    			params["searchData"] = searchData;
+    			var p = grid.options;
+    			p.newPage = 1;
+    			grid.loadServerData(params);
+    		}
+    	}
+    </script>
+</head>
+<body>
+    <div id="menuBar"></div>
+  <div id="org"></div>
+</body>
+</html>
+

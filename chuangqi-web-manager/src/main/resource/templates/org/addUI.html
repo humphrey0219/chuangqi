@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title >更新账号</title>     
+    <f th:include="js_css::copy"></f>
+
+    <!-- <th:block th:text="${msg}" /> 直接出 -->
+    
+    <script type="text/javascript">
+            
+            //修改数据
+            var isUpdate = false
+            //是修改还是新建
+            var account
+            var v
+            var form 
+            var selectedRow
+
+            function submitForm(){
+                    if(!form){
+                        $.ligerDialog.error("请输入表单数据！");
+                        return
+                    }        
+                    //var form = liger.get("org");
+                    let data =form.getData()
+                   if(!form.valid()){
+                      $.ligerDialog.error("账号验证错误，请检查输入的信息是否正确！");
+                      return 
+                                            
+                   }
+                    var path = "org/add"
+
+                   
+                    if(isUpdate){
+                        data = $.extend(data, {id: account.id});
+                        
+                         path = "org/update";
+                    }
+                    if(!isUpdate || selectedRow){
+                        data.address = selectedRow.id ;
+                        data = $.extend(data, {code: selectedRow.zip});
+
+                    }                                                  
+                    $.post(basePath + path, data, function (data) {
+
+                        addOrUpdateRetInfoParent(data);
+                    });                    
+                                       
+                }
+            $(function () {
+                //$.metadata.setType("attr", "validate");
+
+                 form = $("#org").ligerForm({
+                    validate: {
+                        focusCleanup: true
+                    }
+                });	
+
+                $("#status").ligerComboBox();//下拉框
+                var dataGridColumns = [
+                    { header: 'ID', name: 'id', width: 20 },
+                    { header: '省份', name: 'province' },
+                    { header: '城市', name: 'city' },
+                    { header: '县/区', name: 'county'}
+                ];
+                
+                $("#addressGrid").ligerComboBox({  valueField: 'id',    selectBoxWidth: 500, isMultiSelect: false,
+
+                onChangeValue:function(v){
+            
+                    if(selectedRow){
+                  
+                    var b = liger.get("addressGrid");
+                    b.setText( selectedRow.province + "  " + selectedRow.city + "  " + selectedRow.county);
+                   // b.setValue(selectedRow.id);                        
+                    }
+                    
+                },
+
+                grid: {
+                    columns: dataGridColumns,
+                    url: "/m/zone/data",
+                    pageSize: 30,
+                    onSelectRow:function(d){
+                        selectedRow = d
+                    },
+                    allowAdjustColWidth :true,
+
+                }
+            });
+                
+
+                //如为更新数据 
+                if(parent.V.updated){
+                    isUpdate = true
+                    parent.V.updated = false
+                    account = parent.V.data
+                    b = liger.get("addressGrid");
+                    b.setText(account.province + "  " + account.city+ "  " + account.county)
+                    form.setData(account)
+                    console.log(form.getData());                    
+                }
+
+ 
+            });
+ 
+    </script>
+
+
+</head>
+<body style="padding:0px">
+
+
+    <form id="org" >
+    	<table >
+            <tr>
+                <td><label for="orgName">机构名称：</label></td>
+                <td><input id="name"  name="orgName" type="text" class="ui-textbox"  validate="{required:true}"  /></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>机构联系人：</td>
+                    <td colspan="3" width="500">
+                            <input id="agent"  name="agent" type="text" class="ui-textbox"  validate="{required:true, minlength:1}" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>机构联系电话：</td>
+                        <td colspan="3" width="500">
+                                <input id="phone"  name="phone" type="text" class="ui-textbox"   validate="{required:true, minlength:1}"/>
+                        </td>
+
+                </tr>
+                <tr>
+                    <td>机构地址：</td>
+                        <td colspan="3" width="500">
+                            <input type="text" id="addressGrid" name="address" data-comboboxid="addressGrid"   validate="{required:true}">
+                        </td>
+
+                </tr>                            
+
+
+            <tr>
+                <td> <label >状态：</label></td>
+                <td> 
+                <select id="status" name="status">
+                	<option  value="0" >禁用</option>
+                	<option  value="1" >正常</option>
+                	
+                </select> 
+                </td>
+
+            </tr>
+          
+            <tr>
+            	
+                <td colspan="2">
+                    <input class="submitBtn"  style="margin-left: 100px" value=" 提交  " type="button" onclick="submitForm()" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+           
+</body>
+</html>
+

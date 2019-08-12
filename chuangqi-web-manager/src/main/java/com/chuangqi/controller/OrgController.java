@@ -24,7 +24,7 @@ public class OrgController extends BaseController{
 
     @RequestMapping("org/listUI")
     public ModelAndView listUI() {
-        return modelAndView("org/listUI");
+        return modelAndView("org/orglistUI");
     }
 
 
@@ -40,22 +40,37 @@ public class OrgController extends BaseController{
         String action = "创建机构";
         try {
             Long result = mService.add(v) ;
-            sendOperationResult(result.intValue(), action) ;
+            sendOperationResult(result.intValue(), action+"成功") ;
         }catch (Throwable e){
-            log.error(action + " v={}, error", v, e);
+            log.error(action + " v={}, error={}", v, e);
             sendOperationResult(-1, action);
         }
     }
 
+    @RequestMapping("org/update")
+    public  void  update(OrgVo v) {
+        String action = "更新机构";
+        try {
+              Long result = mService.updateByUqKey(v);
+              sendOperationResult(result.intValue(), action+"成功");
+        }catch (Throwable e){
+            log.error(action + " v={}, error={}", v, e);
+        }
+    }
+
     @RequestMapping("org/del")
-    public  void  del(OrgVo v) {
+    public  void  del(Long id) {
         String action = "删除机构";
+        OrgVo v = new OrgVo();
+        v.setId(id);
         try {
             int  result = mService.del(v);
-            sendOperationResult(result, action);
+            sendOperationResult(result, action+"成功");
         }catch (Throwable e){
             log.error(action + " v={}, error", v, e);
+
             sendOperationResult(-1, action);
+            e.printStackTrace();
         }
     }
 

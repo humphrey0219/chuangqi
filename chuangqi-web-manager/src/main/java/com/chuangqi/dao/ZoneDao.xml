@@ -6,7 +6,7 @@
     <parameterMap type="com.chuangqi.vo.ZoneVo" id="zone"/>
 
     <sql id="sqlField">
-        `id`, `province`, `city`,`county`, `createTime`, `updateTime`
+        `id`, `province`, `city`,`county`, `zip`, `createTime`, `updateTime`
     </sql>
     <sql id="sqlWhere">
         <trim prefixOverrides="and">
@@ -22,6 +22,7 @@
             <if test="county!=null">
                 and county=#{county}
             </if>
+
         </trim>
         <if test="whereSql!=null">
             ${whereSql}
@@ -69,12 +70,14 @@
         insert into t_zone(
         province,
         city,
-        county
+        county,
+        zip
         )
         values(
         #{province},
         #{city,jdbcType = VARCHAR},
-        #{county}
+        #{county},
+        #{zip}
         )
         <selectKey resultType="long" keyProperty="id" order="AFTER">
             select @@IDENTITY as id
@@ -88,6 +91,7 @@
             <if test="province!= null">province=#{province,jdbcType=VARCHAR},</if>
             <if test="city!= null">city=#{city,jdbcType=VARCHAR},</if>
             <if test="county!= null">county=#{county,jdbcType=VARCHAR},</if>
+            <if test="zip!=null">zip=#{zip},</if>
         </trim>
         where
         <trim prefixOverrides="and">

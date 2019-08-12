@@ -21,11 +21,17 @@
             var path = "zone/add";
 
             //转换数据
-            var j = selectCity.data;          
+            var j = selectCity.data; 
+            // code 
+            var code = selectCity.city;
+            if( selectCity.county == 0){
+                code =  selectCity.city;
+            }         
             var address = {
                 province: j[selectCity.province] ,
                 city:       j[selectCity.city],
-                county:     j[selectCity.county]
+                county:     j[selectCity.county],
+                zip:      code  
             }
                 //处理更新
                 if(isUpdate){
@@ -34,15 +40,16 @@
                 }            
 
             if(selectCity && selectCity.finish){
-                console.log(selectCity)
+                //console.log(selectCity)
                 
                 if(isUpdate){
                     data = $.extend(orgAdrress, address)
                     data.createTime = null ;
+                    data.updateTime = null ;
                 }else{
                     data = address
                 }
-                console.log(data)
+                //console.log(data)
                 $.post(basePath + path, data, function (data) {
                     addOrUpdateRetInfoParent(data);
                 }); 
@@ -60,27 +67,23 @@
                 isUpdate = true
                 parent.V.updated = false
                 var city = orgAdrress = parent.V.data
-                console.log(city);
+                //console.log(city);
                 var selected = {
                     province: city.province,
                     city: city.city,
                     area: city.county
                 }
-                console.log(selected)
+                //console.log(selected)
                 cityOps = $.extend(cityOps, selected, {type: "name"});
-                console.log(cityOps)
+                //console.log(cityOps)
             }
             var ct= $('#c').citys(cityOps  , function(v){
                 selectCity = v 
-                console.log(v)
+                //console.log(v)
             });
 
         });
-        //校验通过
-        function valid() {
-            var form = liger.get("page");
-            return form.valid();
-        }   
+  
     
     
     </script>  

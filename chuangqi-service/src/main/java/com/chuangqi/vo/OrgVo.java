@@ -21,7 +21,15 @@ public class OrgVo extends BaseVo{
 
     private String phone    ; //联系电话
 
-    private String address   ; //联系地址
+    private Long address   ; //联系地址
+
+    private String code     ; //地址代码
+
+    private String province  ; //机构所在省份
+
+    private String city     ; //城市
+
+    private String county   ; // 县区
 
     private Integer status ;  //机构状态
 
