@@ -11,7 +11,7 @@
     <sql id="sqlZone">
         o.id as id , o.orgName as orgName, o.agent as agent, o.phone as phone, o.code as code,
         o.createTime as createTime, o.updateTime as  updateTime,
-        a.province as province, a.city as city, a.county as county, o.status as status FROM t_org as o
+        a.province as province, a.city as city, a.county as county,o.address as address, o.status as status FROM t_org as o
         LEFT JOIN t_zone  as a
         ON o.address = a.id
     </sql>
