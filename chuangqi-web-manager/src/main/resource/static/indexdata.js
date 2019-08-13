@@ -50,5 +50,10 @@
         text: '留言管理', isexpand: true, children: [
             {url: "leave/leavelistUI", text: "留言列表"}
         ]
+    },
+    {
+        text: '配置管理', isexpand: true, children: [
+            {url: "keyVal/keyVallistUI", text: "键值对配置"}
+        ]
     }
 ];

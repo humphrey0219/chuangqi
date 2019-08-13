@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  	<th:block th:include="js_css::copy" />
+  	
+  	<link rel="stylesheet" th:href="@{/kindeditor/themes/default/default.css}" />
+	<link rel="stylesheet" th:href="@{/kindeditor/plugins/code/prettify.css}" />
+	<script charset="utf-8" th:src="@{/kindeditor/kindeditor-all-min.js}"></script>
+	<script charset="utf-8" th:src="@{/kindeditor/lang/zh-CN.js}"></script>
+	<script charset="utf-8" th:src="@{/kindeditor/plugins/code/prettify.js}"></script>
+	
+    <script type="text/javascript">
+        $(function ()
+        {
+            $("#form1").ligerForm({
+                validate: true
+            });	
+            //$("#status").ligerComboBox();//下拉框
+            
+        });
+        
+      //校验通过
+     function valid()
+     {
+         var form = liger.get("form1");
+         return form.valid();
+     }
+     
+     function submitForm()
+     {
+    	 if(valid()){
+    		 var data = {};
+             $("input,select,textarea").each(function ()
+             {
+                 var name = $(this).attr("name");
+                 if (name && name.indexOf('ligerui') == -1)
+                 {
+                    data[name] = this.value;
+                 }
+             });
+             data["id"]="[[${vo.id}]]";
+             $.post(basePath+"keyVal/updkeyVal?&t="+new Date(),data,function(data) {
+            	 addOrUpdateRetInfoParent(data);
+	    	});
+    	 }
+     }
+
+     
+ 
+    </script>
+    <style type="text/css">
+            body{padding-left:10px;font-size:13px;}
+            h1{font-size:20px;font-family:Verdana;}
+            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
+            .description{padding-bottom:30px;font-family:Verdana;}
+            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
+			td {padding: 5px;}
+    </style>
+
+</head>
+<body style="padding:0px">
+    <form id="form1" >
+    	<table >
+            <tr>
+                <td><label for="phone">键名称：</label></td>
+                <td><input id="key"  name="key" type="text" class="ui-textbox"  validate="{required:true}" th:value="${vo.key}" /></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="phone">键描述：</label></td>
+                <td><input id="keyDesc"  name="keyDesc" type="text" class="ui-textbox"  validate="{required:true}"  th:value="${vo.keyDesc}"  /></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="phone">键值：</label></td>
+                <td><textarea rows="5" cols="80" validate="{required:true}" id="val"  name="val"  class="ui-textbox">[[${vo.val}]]</textarea></td>
+            </tr>
+            <!-- <tr>
+                <td> <label >状态：</label></td>
+                <td> 
+                <select id="status" name="status">
+                	<option  value="1" >启用</option>
+                	<option  value="0" >禁用</option>
+                </select> 
+                </td>
+            </tr> -->
+            
+            <tr>
+            	<td> <label ></label></td>
+            	<td colspan="3">  <input value=" 提交  " type="button" onclick="submitForm()" /></td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>
