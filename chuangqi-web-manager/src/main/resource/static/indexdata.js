@@ -42,7 +42,7 @@
     },
     {
         text: '新闻管理', isexpand: true, children: [
-            {url: "news/newslistUI?serviceType=10", text: "国内新闻"},
+            {url: "news/newslistUI?serviceType=10", text: "公司新闻"},
             {url: "news/newslistUI?serviceType=20", text: "行业新闻"}
         ]
     },
