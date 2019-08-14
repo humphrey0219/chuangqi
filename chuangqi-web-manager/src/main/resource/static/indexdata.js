@@ -42,13 +42,18 @@
     },
     {
         text: '新闻管理', isexpand: true, children: [
-            {url: "news/newslistUI?serviceType=10", text: "国内新闻"},
+            {url: "news/newslistUI?serviceType=10", text: "公司新闻"},
             {url: "news/newslistUI?serviceType=20", text: "行业新闻"}
         ]
     },
     {
         text: '留言管理', isexpand: true, children: [
             {url: "leave/leavelistUI", text: "留言列表"}
+        ]
+    },
+    {
+        text: '配置管理', isexpand: true, children: [
+            {url: "keyVal/keyVallistUI", text: "键值对配置"}
         ]
     }
 ];

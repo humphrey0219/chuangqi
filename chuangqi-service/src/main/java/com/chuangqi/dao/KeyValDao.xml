@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangqi.dao.KeyValDao" >
+ 	
+ 	<resultMap type="com.chuangqi.vo.KeyValVo" id="KeyValVo"/> 
+	<parameterMap type="com.chuangqi.vo.KeyValVo" id="KeyValVo"/> 
+	
+	<sql id="sqlField">
+	`id`, `key`,  `keyDesc`,val,`createTime`, `updateTime`
+	</sql>
+	<sql id="sqlWhere">
+		<trim prefixOverrides="">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 			<if test="key!=null">
+ 			and key=#{key}
+ 			</if>
+ 		</trim>
+ 		<if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</sql>
+	
+	<select id="getMapList" parameterMap="KeyValVo" resultType="java.util.Map">
+		SELECT <include refid="sqlField"></include>
+ 		from t_key_val where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	
+	<select id="getList" parameterMap="KeyValVo" resultMap="KeyValVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_key_val where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	<select id="getCount" parameterMap="KeyValVo" resultType="long">
+		SELECT count(*)
+ 		from t_key_val where 1=1
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 查询单个对象-->
+	<select id="get" parameterMap="KeyValVo" resultMap="KeyValVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_key_val where 1=1 
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 添加单个对象-->
+	<insert id="add" parameterMap="KeyValVo">
+	   	insert into t_key_val(
+			 `key`, `keyDesc`, `val`
+			)
+			values(
+			#{key},#{keyDesc},#{val}
+		)
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+		    select @@IDENTITY as id
+		 </selectKey>	   
+	</insert>
+
+	<!-- 修改信息 -->
+	<update id="updateByUqKey" parameterMap="KeyValVo">
+		update t_key_val SET 
+		<trim suffixOverrides=",">
+		<if test="key != null">`key`=#{key},</if>
+		<if test="keyDesc != null">keyDesc=#{keyDesc},</if>
+		<if test="val != null">val=#{val},</if>
+		</trim>
+		where 
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 		</trim>
+	</update>
+	
+	<delete id="del" parameterMap="KeyValVo">
+		delete from t_key_val where
+        <if test="id != null">
+            id=#{id}
+        </if>
+        <if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</delete>
+	
+</mapper>
