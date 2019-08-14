@@ -40,7 +40,7 @@
 
                    
                     if(isUpdate){
-                        data = $.extend(data, {id: account.id});
+                        data = $.extend(data, {orgId: account.orgId});
                         if(selectedRow){
                             data.address = selectedRow.id ;
                         }else {
@@ -68,14 +68,16 @@
 
                 $("#status").ligerComboBox();//下拉框
                 var dataGridColumns = [
-                    { header: 'ID', name: 'id', width: 20 },
-                    { header: '省份', name: 'province' },
-                    { header: '城市', name: 'city' },
-                    { header: '县/区', name: 'county'}
+                    {display: 'ID', name: 'id', minWidth: 120, width: 100 },
+                    {display: '省份', name: 'province',minWidth: 120, width: 100 },
+                    { display: '城市', name: 'city' ,minWidth: 120, width: 100},
+                    { display: '县/区', name: 'county',minWidth: 120, width: 100},
+                    { display: '坐标', name: 'geo' ,minWidth: 120, width: 100},
+                    { display: '详细地址', name: 'street',minWidth: 120, width: 100}
                 ];
                 
                 
-                var cityOpts = {  valueField: 'id',    selectBoxWidth: 500, isMultiSelect: false,
+                var cityOpts = {  valueField: 'id',    selectBoxWidth: 500,selectBoxHeight: 200,  isMultiSelect: false,
 
                 onChangeValue:function(v){
             
@@ -96,7 +98,7 @@
                 grid: {
                     columns: dataGridColumns,
                     url: "/m/zone/data",
-                    pageSize: 30,
+                    pageSize: 10,
                     onSelectRow:function(d){
                         selectedRow = d
                     },
@@ -145,7 +147,7 @@
 
 
     <form id="org" >
-    	<table >
+    	<table style="margin: 20px auto;" >
             <tr>
                 <td><label for="orgName">机构名称：</label></td>
                 <td><input id="name"  name="orgName" type="text" class="ui-textbox"  validate="{required:true}"  /></td>

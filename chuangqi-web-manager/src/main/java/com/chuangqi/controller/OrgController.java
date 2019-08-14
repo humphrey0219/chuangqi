@@ -62,7 +62,7 @@ public class OrgController extends BaseController{
     public  void  del(Long id) {
         String action = "删除机构";
         OrgVo v = new OrgVo();
-        v.setId(id);
+        v.setOrgId(id);
         try {
             int  result = mService.del(v);
             sendOperationResult(result, action+"成功");
@@ -80,6 +80,7 @@ public class OrgController extends BaseController{
         try {
             OrgVo v = new OrgVo();
             v.setWhereSql(getSearchRules());
+            log.info("查询条件 ={}",getSearchRules());
             Paginer<OrgVo> paginer =getPaginer();
             paginer.setObj(v);
             paginer = mService.getPaginer(paginer);

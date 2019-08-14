@@ -137,7 +137,7 @@ CREATE TABLE `t_zone` (
 
 DROP TABLE IF EXISTS `t_org`;
 CREATE TABLE `t_org` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `orgId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `orgName`      varchar(20) NOT NULL COMMENT '机构名称',
   `agent`       varchar(20) NOT NULL COMMENT '机构联系人',
   `phone`       varchar(30) NOT NULL COMMENT '联系电话',
@@ -146,6 +146,6 @@ CREATE TABLE `t_org` (
   `status` tinyint(5) NOT NULL DEFAULT '1' COMMENT '状态：1启用，0禁用',
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`orgId`)
 
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='机构管理';

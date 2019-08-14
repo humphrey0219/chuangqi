@@ -88,15 +88,44 @@
     
     </script>  
 
+<style type="text/css">
 
+    .formCell {
+        padding: 20px ;
+        text-align:  left;
+    }
+    .textInput{
+        width: 100%;
+        padding: 5px;
+    }
+</style>
 </head>
 <body style="padding:0px">
 
     <div style="margin: 20px; text-align: center">
-        <div class="citys" id="c" style="max-width: 400px">
-            <select class="city-select" name="province"></select>
-            <select class="city-select" name="city"></select>
-            <select class="city-select" name="area"></select>
+
+        <div class="form-table" >
+            <table >
+                <tr class="mtop">
+                        <td class="formCell"><label >省份/城市：</label></td>
+                        <td class="formCell">
+                                <div class="citys" id="c" style="max-width: 400px">
+                                        <select class="city-select" name="province"></select>
+                                        <select class="city-select" name="city"></select>
+                                        <select class="city-select" name="area"></select>
+                                </div>
+                        </td>
+        
+                        </tr>               
+                <tr class="mtop">
+                    <td class="formCell">
+                        <label for="orgName">详细地址：</label></td>
+                    <td class="formCell">
+                        <input class="textInput" id="name"  name="street" type="text"  validate="{required:true}"  /></td>
+
+                </tr>
+            </table>
+            
         </div>
 
 

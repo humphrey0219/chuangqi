@@ -6,10 +6,10 @@
     <parameterMap type="com.chuangqi.vo.OrgVo" id="org"/>
 
     <sql id="sqlField">
-        `id`, `orgName`, `agent`, `phone`, `address`, `status`
+        `orgId`, `orgName`, `agent`, `phone`, `address`, `status`
     </sql>
     <sql id="sqlZone">
-        o.id as id , o.orgName as orgName, o.agent as agent, o.phone as phone, o.code as code,
+        o.orgId as orgId , o.orgName as orgName, o.agent as agent, o.phone as phone, o.code as code,
         o.createTime as createTime, o.updateTime as  updateTime,
         a.province as province, a.city as city, a.county as county,o.address as address, o.status as status FROM t_org as o
         LEFT JOIN t_zone  as a
@@ -17,8 +17,8 @@
     </sql>
     <sql id="sqlWhere">
         <trim prefixOverrides="and">
-            <if test="id!=null">
-                and id=#{id}
+            <if test="orgId!=null">
+                and orgId=#{orgId}
             </if>
             <if test="orgName!=null">
                 and orgName=#{orgName}
@@ -95,8 +95,8 @@
         #{code},
         #{status}
         )
-        <selectKey resultType="long" keyProperty="id" order="AFTER">
-            select @@IDENTITY as id
+        <selectKey resultType="long" keyProperty="orgId" order="AFTER">
+            select @@IDENTITY as orgId
         </selectKey>
     </insert>
 
@@ -123,16 +123,16 @@
         </trim>
         where
         <trim prefixOverrides="and">
-            <if test="id!=null">
-                and id=#{id}
+            <if test="orgId!=null">
+                and orgId=#{orgId}
             </if>
         </trim>
     </update>
 
     <delete id="del" parameterMap="org">
         delete from t_org where
-        <if test="id != null">
-            id=#{id}
+        <if test="orgId != null">
+            orgId=#{orgId}
         </if>
 
         <if test="whereSql!=null">

@@ -26,7 +26,7 @@
                 ];
          //搜索字段
          var searchfields = [ 
-							{ display: '机构ID', name: 'id', align: 'left', width: 100,editor : {type : "String"}},
+							{ display: '机构ID', name: 'orgId', align: 'left', width: 100,editor : {type : "'number"}},
 							{ display: '机构名称', name: "orgName", editor: {type: "String"}},
                             { display: '机构联系人', name: 'agent', minWidth: 120 , editor : {type : "String"}},
                             { display: '机构联系电话', name: 'phone' , editor : {type : "String"}},
@@ -81,7 +81,7 @@
          grid = $("#org").ligerGrid({
                      height: '100%',
                     columns: [
-						{ display: '机构ID', name: 'id', align: 'left', minWidth: 60 },
+						{ display: '机构ID', name: 'orgId', align: 'left', minWidth: 60 },
 						{ display: "机构名称", name: 'orgName', minWidth: 120,},
                         {display: '机构联系人', name: 'agent', minWidth: 120 },
 						{ display: '机构联系电话', name: 'phone' , minWidth: 120},
@@ -126,7 +126,7 @@
             }
             $.ligerDialog.open({
         		width: 800,
-        		height: 350,
+        		height: 600,
         		title: title,
         		url: basePath+  url,
         		showMax: true,
@@ -154,10 +154,10 @@
             var account = grid.getSelectedRow()
 
             if(account){
-                $.ligerDialog.confirm("确定删除ID为 "+ account.id + " 的机构吗",function(r){
+                $.ligerDialog.confirm("确定删除ID为 "+ account.orgId + " 的机构吗",function(r){
                     if(r){
                     
-                    $.post(basePath + "org/del",{id: account.id}, function(data){
+                    $.post(basePath + "org/del",{id: account.orgId}, function(data){
 
                         var code = data.code;
                             var msg = data.msg;

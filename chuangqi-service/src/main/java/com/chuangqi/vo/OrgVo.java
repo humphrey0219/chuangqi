@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OrgVo extends BaseVo{
 
-    private Long id;//主见 [id, bigint, 19]
+    private Long orgId;//主见 [id, bigint, 19]
 
     private String orgName ;// 机构名称
 
