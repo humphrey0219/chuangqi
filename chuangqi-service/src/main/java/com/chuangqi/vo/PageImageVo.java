@@ -15,7 +15,8 @@ public class PageImageVo extends BaseVo{
 
     private Long id;//主键 [id, bigint, 19]
 
-    private Long page ; //页面
+    private String pageNum; //页面编号
+    //private Long page ; //页面
 
     private String number  ;   //图片编号
 

@@ -106,9 +106,9 @@ function renderDate(record, rowindex, value, column){
     
     if(value){
 
-         return yyyyMMdd(value)
+         return yyyyMMddHHmmss(value)
     }else{
-        return yyyyMMdd(record.createTime)
+        return yyyyMMddHHmmss(record.createTime)
     }
    
 }

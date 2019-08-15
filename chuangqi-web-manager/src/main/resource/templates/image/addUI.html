@@ -36,7 +36,7 @@
             });
             console.log("v :", v)
         }
-        console.log("json str", imgStr)
+        //console.log("json str", imgStr)
         var allImgs = JSON.parse(imgStr)
         if (!allImgs) {
             allImgs = []
@@ -234,8 +234,8 @@
 
                 var iform = $("#image" + index).ligerForm({
          
-                    inputWidth: 170,
-                    labelWidth: 90,
+                    inputWidth: 200,
+                    labelWidth: 80,
                     space: 40,
                     fields: [{
                             display: "",
@@ -262,7 +262,7 @@
                             name: "description",
                             newline: false,
                             type: "text",
-                            readonly: true
+                            //readonly: true
                         },
 
                     ]

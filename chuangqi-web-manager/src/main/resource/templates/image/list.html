@@ -50,11 +50,12 @@
         function onAddDialog(e) {
             
             var page = g.getSelectedRow()
+            //console.log("SelectPage is: ", page)
             if(page){
                 //选中数据通过cookie传递
                 $.cookie("image_page",JSON.stringify(page))
                 $.ligerDialog.open({
-                    url: basePath + "image/addUI/"+page.id,
+                    url: basePath + "image/addUI/"+page.number,
                     title: '管理 ['+ page.title + "] 图片",
                     height: 380, width: 1200,
                     showMax: true,

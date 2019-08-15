@@ -34,7 +34,7 @@ INSERT INTO   t_web_page (name, number,title,keyword,description) values
 DROP TABLE IF EXISTS `t_page_image`;
 CREATE TABLE `t_page_image` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `page`bigint(20)  NOT NULL COMMENT '页面类型',
+  `pageNum`  varchar(20)  NOT NULL COMMENT '页面编号',
   `number` varchar(64) NOT NULL COMMENT '图片编号',
    `url`  varchar(100) NOT NULL COMMENT '图片路径',
   `description` varchar(500)  DEFAULT NULL COMMENT '图片描述',
@@ -45,13 +45,13 @@ CREATE TABLE `t_page_image` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='网页图片管理';
 
 
-INSERT INTO `t_page_image` (`page`, `number`, `url`, `description`) values
-(1, "100", "", "主页创启团队图片"),
-(1, "101", "", "主页创启技术实力图片"),
-(2, "500", "", "测试案例A产品使用前图片"),
-(2, "501",  "", "测试案例A产品使用后图片"),
-(3, "600", "", "测试案例B产品使用前图片"),
-(3, "601", "", "测试案例B产品使用后图片");
+INSERT INTO `t_page_image` (`pageNum`, `number`, `url`, `description`) values
+("1000", "100", "", "主页创启团队图片"),
+("1000", "101", "", "主页创启技术实力图片"),
+("5000", "500", "", "测试案例A产品使用前图片"),
+("5000", "501",  "", "测试案例A产品使用后图片"),
+("5100", "600", "", "测试案例B产品使用前图片"),
+("5100", "601", "", "测试案例B产品使用后图片");
 
 
 CREATE TABLE `t_news` (
@@ -128,7 +128,7 @@ CREATE TABLE `t_zone` (
   `province` varchar(20) NOT NULL COMMENT '省份',
   `city`    varchar(20) NOT NULL COMMENT '城市',
   `county`  varchar(20) DEFAULT NULL COMMENT    '区、县',
-  `street`  varchar(100) DEFAULT NULL COMMENT '街道',
+
   `zip`    varchar(10) DEFAULT NULL  COMMENT '区域代码',
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -144,6 +144,10 @@ CREATE TABLE `t_org` (
   `address`     bigint(20) NOT NULL COMMENT '机构地址ID',
   `code`        int(8)  DEFAULT NULL COMMENT '机构地址代码',
   `status` tinyint(5) NOT NULL DEFAULT '1' COMMENT '状态：1启用，0禁用',
+  `street`      varchar(50) NOT NULL COMMENT	 '详细地址',
+  `geoX`		decimal(15,10) NOT NULL  COMMENT    '坐标X',
+ `geoY`       decimal(15,10)  NOT NULL COMMENT    '坐标Y',
+
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`orgId`)

@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.Ordered;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 /**
  *配置
@@ -17,6 +14,9 @@ public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter{
 	
 	@Value("${project.welcome.file}")
 	private String projectWelcomeFile;
+
+	@Value("upload.file.base.dir")
+    private String imageBasePath ;
 	
     @Override
     public void addViewControllers( ViewControllerRegistry registry ) {

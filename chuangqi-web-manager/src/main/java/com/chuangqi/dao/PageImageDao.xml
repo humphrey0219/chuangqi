@@ -7,7 +7,7 @@
     <parameterMap id="PageImageVo" type="com.chuangqi.vo.PageImageVo"></parameterMap>
 
     <sql id="sqlField">
-        `id`, `page`, `number` , `url`, `description` , `createTime`, `updateTime`
+        `id`, `pageNum`, `number` , `url`, `description` , `createTime`, `updateTime`
     </sql>
 
     <sql id="sqlWhere">
@@ -15,7 +15,6 @@
             <if test="id!=null">
                 and id=#{id}
             </if>
-
             <if test="number!=null">
                 and number=#{number}
             </if>
@@ -30,7 +29,7 @@
     <!-- 图片列表 -->
     <select id="getList" parameterMap="PageImageVo" resultMap="PageImageVo">
         SELECT <include refid="sqlField"></include>
-        from t_page_image where 1=1 and page=#{page}
+        from t_page_image where 1=1 and pageNum=#{pageNum}
         <include refid="sqlWhere"></include>
         <if test="orderBySql!=null">
             ${orderBySql}
@@ -45,13 +44,13 @@
     <insert id="add"  parameterMap="PageImageVo">
 
         insert into t_page_image(
-        page,
+        pageNum,
         number,
         url,
         description
         )
         values(
-        #{page},
+        #{pageNum},
         #{number,jdbcType = VARCHAR},
         #{url,jdbcType = VARCHAR},
         #{description,jdbcType = VARCHAR}
@@ -65,7 +64,7 @@
     <update id="updateByUqKey" parameterMap="PageImageVo">
         update t_page_image SET
         <trim suffixOverrides=",">
-            <if test="page != null">page=#{page},</if>
+            <if test="pageNum != null">pageNum=#{pageNum},</if>
 
             <if test="number != null">number=#{number},</if>
             <if test="url != null">url=#{url,jdbcType=VARCHAR},</if>

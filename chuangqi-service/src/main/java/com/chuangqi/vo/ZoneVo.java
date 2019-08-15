@@ -24,7 +24,7 @@ public class ZoneVo extends BaseVo{
 
     private String zip  ; //区域代码
 
-    private String street ;  //街道;详细地址
+
 
 
 

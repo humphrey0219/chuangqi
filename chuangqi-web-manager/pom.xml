@@ -150,7 +150,7 @@
 			<resource>
 				<directory>src/main/java</directory>
 				<includes>
-					<include>com/**/**.xml</include>
+					<include>**/**.xml</include>
 				</includes>
 			</resource>
 			<resource>

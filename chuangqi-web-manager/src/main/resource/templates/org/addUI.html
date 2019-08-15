@@ -50,6 +50,13 @@
                     }else{
                          data = $.extend(data, {code: selectedRow.zip, address: selectedRow.id});
                     }
+                    //坐标数据
+                    if(data.geo && data.geo.length > 0){
+                        var geo = data.geo.split("    ")
+                        data = $.extend(data, {geoX: geo[0], geoY: geo[1]})
+                    }else {
+                        $.ligerDialog.error("请选择地理坐标！")                    
+                    }
                                                 
                     $.post(basePath + path, data, function (data) {
 
@@ -169,12 +176,26 @@
 
                 </tr>
                 <tr>
-                    <td>机构地址：</td>
+                    <td>城市：</td>
                         <td colspan="3" width="500">
                             <input type="text" id="addressGrid" name="address" data-width="176" data-comboboxid="addressGrid"   validate="{required:true}">
                         </td>
 
-                </tr>                            
+                </tr>    
+                <tr>
+                    <td>机构地址：</td>
+                        <td colspan="3" width="500">
+                            <input type="text" id="street" name="street" data-width="176" class="ui-textbox"   validate="{required:true}">
+                        </td>
+
+                </tr>
+                <tr>
+                    <td>机构地址坐标：</td>
+                        <td colspan="3" width="500">
+                            <input type="text" id="geo" name="geo" data-width="176" class="ui-textbox"   validate="{required:true}">
+                        </td>
+
+                </tr>                                                          
 
 
             <tr>

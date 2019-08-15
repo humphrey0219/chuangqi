@@ -138,15 +138,24 @@ public class PageImageController extends BaseController{
 
 
         log.error("保存图片 file {} name {}, size {} ",f, f.getOriginalFilename(), f.getSize());
+        //查看存储目录是否存在
+        java.io.File baseDir = new java.io.File(uploadFileBaseDir + webImageTempDir); //  + f.getOriginalFilename());
+        if(!baseDir.exists()) {
+           if(!baseDir.mkdirs()) {
+               sendOperationResult(-1, "上传图片");
+               return ;
+           }
+        }
+
+        baseDir = new java.io.File(baseDir.getAbsolutePath() + "/" +  f.getOriginalFilename());
 
 
-        java.io.File des = new java.io.File(uploadFileBaseDir + webImageTempDir  + f.getOriginalFilename());
 
-        log.error("图片地址 {}", des.getAbsolutePath());
+        log.info("图片地址 {}", baseDir.getAbsolutePath());
 
         try {
-            f.transferTo(des);
-            sendOperationResult(1, "image/"+ f.getOriginalFilename());
+            f.transferTo(baseDir);
+            sendOperationResult(1, webImageTempDir + "/" + f.getOriginalFilename());
         } catch (IOException e) {
             e.printStackTrace();
             log.error("保存出错 {}", e);
@@ -169,12 +178,12 @@ public class PageImageController extends BaseController{
     }
 
     // 新建,更新页面图片视图
-    @RequestMapping("image/addUI/{page}")
-    public ModelAndView index(@PathVariable Long page){
+    @RequestMapping("image/addUI/{pageNum}")
+    public ModelAndView index(@PathVariable String pageNum){
         PageImageVo pageImageVo = new PageImageVo() ;
 
         try{
-                pageImageVo.setPage(page);
+                pageImageVo.setPageNum(pageNum);
 
                 List images = mService.getList(pageImageVo);
 
@@ -192,12 +201,12 @@ public class PageImageController extends BaseController{
     }
 
   // 页面图片，一个页面的所有图片数据
-    @RequestMapping("image/data/{page}")
-    public void allPage(@PathVariable Long page){
+    @RequestMapping("image/data/{pageNum}")
+    public void allPage(@PathVariable String pageNum){
         PageImageVo pageImageVo = new PageImageVo() ;
         try{
 
-            pageImageVo.setPage(page);
+            pageImageVo.setPageNum(pageNum);
 
             List pages = mService.getList(pageImageVo);
             //GridData data = new GridData(pages, pages.size());

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @SuppressWarnings("serial")
 @Getter
 @Setter
@@ -30,6 +32,12 @@ public class OrgVo extends BaseVo{
     private String city     ; //城市
 
     private String county   ; // 县区
+
+    private String street     ; //详细地址
+
+    private BigDecimal geoX      ;//坐标X
+
+    private  BigDecimal geoY        ; //坐标Y
 
     private Integer status ;  //机构状态
 

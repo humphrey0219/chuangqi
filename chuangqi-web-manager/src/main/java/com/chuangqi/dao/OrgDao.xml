@@ -10,6 +10,7 @@
     </sql>
     <sql id="sqlZone">
         o.orgId as orgId , o.orgName as orgName, o.agent as agent, o.phone as phone, o.code as code,
+        o.street as street, o.geoX as geoX, o.geoY as geoY,
         o.createTime as createTime, o.updateTime as  updateTime,
         a.province as province, a.city as city, a.county as county,o.address as address, o.status as status FROM t_org as o
         LEFT JOIN t_zone  as a
@@ -85,6 +86,9 @@
         phone,
         address,
         code,
+        street,
+        geoX,
+        geoY,
         status
         )
         values(
@@ -93,6 +97,9 @@
         #{phone},
         #{address},
         #{code},
+        #{street},
+        #{geoX},
+        #{geoY},
         #{status}
         )
         <selectKey resultType="long" keyProperty="orgId" order="AFTER">
@@ -116,9 +123,19 @@
             <if test="address!=null">
                 address=#{address},
             </if>
+            <if test="street">
+                street=#{street},
+            </if>
+            <if test="geoX">
+                geoX=#{geoX},
+            </if>
+            <if test="geoY">
+                geoY=#{geoY},
+            </if>
             <if test="status!=null">
                 status=#{status},
             </if>
+
 
         </trim>
         where

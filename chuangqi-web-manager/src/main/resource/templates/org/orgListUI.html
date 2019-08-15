@@ -18,6 +18,11 @@
             updated : false,
             data : null
         }
+        //转换坐标 （23.0000， 42.2234）
+        function renderGeo(row){
+            console.log(row);
+            return  "(" + row.geoX + " " + row.geoY + ")";
+        }
 		var dataGridColumns = [
                     { header: 'ID', name: 'id', width: 20 },
                     { header: '省份', name: 'province' },
@@ -42,7 +47,7 @@
     																	  }
 							},
 							{
-										display: "机构地址", name: 'code', editor: {
+										display: "城市", name: 'code', editor: {
 											type: "combobox",
 											options: {
 												valueField: 'zip', 
@@ -63,7 +68,7 @@
 												}
 											}
 										}
-									}
+									},                       
 
 
 								];
@@ -82,13 +87,15 @@
                      height: '100%',
                     columns: [
 						{ display: '机构ID', name: 'orgId', align: 'left', minWidth: 60 },
-						{ display: "机构名称", name: 'orgName', minWidth: 120,},
+						{ display: "机构名称", name: 'orgName', minWidth: 200,},
                         {display: '机构联系人', name: 'agent', minWidth: 120 },
 						{ display: '机构联系电话', name: 'phone' , minWidth: 120},
 						{ display: '省/自治区', name: 'province', minWidth: 120},
 						{ display: '城市', 		name: 'city', minWidth: 120},
 						{ display: '县/区',		name: 'county',minWidth: 120},
-                        { display: '状态', name: 'status', minWidth: 140 ,render:renderStatus },
+                        { display: '机构地址', name: 'street' , minWidth: 250},
+                        { display: '机构地理坐标', name: 'goe' , minWidth: 240, render: renderGeo}, 
+                        { display: '状态', name: 'status', minWidth: 80 ,render:renderStatus },
                         { display: '创建时间', name: 'createTime', render: renderDate,minWidth: 120},
                         { display: '更新时间', name: 'updateTime', render: renderDate,minWidth: 120}
                     ],   pageSize: 10, rownumbers: true,
