@@ -277,6 +277,7 @@
             //初始化图片项
             function initImageForm(images) {
                 images.forEach(function (element, index) {
+                    element = $.extend(element, {oldUrl: element.url})
                     console.log(element, index);
                     buildForm(index, element)
                 });
@@ -400,7 +401,7 @@
                         success: function (res) {
                             $("#upLoadImage").children("#innerText").text("重选图片");
                             //previewBtn.show()
-                            var path = "/m/" + res.msg
+                            var path = res.msg
                             images[f.data("image")].url = path
                             $("#img_" + f.data("image")).attr('src', path)
                             console.log(res);

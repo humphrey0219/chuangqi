@@ -22,6 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 /**
@@ -110,25 +114,115 @@ public class PageImageController extends BaseController{
             for (int i = 0; i < images.size(); i++) {
                 PageImageVo imageVo = images.get(i);
 
+                String o = imageVo.getOldUrl();
+                String n  = imageVo.getUrl() ;
+
+                if(!o.equals(n)){
+                    String webUrl = n.replace("temp", "web");
+                    imageVo.setUrl(webUrl);
+                }
+
+
                 //更新图片
+
                 if(imageVo.getId() > 0){
+
+
+
                     mService.updateByUqKey(imageVo);
+
                 }else{
                     //新创建图片
+
                     mService.add(imageVo);
+
+                }
+
+                if(!o.equals(n)){
+
+                    //log.info("修改 保存的url; url={}", webUrl);
+
+
+                    moveFileToDes(n.substring(n.lastIndexOf("/")));
+
+                    //原图片是否为共享
+                    PageImageVo pageSharedImage = new PageImageVo();
+                    pageSharedImage.setUrl(o);
+                    //pageSharedImage.setWhereSql("url=\""+ o + "\"");
+                    long count =mService.getCount(pageSharedImage);
+                    log.info("图片引用数量={} url ={}",count);
+                    if(count == 0){
+                        log.info("图片不共享；删除 old={}, new={}", o, n);
+                        String oldFileName = new StringBuilder()
+                                .append(uploadFileBaseDir)
+                                .append(webImageDir).append("/")
+                                .append(o.substring(o.lastIndexOf("/"))).toString();
+                        Path oldFile = Paths.get(oldFileName);
+                        if(oldFile.toFile().exists()){
+
+                            if(!oldFile.toFile().delete()){
+                                log.error("删除旧图片失败； file name={}", oldFileName );
+                            }
+                        }
+                    }
                 }
 
             }
             log.error("图片数据,  jsonStr={}",  images);
+
+            //删除临时目录中无用的图片
 
             sendOperationResult(9, "图片发布");
 
         }catch (Throwable e){
             log.error("图片发布异常,异常信息={}",  e);
             sendOperationResult(-1, "图片发布");
+        }finally {
+            delTempImage();
         }
 
     }
+
+    private void  moveFileToDes(String fileName){
+        //java.io.File f = new java.io.File("des");
+        log.info("Move file to des; file name={}", fileName);
+        Path source = null ;
+        Path des  = null ;
+        try{
+            source= Paths.get(uploadFileBaseDir + webImageTempDir + "/" + fileName);
+           des = Paths.get(uploadFileBaseDir + webImageDir + "/" + fileName);
+            java.io.File copyFile = des.toFile() ;
+           if(!copyFile.exists()){
+               if(!copyFile.mkdirs()){
+                   log.error("创建文件失败 file={}", copyFile);
+               }
+           }
+            Files.move(source, des, StandardCopyOption.REPLACE_EXISTING);
+        }catch (Throwable e){
+            log.error("Move图片失败; source ={}, des={}, error={}", source, des, e);
+        }
+
+    }
+
+    private void delTempImage(){
+        Path tempPath = Paths.get(uploadFileBaseDir + webImageTempDir);
+
+        try {
+            java.io.File[] files =tempPath.toFile().listFiles();
+            for(int i = 0 ; i < files.length ; i++) {
+                java.io.File f = files[i] ;
+                if(!f.delete()){
+                    log.error("删除文件失败 file={}",f);
+
+                }
+            }
+
+        }catch (Throwable e){
+            log.error("删除临时文件失败 error={}", e);
+        }
+    }
+
+
 
     // 保存上传图片
     @RequestMapping("image/save")
@@ -155,7 +249,7 @@ public class PageImageController extends BaseController{
 
         try {
             f.transferTo(baseDir);
-            sendOperationResult(1, webImageTempDir + "/" + f.getOriginalFilename());
+            sendOperationResult(1, resourceDomainUrl + "/" + webImageTempDir + f.getOriginalFilename());
         } catch (IOException e) {
             e.printStackTrace();
             log.error("保存出错 {}", e);

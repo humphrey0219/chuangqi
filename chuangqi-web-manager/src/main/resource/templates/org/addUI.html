@@ -52,7 +52,7 @@
                     }
                     //坐标数据
                     if(data.geo && data.geo.length > 0){
-                        var geo = data.geo.split("    ")
+                        var geo = data.geo.split(",")
                         data = $.extend(data, {geoX: geo[0], geoY: geo[1]})
                     }else {
                         $.ligerDialog.error("请选择地理坐标！")                    
@@ -79,8 +79,6 @@
                     {display: '省份', name: 'province',minWidth: 120, width: 100 },
                     { display: '城市', name: 'city' ,minWidth: 120, width: 100},
                     { display: '县/区', name: 'county',minWidth: 120, width: 100},
-                    { display: '坐标', name: 'geo' ,minWidth: 120, width: 100},
-                    { display: '详细地址', name: 'street',minWidth: 120, width: 100}
                 ];
                 
                 
@@ -122,7 +120,9 @@
                     account = parent.V.data
                     //b = liger.get("addressGrid");
                     //b.setText(account.province + "  " + account.city+ "  " + account.county)
-
+                    //生成坐标数据
+                    var geo = renderGeo(account);
+                    account = $.extend(account, {geo: geo});
                     form.setData(account)
                     T = account.province + "  " + account.city + "  "
                     if(account.county){
