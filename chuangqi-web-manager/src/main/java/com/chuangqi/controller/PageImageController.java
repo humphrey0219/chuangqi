@@ -46,6 +46,9 @@ public class PageImageController extends BaseController{
 
     protected String  webImageTempDir;
 
+    @Value("${server.context-path}")
+    private  String  contextPath ;
+
     @Autowired
     private PageImageService     mService ;
 
@@ -118,7 +121,7 @@ public class PageImageController extends BaseController{
                 String n  = imageVo.getUrl() ;
 
                 if(!o.equals(n)){
-                    String webUrl = n.replace("temp", "web");
+                    String webUrl = n.replace(contextPath+webImageTempDir, resourceDomainUrl+webImageDir);
                     imageVo.setUrl(webUrl);
                 }
 
@@ -249,7 +252,7 @@ public class PageImageController extends BaseController{
 
         try {
             f.transferTo(baseDir);
-            sendOperationResult(1, resourceDomainUrl + "/" + webImageTempDir + f.getOriginalFilename());
+            sendOperationResult(1, contextPath  + webImageTempDir + "/" + f.getOriginalFilename());
         } catch (IOException e) {
             e.printStackTrace();
             log.error("保存出错 {}", e);
