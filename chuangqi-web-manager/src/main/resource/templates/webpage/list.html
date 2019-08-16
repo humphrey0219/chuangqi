@@ -6,15 +6,6 @@
     <!-- <th:block th:text="${msg}" /> 直接出 -->
     
 
-    <style type="text/css">
-            body{font-size:13px;margin: 0 auto}
-            h1{font-size:20px;font-family:Verdana;}
-            h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
-            .description{padding-bottom:30px;font-family:Verdana;}
-            .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
-			td {padding: 5px;}
-    </style>
-
 </head>
 <body style="padding:0px">
 
@@ -82,16 +73,16 @@
                     columns: [
                         { display: '页面ID', name: 'id', align: 'left', width: 100, minWidth: 60 },
                         { display: '页面名称', name: 'name', minWidth: 120 },
-                        { display: '页面编号', name: 'number'},
+                        { display: '页面编号', name: 'number'  , minWidth: 100},
                         { display: '页面标题', name: 'title', minWidth: 140 },
-                        { display: '页面关键词', name: 'keyword' },
-                        { display: '页面描述', name: 'description'}
+                        { display: '页面关键词', name: 'keyword' , minWidth: 200 },
+                        { display: '页面描述', name: 'description', minWidth: 250}
                     ],   pageSize: 10, rownumbers: true,
                     toolbar: {
                         items: [
-                            { text: '增加', click: onAdd, icon: 'add' },
+                            { text: '增加', click: onAdd,img: basePath+'lib/ligerUI/skins/icons/add.gif' },
                             { line: true },
-                            { text: '修改', click: onModifyed, icon: 'modify' },
+                            { text: '修改', click: onModifyed, img: basePath+'lib/ligerUI/skins/icons/modify.gif' },
                             { line: true },
                             { text: '删除', click: onDelItme, img: basePath+'lib/ligerUI/skins/icons/delete.gif' },
                             { line: true },
