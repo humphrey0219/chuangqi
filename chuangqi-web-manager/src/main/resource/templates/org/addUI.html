@@ -50,8 +50,13 @@
                     }else{
                          data = $.extend(data, {code: selectedRow.zip, address: selectedRow.id});
                     }
-                    //坐标数据
+                    //坐标数据   验证坐标
                     if(data.geo && data.geo.length > 0){
+                        var point = data.geo.indexOf(",");
+                        if(point< 0 || point != data.geo.lastIndexOf(",")){
+                            form.showFieldError("geo","坐标格式应为 23.234 ， 234.5234");
+                            return 
+                        }
                         var geo = data.geo.split(",")
                         data = $.extend(data, {geoX: geo[0], geoY: geo[1]})
                     }else {
