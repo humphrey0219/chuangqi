@@ -27,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 页面图片控制类
@@ -121,7 +122,7 @@ public class PageImageController extends BaseController{
                 String n  = imageVo.getUrl() ;
 
                 if(!o.equals(n)){
-                    String webUrl = n.replace(contextPath+webImageTempDir, resourceDomainUrl+webImageDir);
+                    String webUrl = n.replace(resourceDomainUrl+webImageTempDir, resourceDomainUrl+webImageDir);
                     imageVo.setUrl(webUrl);
                 }
 
@@ -233,8 +234,11 @@ public class PageImageController extends BaseController{
 
         MultipartFile f = file.getFile();
 
+        String uuidName = UUID.randomUUID().toString() + f.getOriginalFilename().substring(f.getOriginalFilename().lastIndexOf("."));
 
-        log.error("保存图片 file {} name {}, size {} ",f, f.getOriginalFilename(), f.getSize());
+
+
+        log.error("保存图片 file {} name {}, size {} , uuidName {} ",f, f.getOriginalFilename(), f.getSize(), uuidName);
         //查看存储目录是否存在
         java.io.File baseDir = new java.io.File(uploadFileBaseDir + webImageTempDir); //  + f.getOriginalFilename());
         if(!baseDir.exists()) {
@@ -244,7 +248,7 @@ public class PageImageController extends BaseController{
            }
         }
 
-        baseDir = new java.io.File(baseDir.getAbsolutePath() + "/" +  f.getOriginalFilename());
+        baseDir = new java.io.File(baseDir.getAbsolutePath() + "/" +  uuidName);
 
 
 
@@ -252,7 +256,7 @@ public class PageImageController extends BaseController{
 
         try {
             f.transferTo(baseDir);
-            sendOperationResult(1, contextPath  + webImageTempDir + "/" + f.getOriginalFilename());
+            sendOperationResult(1, resourceDomainUrl  + webImageTempDir + "/" + uuidName);
         } catch (IOException e) {
             e.printStackTrace();
             log.error("保存出错 {}", e);
