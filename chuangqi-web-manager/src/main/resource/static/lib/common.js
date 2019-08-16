@@ -117,5 +117,5 @@ function renderDate(record, rowindex, value, column){
 //转换坐标 （23.0000， 42.2234）
 function renderGeo(row){
     //console.log(row);
-    return  row.geoX + "," + row.geoY;
+    return  row.geoX + " , " + row.geoY;
 }
