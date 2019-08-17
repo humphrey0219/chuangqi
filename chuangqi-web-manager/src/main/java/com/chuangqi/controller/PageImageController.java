@@ -122,7 +122,7 @@ public class PageImageController extends BaseController{
                 String n  = imageVo.getUrl() ;
 
                 if(!o.equals(n)){
-                    String webUrl = n.replace(resourceDomainUrl+webImageTempDir, resourceDomainUrl+webImageDir);
+                    String webUrl = n.replace(resourceDomainUrl+webImageTempDir, webImageDir);
                     imageVo.setUrl(webUrl);
                 }
 
@@ -271,6 +271,7 @@ public class PageImageController extends BaseController{
             Paginer<PageImageVo> painter = getPaginer();
             painter.setObj(v);
             painter = mService.getPaginer(painter);
+
             outPage(painter);
         }catch (Throwable e){
             log.error("读取页面图片列表错误 error = {}", e);
@@ -286,8 +287,13 @@ public class PageImageController extends BaseController{
         try{
                 pageImageVo.setPageNum(pageNum);
 
-                List images = mService.getList(pageImageVo);
-
+                List<PageImageVo> images = mService.getList(pageImageVo);
+            for(int i = 0 ;i < images.size(); i++){
+                PageImageVo img = images.get(i);
+                if(img.getUrl().startsWith("/web")){
+                    img.setUrl(showResourceDomainUrl(img.getUrl()));
+                }
+            }
                 String imgStr = JSONObject.toJSONString(images);
 
             modelAndView("image/addUI");
