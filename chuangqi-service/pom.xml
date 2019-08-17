@@ -12,6 +12,29 @@
 
   <name>chuangqi-service</name>
   <description>创启官网公共业务</description>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--<version>1.4.2.RELEASE</version> -->
+                <!-- 1.4.2.RELEASE 这个版本对应才能打包jar访问jsp页面，其他版本不行 -->
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/**.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/java/resource</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resource</directory>
+            </resource>
+        </resources>
+    </build>
 
 </project>

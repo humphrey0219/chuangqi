@@ -14,15 +14,12 @@ public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter{
 	
 	@Value("${project.welcome.file}")
 	private String projectWelcomeFile;
-
-	@Value("upload.file.base.dir")
-    private String imageBasePath ;
 	
     @Override
     public void addViewControllers( ViewControllerRegistry registry ) {
     	// 首页默认访问文件
         registry.addViewController("").setViewName(projectWelcomeFile);
-        registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
+        //registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
         super.addViewControllers( registry );
     } 
     
