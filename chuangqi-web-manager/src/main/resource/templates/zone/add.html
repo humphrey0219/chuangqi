@@ -24,15 +24,26 @@
             var j = selectCity.data; 
             // code 
             var code = selectCity.city;
-            if( selectCity.county == 0){
-                code =  selectCity.city;
-            }         
+
             var address = {
-                province: j[selectCity.province] ,
-                city:       j[selectCity.city],
-                county:     j[selectCity.county],
-                zip:      code  
-            }
+                    province: j[selectCity.province] ,
+                    city:       j[selectCity.city],
+                    county:     j[selectCity.county],
+                    zip:      code  
+                }   
+            //console.log(selectCity);          
+            if(!selectCity.county ){
+                code =  selectCity.city;
+                addres = $.extend(address,{
+                    province:  j[selectCity.province],
+                    city:       j[selectCity.province] ,
+                    county:     j[selectCity.city],
+                    zip:      code  
+                } ) ;
+                                
+               
+            }       
+
                 //处理更新
                 if(isUpdate){
                     path = "zone/update";
@@ -67,15 +78,18 @@
                 isUpdate = true
                 parent.V.updated = false
                 var city = orgAdrress = parent.V.data
-                //console.log(city);
                 var selected = {
-                    province: city.province,
-                    city: city.city,
-                    area: city.county
-                }
+                        province: city.province,
+                        city: city.city,
+                        area: city.county
+                    }                
+                
+
+
+
                 //console.log(selected)
                 cityOps = $.extend(cityOps, selected, {type: "name"});
-                //console.log(cityOps)
+                console.log(cityOps)
             }
             var ct= $('#c').citys(cityOps  , function(v){
                 selectCity = v 
