@@ -62,6 +62,7 @@ public class CommonController extends BaseController{
 					return ;
 				}
 				resultCode.setSuccess("登录成功");
+				getRequest().getSession().removeAttribute(RandomCodeUtil.RD_CODE);
 				getRequest().getSession().setAttribute(Constant.SESSION_LOGIN_USER, vo);
 			}else{
 				resultCode.setFail("账号密码错误");
@@ -92,7 +93,6 @@ public class CommonController extends BaseController{
              response.getOutputStream().write(rdnu.getImageBytes());//取得带有随机字符串的图片  
              String str = rdnu.getString().toString();
              request.getSession().setAttribute(RandomCodeUtil.RD_CODE, str);//取得随机字符串放入HttpSession
-             request.getSession().setMaxInactiveInterval(1000*60*10);
              log.info("生成随机验证码={}",str);
         } catch (Exception e) {
             e.fillInStackTrace();
