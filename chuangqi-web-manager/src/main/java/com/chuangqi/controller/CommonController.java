@@ -28,7 +28,7 @@ import com.chuangqi.vo.SysAccountVo;
 public class CommonController extends BaseController{
 	@Autowired
 	private SysAccountService sysAccountService;
-	
+
 	@RequestMapping("/common/loginUI")
 	public ModelAndView loginUI(){
 		return new ModelAndView("loginUI");
