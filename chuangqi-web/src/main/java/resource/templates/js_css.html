@@ -1,0 +1,84 @@
+<f th:fragment="copy"> 
+    <link th:href="@{/lib/ligerUI/skins/Aqua/css/ligerui-all.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/lib/ligerUI/skins/ligerui-icons.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/lib/ligerUI/skins/Gray/css/all.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{/lib/jquery/jquery-1.9.0.min.js}" type="text/javascript"></script> 
+    <script th:src="@{/lib/ligerUI/js/ligerui.all.js}"></script>
+    
+    <link th:href="@{/lib/ligerUI/skins/Gray2014/css/all.css}" rel="stylesheet" />
+    <script th:src="@{/lib/jquery-validation/jquery.validate.min.js}"></script>
+    <script th:src="@{/lib/jquery-validation/jquery.metadata.js}"></script>
+    <script th:src="@{/lib/jquery-validation/messages_cn.js}"></script>
+    <script th:src="@{/lib/ligerUI/js/plugins/ligerDateEditor.js}" type="text/javascript"></script>
+
+    <script th:src="@{/lib/common.js}"></script>
+    <script th:src="@{/lib/jquery.cookie.js}"></script>
+    <script th:src="@{/lib/md5.js}"></script>
+    <script type="text/javascript">
+    	 	var basePath ="[[@{/}]]";
+    </script> 
+
+    <style type="text/css">
+        body{font-size:13px;margin: 0 auto}
+        h1{font-size:20px;font-family:Verdana;}
+        h4{font-size:16px;margin-top:25px;margin-bottom:10px;}
+        .description{padding-bottom:30px;font-family:Verdana;}
+        .description h3{color:#CC0000;font-size:16px;margin:0 30px 10px 0px;padding:45px 0 8px;border-bottom:solid 1px #888;}
+        td {padding: 5px;}
+        .uploadBtn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid aliceblue;
+        }
+        .fileInput{
+                        position: absolute;
+            left: 0px;
+            top: 0px ;
+            opacity: 0;
+            padding: 10px 20px;
+            max-width: 50px;
+            }
+        .mtop{
+            margin-top: 30px 
+        }
+        .center_btn {
+            text-align: center ;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+        }
+        .inline_block {
+            display: inline-block
+        }
+        .preview_img {
+            
+            width: 40px;
+            height: 40px;
+            margin: auto
+        }
+        .image_wrapper {
+            text-align: center;
+            margin-right: 40px;
+        }
+        .delBtn {
+            
+        }
+        .delBtn:hover {
+            display: inline-block
+        }
+        .error{
+        color: #CC0000;
+        border-bottom: 1px solid #CC0000
+        }
+        .valid{
+            border-bottom: 1px solid green
+        }
+        .submitBtn {
+            margin-top: 20px;
+            padding: 5px 20px;
+        }
+    </style>
+
+</f>
