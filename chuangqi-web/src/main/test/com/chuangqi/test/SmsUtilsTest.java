@@ -53,7 +53,7 @@ public class SmsUtilsTest {
 	}
 	
 	public static void main(String[] args) {
-		    DefaultProfile profile = DefaultProfile.getProfile("default", "LTAIy7bJhCsjfx4K", "I5bLl0eVtXKukIxWmCnpzYsrat5FEY");
+		    DefaultProfile profile = DefaultProfile.getProfile("default", "appId", "srkey");
 	        IAcsClient client = new DefaultAcsClient(profile);
 
 	        CommonRequest request = new CommonRequest();
