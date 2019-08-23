@@ -43,20 +43,21 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+            <!--
 			 <exclusions>                
 				 <exclusion>                    
 				 <groupId>org.springframework.boot</groupId>                    
 				 <artifactId>spring-boot-starter-tomcat</artifactId>                
-				 </exclusion>            
-			 </exclusions>
+				 </exclusion>
+			 </exclusions> -->
 		</dependency>
 		<!-- 采用 undertow 高性能服务器，去掉默认tomcat服务器，可惜不支持jsp技术 -->
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
-		</dependency>
+		</dependency> -->
 		
-		
+
 	     <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
@@ -66,7 +67,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-		
+
 		<!-- <dependency>
 		  <groupId>io.lettuce</groupId>
 		  <artifactId>lettuce-core</artifactId>
