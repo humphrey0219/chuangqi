@@ -3,319 +3,11 @@
     <head>
         <title >隐贝官方</title>     
         <th:block th:include="js_css::copy" />
+        <!-- 主页CSS-->
+        <th:block th:include="js_css::home_css" />
         <!-- <th:block th:text="${msg}" /> 直接出 -->
         
-        <style type="text/css">
-          .justify {
-                display: inline-block;
-                vertical-align: top;
-                width:100%;
-                text-align: justify;
-            }
-            .justify::after{
-                content:"";
-                display: inline-block;
-                width:100%;
-                overflow:hidden;
-                height:0;
-            }
-        #page_footer {
-            background-color: #00a0ff;
-            position: absolute;
-            padding: 40px 20px;
-            bottom: 0px;
-            right: 0px;
-            left: 0px;                      
-        }
-        #test_tip {
-            margin: 20px auto ;
-        }
-        .over-hide {
-            overflow: hidden;
-        }
-        #top_nav {
-            padding: 0px 0px 0px 40px ;
-            justify-content: center
-        }
-        .nav_top_icon{
-            margin-left: 15px;
-        }
-        #top_nav .nav-item{
-            font-size: 18px ;
-            
-            border-bottom: 2px solid white;
-        }
-        #top_nav .nav-item.active{
-            border-bottom: 2px solid rgb(49, 137, 220) ;
-        }
-        #left-menu{
 
-            width:60px;
-            height: 60px;
-            border-radius: 50%;
-            
-            color: white;
-            position: fixed;
-            right: -30px;
-            bottom: 50%;
-            z-index: 100;
-            display: none;
-        }
-        #left-menu-list {
-
-            color: white ;
-            color: rgb(49, 137, 220);
-            position: fixed;
-            max-width: 200px ;
-            bottom: 40% ;
-            right: 0px;
-          
-            z-index: 100;
-            
-        } 
-        .common_list {
-            background-color: #50c8ff;
-            list-style: none;
-                list-style-position: outside;
-            list-style-position: outside;
-            color: white;
-            padding: 20px;
-
-        }  
-        .common_list .item {
-            margin: 10px ;
-        } 
-        .common_list .item img {
-            padding-right: 20px;
-        }    
-        .box{
-            padding: 5% ;
-            margin:auto ;
-        }
-        .img_box{
-           
-        }
-        #next_icon {
-            position: absolute;
-            bottom: 0px;
-            text-align: center;
-            left: 0px;
-            right: 0px;
-            bottom: 20px;
-        }
-        #main_logo{
-            position: absolute;
-            bottom: 50%;
-            text-align: right;
-            
-            right: 10%;
-            
-        }
-        .relative {
-            position: relative;
-        }
-        .menu {
-
-        }
-        .common_padding {
-            padding: 5%;           
-        }
-        .menus .item {
-            margin-right: 20px;
-        }
-
-        .p-hover{
-            display: none ;
-        } 
-        #nav-menu {
-            
-            opacity: 0.7;
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            width: 100%;
-            background-color: #f2edef;
-            
-            z-index: 100;
-        }
-        .full-view {
-            position: absolute;
-           
-            height: 100%;
-            width: 100%;
-            left: 0px;
-            right: 0px;      
-            overflow: hidden;      
-        }
-        .full-view-normal {          
-            position: relative;
-
-                        
-        } 
-        .page {
-
-                    
-        }
-        .page_scroll {
-            position: relative ;
-            height: 100%;
-            width: 100%;
-            left: 0px;
-            right: 0px;   
-            overflow: hidden ;            
-        }
-        .case {
-            width: 80%;
-            margin: auto ;
-        }
-        .case .pic {
-            width: 600px ;
-            height: 600px;
-            margin: auto ;
-            overflow: hidden;
-            background-repeat:no-repeat;
-            background-position:left;
-            background-origin:content-box;
-        }
-        .title, .des {
-            width: 600px ;
-            padding-top: 20px ;
-            margin: auto ;          
-        } 
-        .title {
-            font-size: 26px;
-        }
-        .fix-img {
-            width: 500px ;
-            margin: auto;
-        }        
-
-        .des {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-        #case_left {
-            padding: 5%;
-            width: 100% ;
-            height: 100%;
-            
-        }
-        #case_left p, #case_left h2, #case_left button {
-            margin-bottom: 10px ;
-        }
-        .flex_row {
-            display: flex;
-
-        }
-        .flex_row.center {
-            justify-content: center ;
-        }
-        .flex_row .avatar {
-            margin-right: 20px ;
-        }
-        .case {
-            padding: 20px 0px ;
-        }
-        #discover_tip p{
-            margin-top: 5px ;
-            font-size: 24px;
-            
-        }
-        .footer_menu_items {
-            text-align: center ;
-        }
-        .footer_menu_items .item {
-            color: white
-        }
-        .user .name {
-            font-size: 24px ;
-        }
-        .user .wa {
-            font-size: 14px ;
-            opacity: 0.8;
-        }
-        .age, .feature {
-            font-size: 18px;
-            opacity: 0.7;
-        }
-        .more {
-            padding: 5px 20px;
-            border-radius: 20px;
-
-            border: 1px solid #d2c7c7;            
-        }
-        .footer_nav_item_icon {
-            padding: 10px;
-
-        }
-        .page_footer_info_col {
-            max-width:  400px;
-            background: url('/m/pic/footer/00yj_line.png') no-repeat 100% ;
-        }
-
-        .doctor_images img {
-            margin-right: 2%
-
-        }
-        .doctor_images {
-            display: flex;
-            flex-wrap: inherit;
-            margin-right: 1%;
-        }
-        .inherite_w_h {
-            width: inherit;
-            height: inherit;            
-        }
-        .lg_text{
-            font-size: 24px;
-            opacity: 0.6;
-        }
-        .lg_text_test {
-            font-size: 40px;
-            opacity: 0.6;
-            font-weight: 200;
-            color: black;
-            margin: 0px;       
-        }
-        .md_white_text{
-            font-size: 20px;
-            color: white;
-            opacity: 0.9;
-        }
-        .show_case_item{
-            margin-bottom: 40px ;
-        }
-        .text_20px {
-            font-size: 20px;
-            
-            opacity: 0.7;            
-        }
-        .pl20{
-            padding-right: 20px;
-        }
-        .pr20{
-            padding-right: 20px;
-        }
-        .mb0{
-            margin-bottom: 0px ;
-        }
-        .inline_block{
-            display: inline-block;
-        }
-        .text_center {
-            text-align: center ;
-        }
-        .so_icons a {
-            margin-right: 5%
-        }
-        .mb20{
-            margin-bottom: 20px;
-        }
-        .flex_v_center {
-            display: flex ;
-            align-items: center
-        }
-        </style>
         <script type="text/javascript" th:inline="javascript">
             var minWidth = 1140
             var scope 
@@ -444,7 +136,7 @@
                     scope.mousewheel(onwhell)
                 }
                 $(window).resize(function(e){
-                    pages.css({top: "0px"})
+
                     if(window.innerWidth <= minWidth){
                         next_icon.hide()
                         totalPage = 1 
@@ -453,7 +145,11 @@
                         next_icon.show()
                         totalPage = 5 
                     }
-                    //page_scroll(0) 
+                    if(currentPage == 0){
+                        return 
+                    }
+                    currentPage = 0
+                    pages.css({top: "0px"})
                     return 
                     e.preventDefault();
                     var width = $(e.target).innerWidth()
@@ -485,80 +181,7 @@
         </script>
     </head>
     <body>
-        <div id="nav-menu">
-            <div style="position: relative">
-                <div >
-                        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-                            <a class="navbar-brand" href="#">
-                                <img src="/m/pic/01sy_nav_logo.png" style="width: 100%;" alt="">
-                            </a>
-                            
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#top_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                        
-                            <div id="top_nav" class="collapse navbar-collapse" >
-                                <div style="flex-grow: 1; justify-content: center;">
-                                    <ul class="navbar-nav" style="text-align: center; display: flex; justify-content: space-around;">
-                                        <li class="nav-item">
-                                                  
-                                        </li>                                        
-                                        <li class="nav-item active">
-
-                                            <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">隐贝产品</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">优秀案例</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#" aria-disabled="true">微笑测试</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#" aria-disabled="true">发现医生</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#" aria-disabled="true">最新新闻</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#" aria-disabled="true">关于我们</a>
-                                        </li>
-                                                                        
-                                    </ul>                                    
-                                </div>
-
- 
-                                <div class="navbar-text" style="display: flex;justify-content: center;">
-                                        <img class="nav-item nav_top_icon" src="/m/pic/01sy_nav_icon_01.png"/>
-                                        <img class="nav-item nav_top_icon" src="/m/pic/01sy_nav_icon_02.png"/>
-                                </div> 
-                            </div>                          
-                        
-                        </nav>
-                        <!--<div class="row">
-                          <div class="col-3 col-lg-3" style="background: url('/m/pic/main_icons.png') no-repeat center left"> 
-                           
-                          </div>
-                          <div class="col-7 col-lg-7">
-                                <div class="row menus">
-                                    <div class="col-3 item">
-                                        HOME
-                                    </div>
-                                    <div class="col-3">
-                                        测试
-                                    </div>                                    
-                                </div>
-                          </div>
-                          <div class="col-2 col-lg-2">
-                              <span class="top-btn" style="background: url('/m/pic/main_icons.png') no-repeat center left">BUTTON</span>
-                          </div>
-                        </div>
-                    -->
-                </div> 
-            </div>              
-        </div>
+        <th:block th:include="js_css::header" />
         <!--右侧按钮-->
         <div id="left-menu">
             <img src="/m/pic/01sy_rightnav_btn.png">
@@ -653,9 +276,9 @@
                 <div id="page_case" class="page flex_v_center d-none d-lg-block" >
                     <div class="container-fluid inherite_w_h" style="display: flex">
                         <div class="row  inherite_w_h">
-                            <div class="col-7 col-md-8 col-sm-12">
-                                <div>
-                                    <img src="/m/pic/case_left.png" style="width: 90%;" />
+                            <div class="col-7 col-md-8 col-sm-12 inherite_h" style="padding-left: 0px !important;">
+                                <div class="inherite_h" style="overflow: hidden;">
+                                    <img src="/m/pic/case_left.png" style="height: 100%;" />
                                 </div>
                             </div>
                             <div class="col-4 col-md-4 hidden-sm">
@@ -693,37 +316,43 @@
                 </div>
 
             <div id="page_test" class="page d-none d-lg-block ">
-                <div id="test_show" style="height: 80%;
-                                                    width: 100%;
-                                                    margin: auto;
-                                                    display: flex;">
-                    <img style=" height: inherit; margin: auto;" src="/m/pic/home_test.png" />
-                </div>
-                <div id="test_tip" class="container">
-                    <div class="row">
-                        <div class="col-8 col-lg-10 col-md-12 flex_row" >
-                            <div class="pr20" >
-                                <img  src="/m/pic/home_smile.png" />
-                            </div>
-                            <div class="">
-                                <p class="lg_text_test">你对自己的微笑还满意吗？</p>
-                                <p class="lg_text_test"> 来测试看看你有多少分？</p>
-                
-                            </div>
-                        </div>
-
-                        <div class="col-4  col-lg-2 col-md-12 " style="text-align: right;">
-                            <img src="/m/pic/home_go_test.png">
-                        </div>
+                <div class="inherite_w_h" style="display: flex;flex-direction: column;">
+                    <div id="test_show" style="
+                                                        width: 100%;
+                                                        margin: auto;
+                                                        display: flex;">
+                        <img style="width: inherit; margin: auto;" src="/m/pic/home_test.png" />
                     </div>
-            
+                    <div id="tip_wrapper" style="flex-grow: 1;  display: flex; ">
+                        <div id="test_tip" class="container" style="flex-grow: 1;display: flex;align-items: center;justify-content: center;">
+                            <div class="row">
+                                <div class="col-8 col-lg-10 col-md-12" style="    display: flex; justify-items: center;" >
+                                    <div class="pr20" >
+                                        <img  src="/m/pic/home_smile.png" style="margin: auto" />
+                                    </div>
+                                    <div class="">
+                                        <p class="lg_text_test">你对自己的微笑还满意吗？</p>
+                                        <p class="lg_text_test"> 来测试看看你有多少分？</p>
+                        
+                                    </div>
+                                </div>
+
+                                <div class="col-4  col-lg-2 col-md-12 " style="text-align: right;">
+                                    <img src="/m/pic/home_go_test.png">
+                                </div>
+                            </div>
+                    
+                        </div> 
+                    </div>
+                   
                 </div>
+
             </div>
             <div id="page_discover" class="page d-none d-lg-block">
                 <div id="discover_show" class="container-fluid common_padding">
                     <div class="row" style="flex-wrap: inherit;">
                         <div class="col col-lg-8 d-none d-xl-block">
-                            <div class="row doctor_images">
+                            <div class="row doctor_images " style="overflow: hidden">
                                 
                                 <img src="/m/pic/discover_pic_1.png" />
                                 <img src="/m/pic/discover_pic_2.png" />
@@ -747,110 +376,8 @@
                         </div>
                     </div>
                 </div>
-                <div id="page_footer">
-                    <div class="container-fluid">
-                        <div class="row justify-content-center" style="align-items: start;">
-                            <div class="col-4 col-xl-4 col-md-12 page_footer_info_col text_center">
-                                    <div class="inline_block">
-                                        <div class="flex_row mb20">
-
-                                            <div class="">
-                                                <img src="/m/pic/bar_code.png"/>
-                                            </div>
-                                            <div class="md_white_text" style="margin-left: 20px">
-                                                <p>挚友关注我们</p>
-                                                <p>随时发现惊喜</p>
-                                                <p>专属手机客服</p>
-                                            </div>
-                                        </div>
-                                        <div id="footer_phone " class="">
-                                            <div class="flex_row">
-                                                <div class="pl20">
-                                                    <img src="/m/pic/footer/00yj_icon_11.png">
-                                                </div>
-                                                <div class="md_white_text">
-                                                    <p class="mb0">健康咨询电话</p>
-                                                    <p class="mb0 phone_number">
-                                                        230-234-234234
-                                                    </p>
-                                                </div>
-                                            </div> 
-                                        </div>                                        
-                                    </div>                                
-
-
-                                    
-                        
-                            </div>
-                            <div class="col-4  col-xl-4  col-md-12 d-none d-xl-block page_footer_info_col">
-                                <div class="flex_row footer_menu_items" style="flex-wrap: wrap">
-                                    <div class="col item">
-                                        <img class="footer_nav_item_icon" src="/m/pic/footer/00yj_icon_08.png" />
-                                        <p>隐贝产品</p>
-                                    </div>
-                                    <div class="col item">
-                                        <img class="footer_nav_item_icon" src="/m/pic/footer/00yj_icon_09.png" />
-                                        <p>优秀案例</p>
-                                    </div>
-                                    <div class="col item">
-                                        <img class="footer_nav_item_icon" src="/m/pic/footer/00yj_icon_10.png" />
-                                        <p>微笑测试</p>
-                                    </div>
-                                    <div class="col item">
-                                        <img class="footer_nav_item_icon" src="/m/pic/footer/00yj_icon_07.png" />
-                                            <p>发现医生</p>
-                                        </div>
-                                        <div class="col item">
-                                            <img class="footer_nav_item_icon" src="/m/pic/footer/00yj_icon_06.png" />
-                                            <p>最新新闻</p>
-                                        </div>
-                                        <div class="col item">
-                                            <img class="footer_nav_item_icon" src="/m/pic/footer/00yj_icon_05.png" />
-                                            <p>关于我们</p>
-                                        </div>                                    
-                                </div>
-                        
-                            </div>
-                            <div class="col-4 col-xl-4 col-md-12 page_footer_info_col text_center"  style="background: none">
-                                <div class="inline_block">
-                                    <img class="logo item mb20" src="/m/pic/footer/00yj_logo.png"/>
-                                    <div class="item mb20">
-                                        <div class="flex_row ">
-                                            <img class="pl20 " src="/m/pic/footer/00yj_icon_12.png"/>
-                                            <div >
-                                                <p class="md_white_text">
-                                                    广州市.萝岗.高技术立业
-                                                </p>
-                                                
-
-                                                </p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="flex_row so_icons " style="justify-content: space-between;">
-                                            <a href="#">
-                                                <img src="/m/pic/footer/00yj_icon_01.png" />
-                                            </a>
-                                            <a href="#">
-                                                <img src="/m/pic/footer/00yj_icon_02.png" />
-                                            </a>
-                                            <a href="#">
-                                                <img src="/m/pic/footer/00yj_icon_03.png" />
-                                            </a>
-                                            <a href="#">
-                                                <img src="/m/pic/footer/00yj_icon_04.png" />
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                <!--页脚-->
+                <th:block th:include="js_css::footer" />
             </div>
         </div>
 
