@@ -20,13 +20,12 @@
                 height:0;
             }
         #page_footer {
-            background-color: #00c0ff;
+            background-color: #00a0ff;
             position: absolute;
-            padding: 20px;
+            padding: 40px 20px;
             bottom: 0px;
             right: 0px;
-            left: 0px;
-                    
+            left: 0px;                      
         }
         #test_tip {
             margin: 20px auto ;
@@ -43,7 +42,7 @@
         }
         #top_nav .nav-item{
             font-size: 18px ;
-            margin: 0px 20px ;
+            
             border-bottom: 2px solid white;
         }
         #top_nav .nav-item.active{
@@ -104,6 +103,14 @@
             right: 0px;
             bottom: 20px;
         }
+        #main_logo{
+            position: absolute;
+            bottom: 50%;
+            text-align: right;
+            
+            right: 10%;
+            
+        }
         .relative {
             position: relative;
         }
@@ -146,13 +153,16 @@
                         
         } 
         .page {
+
+                    
+        }
+        .page_scroll {
             position: relative ;
             height: 100%;
             width: 100%;
             left: 0px;
             right: 0px;   
-            overflow: hidden ;
-                    
+            overflow: hidden ;            
         }
         .case {
             width: 80%;
@@ -238,6 +248,24 @@
             padding: 10px;
 
         }
+        .page_footer_info_col {
+            max-width:  400px;
+            background: url('/m/pic/footer/00yj_line.png') no-repeat 100% ;
+        }
+
+        .doctor_images img {
+            margin-right: 2%
+
+        }
+        .doctor_images {
+            display: flex;
+            flex-wrap: inherit;
+            margin-right: 1%;
+        }
+        .inherite_w_h {
+            width: inherit;
+            height: inherit;            
+        }
         .lg_text{
             font-size: 24px;
             opacity: 0.6;
@@ -271,6 +299,15 @@
         .mb0{
             margin-bottom: 0px ;
         }
+        .inline_block{
+            display: inline-block;
+        }
+        .text_center {
+            text-align: center ;
+        }
+        .so_icons a {
+            margin-right: 5%
+        }
         .mb20{
             margin-bottom: 20px;
         }
@@ -280,6 +317,7 @@
         }
         </style>
         <script type="text/javascript" th:inline="javascript">
+            var minWidth = 1140
             var scope 
             var pages 
             var currentPage = 0
@@ -289,14 +327,21 @@
 
             var totalPage = 5
             var pageHeight 
+            var windSize = 1174
+            var next_icon 
             $(function(){
-
+                next_icon = $("#next_icon")
+                isPage = true 
                 scope = $("#scope");
                 pages = $("#pages");
                 page  = $(".page") ;
                 nav = $("#nav-menu") ;
                 leftMenu = $("#left-menu")
                 leftMenuList = $("#left-menu-list")
+
+                if(!isPage){
+                    next_icon.hide()
+                }
                 $(".pic").hover(
                     function(e){
                     console.log(".p-img enter")
@@ -307,6 +352,7 @@
                         $(this).children().last().hide().prev().fadeIn()
                     }
                 )
+                //右侧目录
                 leftMenu.mouseenter(
                     function(e){
                         leftMenuList.fadeIn()
@@ -318,53 +364,122 @@
                
                 //$dom.on("mousewheel",function(event,delta){})
                 pageHeight = window.innerHeight
-                page.css({"height": pageHeight});
-                var animating = false 
-                scope.mousewheel(function(event) {
+                console.log("window height:", pageHeight)  
+
+
+                //处理scroll
+                function onwhell (event) {
 
                     //console.log(event.deltaX, event.deltaY, event.deltaFactor);
                     //console.log($(event.target).height())
                     var Y = event.deltaY
                     var shouldShowNav = true
-                    if(animating){
-                        return 
+                    if (animating) {
+                        return
                     }
-                    if( Y < 0){
-                        if(currentPage == 0){
-                            return 
-                        }else{
+                    if (Y > 0) {
+                        if (currentPage == 0) {
+                            return
+                        } else {
                             currentPage -= 1
-                            if(currentPage == 0){
+                            if (currentPage == 0) {
                                 leftMenu.fadeOut()
                             }
                             shouldShowNav = true
                         }
-                    }else{
-                          if(currentPage < totalPage -1){
-                              currentPage += 1
-                            if(currentPage > 0){
+                    } else {
+                        if (currentPage < totalPage - 1) {
+                            currentPage += 1
+                            if (currentPage > 0) {
                                 leftMenu.fadeIn()
-                                }                              
-                              shouldShowNav = false
-                          }else{
-                              return 
-                          }  
+                            }
+                            shouldShowNav = false
+                        } else {
+                            return
+                        }
                     }
 
                     console.log("current page is:", currentPage)
-                    var dis = pageHeight*currentPage
+                    var dis = pageHeight * currentPage
                     //var dis = 50*currentPage
- 
+
                     animating = true
-                    var navTop = shouldShowNav?0 : nav.outerHeight()
-                    nav.animate({top: "-" + navTop +  "px"})
-                    $("#pages").animate({top: "-" + dis+"px"}, function(){
-                            animating = false
-                            console.log("finish! current top is", dis )
+                    var navTop = shouldShowNav ? 0 : nav.outerHeight()
+                    nav.animate({ top: "-" + navTop + "px" })
+                    $("#pages").animate({ top: "-" + dis + "px" }, function () {
+                        animating = false
+                        console.log("finish! current top is", dis)
                     });
                     // pages.css({"transform":"translateX(900px)"})
+
+                    }
                 
+                // scroll 函数
+                function page_scroll(num){
+                        currentPage = num
+                        animating = true
+                        var dis = pageHeight * currentPage
+                        $("#pages").animate({ top: "-" + dis + "px" }, function () {
+                            animating = false
+                            console.log("finish! current top is", dis)
+                        });
+                }
+                 //根据屏幕大小决定是否开启              
+                if(window.innerWidth < windSize){
+                    isPage = false
+                }               
+                if (isPage) {
+
+                    page.css({ "height": pageHeight });
+                    page.toggleClass("page_scroll")
+                    //
+                    next_icon.click(function(e){
+                        //window.location.reload()
+                        
+                        console.log("go to next page")
+                        page_scroll(1)
+
+                    })
+                    
+                    scope.mousewheel(onwhell)
+                }
+                $(window).resize(function(e){
+                    pages.css({top: "0px"})
+                    if(window.innerWidth <= minWidth){
+                        next_icon.hide()
+                        totalPage = 1 
+
+                    }else {
+                        next_icon.show()
+                        totalPage = 5 
+                    }
+                    //page_scroll(0) 
+                    return 
+                    e.preventDefault();
+                    var width = $(e.target).innerWidth()
+                    console.log("window width:", width)
+                    if(width < windSize){
+                        $(window).off("resize")
+                        console.log("reload page")
+                        if(isPage){
+                            page.toggleClass("page_scroll")
+                            scope.off("mousewheel")
+
+                            
+                        }  
+                    }else {
+                        if(!isPage){
+                            scope.mousewheel(onwhell)
+                            isPage = true
+                        }
+                    }
+                        //window.location.reload()
+                    
+                    
                 })
+                var animating = false 
+                
+
 
             })
         </script>
@@ -384,7 +499,7 @@
                         
                             <div id="top_nav" class="collapse navbar-collapse" >
                                 <div style="flex-grow: 1; justify-content: center;">
-                                    <ul class="navbar-nav" style="text-align: center; display: flex; justify-content: center;">
+                                    <ul class="navbar-nav" style="text-align: center; display: flex; justify-content: space-around;">
                                         <li class="nav-item">
                                                   
                                         </li>                                        
@@ -484,15 +599,21 @@
         <div class="full-view" id="scope">
             <div class="full-view-normal" id="pages" style="top:0px">
                 <div id="page_home" class="page">
-                    <img src="/m/pic/main.png" style="height: 100%"/>
+                    <img src="/m/pic/01sy_bg_01.jpg" style="height: 100%"/>
+                    <div id="main_logo">
+                        <img src="/m/pic/01sy_nav_logo.png" style="margin-bottom: 24px;">
+                        <p style="font-size: 28px;
+                        color: #00a0ff;">看不见守护 看得到的自信</p>
+                        <p style="font-size: 18px;">为你的微笑偷偷加分</p>
+                    </div>
                     <div id="next_icon">
                         <img src="/m/pic/next_icon.png"/>
 
                     </div>
                 </div>
-                <div id="page_second" class="page flex_v_center">
-                    <div class="container-fluid box">
-                        <div class="row">
+                <div id="page_second" class="page flex_v_center d-none d-lg-block">
+                    <div class="container-fluid box" style="display: flex;justify-content: center;align-content: center;height: inherit;">
+                        <div class="row" style="width: inherit;">
                           <div class="col-6 col-md-6 col-sm-12 over-hide ">
                               <div class="img_box fix-img">
                                 <div class="pic img_box">
@@ -529,9 +650,9 @@
                         </div>
                       </div>
               </div>     
-                <div id="page_case" class="page flex_v_center" >
-                    <div class="container-fluid">
-                        <div class="row">
+                <div id="page_case" class="page flex_v_center d-none d-lg-block" >
+                    <div class="container-fluid inherite_w_h" style="display: flex">
+                        <div class="row  inherite_w_h">
                             <div class="col-7 col-md-8 col-sm-12">
                                 <div>
                                     <img src="/m/pic/case_left.png" style="width: 90%;" />
@@ -539,7 +660,7 @@
                             </div>
                             <div class="col-4 col-md-4 hidden-sm">
                                 
-                                <div id="case_left " class="flex_row case">
+                                <div id="case_left " class="flex_row" style="flex-wrap: wrap">
                                     <div class="avatar">
                                         <img class="avatar" src="/m/pic/avatar.jpg">
                                     </div>
@@ -552,7 +673,7 @@
                                     </div>
                 
                                 </div>
-                                <div id="case_left " class="flex_row case">
+                                <div id="case_left " class="flex_row " style="flex-wrap: wrap">
                                         <div class="avatar">
                                             <img class="avatar" src="/m/pic/avatar.jpg">
                                         </div>
@@ -571,15 +692,18 @@
                     </div>
                 </div>
 
-            <div id="page_test" class="page ">
-                <div id="test_show">
-                    <img src="/m/pic/home_test.png" />
+            <div id="page_test" class="page d-none d-lg-block ">
+                <div id="test_show" style="height: 80%;
+                                                    width: 100%;
+                                                    margin: auto;
+                                                    display: flex;">
+                    <img style=" height: inherit; margin: auto;" src="/m/pic/home_test.png" />
                 </div>
                 <div id="test_tip" class="container">
                     <div class="row">
-                        <div class="col-8 col-lg-8 col-md-8 flex_row">
-                            <div class="pr20">
-                                <img style="padding:25px" src="/m/pic/home_smile.png" />
+                        <div class="col-8 col-lg-10 col-md-12 flex_row" >
+                            <div class="pr20" >
+                                <img  src="/m/pic/home_smile.png" />
                             </div>
                             <div class="">
                                 <p class="lg_text_test">你对自己的微笑还满意吗？</p>
@@ -588,23 +712,27 @@
                             </div>
                         </div>
 
-                        <div class="col-4 col-md-4 " style="text-align: right;">
+                        <div class="col-4  col-lg-2 col-md-12 " style="text-align: right;">
                             <img src="/m/pic/home_go_test.png">
                         </div>
                     </div>
             
                 </div>
             </div>
-            <div id="page_discover" class="page">
+            <div id="page_discover" class="page d-none d-lg-block">
                 <div id="discover_show" class="container-fluid common_padding">
-                    <div class="row">
-                        <div class="col-8">
+                    <div class="row" style="flex-wrap: inherit;">
+                        <div class="col col-lg-8 d-none d-xl-block">
+                            <div class="row doctor_images">
+                                
                                 <img src="/m/pic/discover_pic_1.png" />
                                 <img src="/m/pic/discover_pic_2.png" />
                                 <img src="/m/pic/discover_pic_3.png" />
-                                <img src="/m/pic/discover_pic_4.png" />
+                                <img src="/m/pic/discover_pic_4.png" />                                
+                            </div>
+
                         </div>
-                        <div class="col-4 relative hidden-md-down">
+                        <div class=" col-md-auto col-lg-auto  relative ">
                             <div class="show_case_item" id="top_image">
                                     <img src="/m/pic/discover_icon.png"/>
                             </div>
@@ -620,37 +748,41 @@
                     </div>
                 </div>
                 <div id="page_footer">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="flex_row mb20">
-                                    <div class="">
-                                        <img src="/m/pic/bar_code.png"/>
-                                    </div>
-                                    <div class="md_white_text" style="margin-left: 20px">
-                                        <p>挚友关注我们</p>
-                                        <p>随时发现惊喜</p>
-                                        <p>专属手机客服</p>
-                                    </div>
-                                </div>
-                                <div id="footer_phone " class="">
-                                    <div class="flex_row">
-                                        <div class="pl20">
-                                            <img src="/m/pic/footer/00yj_icon_11.png">
+                    <div class="container-fluid">
+                        <div class="row justify-content-center" style="align-items: start;">
+                            <div class="col-4 col-xl-4 col-md-12 page_footer_info_col text_center">
+                                    <div class="inline_block">
+                                        <div class="flex_row mb20">
+
+                                            <div class="">
+                                                <img src="/m/pic/bar_code.png"/>
+                                            </div>
+                                            <div class="md_white_text" style="margin-left: 20px">
+                                                <p>挚友关注我们</p>
+                                                <p>随时发现惊喜</p>
+                                                <p>专属手机客服</p>
+                                            </div>
                                         </div>
-                                        <div class="md_white_text">
-                                            <p class="mb0">健康咨询电话</p>
-                                            <p class="mb0 phone_number">
-                                                230-234-234234
-                                            </p>
-                                        </div>
-                                    </div> 
-                                </div>
+                                        <div id="footer_phone " class="">
+                                            <div class="flex_row">
+                                                <div class="pl20">
+                                                    <img src="/m/pic/footer/00yj_icon_11.png">
+                                                </div>
+                                                <div class="md_white_text">
+                                                    <p class="mb0">健康咨询电话</p>
+                                                    <p class="mb0 phone_number">
+                                                        230-234-234234
+                                                    </p>
+                                                </div>
+                                            </div> 
+                                        </div>                                        
+                                    </div>                                
+
 
                                     
                         
                             </div>
-                            <div class="col-4">
+                            <div class="col-4  col-xl-4  col-md-12 d-none d-xl-block page_footer_info_col">
                                 <div class="flex_row footer_menu_items" style="flex-wrap: wrap">
                                     <div class="col item">
                                         <img class="footer_nav_item_icon" src="/m/pic/footer/00yj_icon_08.png" />
@@ -679,8 +811,8 @@
                                 </div>
                         
                             </div>
-                            <div class="col-4">
-                                <div class="">
+                            <div class="col-4 col-xl-4 col-md-12 page_footer_info_col text_center"  style="background: none">
+                                <div class="inline_block">
                                     <img class="logo item mb20" src="/m/pic/footer/00yj_logo.png"/>
                                     <div class="item mb20">
                                         <div class="flex_row ">
@@ -697,7 +829,7 @@
                                         </div>
                                     </div>
                                     <div class="item">
-                                        <div class="flex_row " style="justify-content: space-between;">
+                                        <div class="flex_row so_icons " style="justify-content: space-between;">
                                             <a href="#">
                                                 <img src="/m/pic/footer/00yj_icon_01.png" />
                                             </a>
