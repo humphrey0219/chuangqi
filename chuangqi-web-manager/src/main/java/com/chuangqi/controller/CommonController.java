@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +29,8 @@ import com.chuangqi.vo.SysAccountVo;
 public class CommonController extends BaseController{
 	@Autowired
 	private SysAccountService sysAccountService;
+	@Value("${gaode.key}")
+	private String gaodekey;
 
 	@RequestMapping("/common/loginUI")
 	public ModelAndView loginUI(){
@@ -107,4 +110,10 @@ public class CommonController extends BaseController{
 		return modelAndView;
 	}
 	
+	//高德map
+	@RequestMapping("/gaodemap")
+	public ModelAndView gaodemap(){
+		modelAndView("map/gaodemap").addObject("gaodekey", gaodekey);
+		return modelAndView;
+	}
 }
