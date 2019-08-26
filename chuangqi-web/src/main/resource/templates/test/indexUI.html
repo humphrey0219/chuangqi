@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title >微笑测试</title>     
+        <th:block th:include="js_css::copy" />
+        <!-- 主页CSS-->
+        <th:block th:include="js_css::home_css" />
+        <!-- <th:block th:text="${msg}" /> 直接出 -->
+        <style type="text/css">
+            .flex_col_center{
+                display: flex;
+                justify-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+            .w100{
+                width: 100% ;
+            }
+           .about_second_title, .second_title {
+                font-size: 20px;
+                opacity: 0.5;
+            }
+            .about_main_title {
+                font-size: 26px;
+                margin-bottom: 0px;
+            }
+            .mt30 {
+                margin-top: 30px ;
+            }
+            .mt40{
+                margin-top: 40px ;
+            }
+            .mt20 {
+                margin-top: 20px;
+            }
+            .mt10 {
+                margin-top: 10px ;
+            }
+            .mb30 {
+                margin-bottom: 30px ;
+            }
+            #page_footer{
+                background-color: #00a0ff;
+                position: relative;
+                padding: 40px 20px;
+                bottom: 0px;
+                right: 0px;
+                left: 0px;
+            }
+            .form_input {
+                border: 1px solid #80808080;
+                padding: 10px;
+                margin-bottom: 30px ;
+            }
+            .input_len {
+                width: 320px ;
+            }
+            .form_input input, .form_input textarea {
+                border: none;
+
+            }
+            .icon {
+                padding: 0px 5px;
+            }
+            .summit_btn {
+                display: inline-block;
+                width: 100%;
+                padding: 10px 0px;
+                border-radius: 20px;
+                border: 1px;
+                background-color: #00a0ff;
+                color: #f9f8f6;
+                font-size: 18px;
+            }
+            .icon_line {
+                display: flex ;
+                justify-items: center
+            }
+            .mr30{
+                margin-right: 30px ;
+            }
+            .fs20 {
+                font-size: 20px ;
+            }
+            .p_no_mb{
+                margin-bottom: 0px ;
+            }
+            .location {
+                position: absolute;
+                right: 10%;
+                top: 10%;
+                color: white ;
+                
+                font-size: 18px ;                
+            }
+            #backgroud{
+
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                background-image: url("/m/pic_test/04wxcs_bg_01.jpg");
+
+                background-position: right;
+                background-clip: border-box;
+                background-origin: border-box;
+                padding: 100px;
+                background-size: cover;
+                bottom: 0px;
+            }
+            #content{
+                margin-top: 10%;
+                margin-left: 10%;
+            }
+            .fs40 {
+                font-size: 40px 
+            }
+            .fs20 {
+                font-size: 20px 
+            }
+            .fs25 {
+                font-size: 25px 
+            }
+            .lable{
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+            #detail{
+                width: 30% ;
+            }
+            .process img {
+                margin-top: 10px ;
+            }
+
+
+
+        </style>
+
+        <script type="text/javascript" th:inline="javascript">
+            $(function(){
+                toggleNav("#test")
+            })
+        </script>
+    </head>
+    <body>
+        <!--页头-->
+        <th:block th:include="js_css::header" />
+
+        <div id="backgroud">
+               <!--位置-->
+            <div class="location  d-none d-lg-block">
+                <div class="flex_row" style="align-items: center;">
+                    <img class="pr10" src="/m/pic/location_icon_white.png">
+                    <p class="p_no_mb">你当前的位置：首页 ><span class="nav_location" href="#">微笑测试</span></p>                    
+                </div>
+
+            </div>                
+        </div>
+        <!--内容-->
+        <div id="test_home" class="relative" >
+            
+
+            <div id="content">
+                <p class="p_no_mb fs40">HOW MUCH</p>
+                <P class="p_no_mb fs40">DO YOU RATE YOUR SMILE？</p>
+                <p class="p_no_mb fs25">你对自己的微笑打多少分？</p>
+                <div class="container-fluid container_no_padding mt30">
+                    <div class="row">
+                        <div id="d" class="col-lg-4 col-md-6 col-sm-12">
+                            <p class="lable">微笑测试说明</p>
+                            <p style="margin-right: 20px;">截止至目前，时代天使海量用户打造了自信微笑，拥有丰富的亚洲人口腔数据库，并在2017年和国家体育总局训练局达成合作，为国家队运动员提供口腔备战保障产品，在2018年第十八届亚运会上作为中国代表团备战保障营成员，为中国运动员进行口腔备战保障。 </p>
+
+                            <p class="lable mt30">微笑测试流程：</p>
+                            <div class="process">
+                                <img src="/m/pic_test/04wxcs_icon_03.png" /> 
+                                <img src="/m/pic_test/04wxcs_icon_02.png" />
+                                <img src="/m/pic_test/04wxcs_icon_04.png" /> 
+                                <img src="/m/pic_test/04wxcs_icon_02.png" />
+                                <img src="/m/pic_test/04wxcs_icon_05.png" /> 
+                                <img src="/m/pic_test/04wxcs_icon_02.png" />
+                                <img src="/m/pic_test/04wxcs_icon_06.png" />
+                                <img src="/m/pic_test/04wxcs_icon_02.png" />
+                                <img src="/m/pic_test/04wxcs_icon_07.png" />                                                                                   
+                            </div> 
+                            
+                            <button style="background-color: #08d2e3ed; padding: 10px 40px;width: auto;" class="summit_btn mt40"> 开始进入微笑测试 </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        
+        <!--页脚 <th:block th:include="js_css::footer" />-->
+        
+        
+        
+
+    </body>
+</html>
+    
+
+

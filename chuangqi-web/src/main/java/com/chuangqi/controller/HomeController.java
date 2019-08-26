@@ -12,14 +12,30 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Slf4j
 @Controller
-@RequestMapping("/home")
+
 public class HomeController extends BaseController {
 
 
     //主页视图
-    @RequestMapping("index")
+    @RequestMapping("web/index")
     public ModelAndView index() {
         return  modelAndView("home/indexUI");
 
     }
+
+    @RequestMapping("web/about")
+    public ModelAndView about(){
+        return modelAndView("aboutUI");
+    }
+
+    @RequestMapping("web/test")
+    public ModelAndView smiletest(){
+        String nav = "blue";
+        modelAndView("test/indexUI");
+        modelAndView.addObject("nav", nav);
+
+        return modelAndView ;
+    }
+
+
 }

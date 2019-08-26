@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title >关于我们</title>     
+        <th:block th:include="js_css::copy" />
+        <!-- 主页CSS-->
+        <th:block th:include="js_css::home_css" />
+        <!-- <th:block th:text="${msg}" /> 直接出 -->
+        <style type="text/css">
+            .flex_col_center{
+                display: flex;
+                justify-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+            .w100{
+                width: 100% ;
+            }
+           .about_second_title, .second_title {
+                font-size: 20px;
+                opacity: 0.5;
+            }
+            .about_main_title {
+                font-size: 26px;
+                margin-bottom: 0px;
+            }
+            .mt30 {
+                margin-top: 30 ;
+            }
+            .mt40{
+                margin-top: 40px ;
+            }
+            .mt20 {
+                margin-top: 20px;
+            }
+            .mb30 {
+                margin-bottom: 30px ;
+            }
+            #page_footer{
+                background-color: #00a0ff;
+                position: relative;
+                padding: 40px 20px;
+                bottom: 0px;
+                right: 0px;
+                left: 0px;
+            }
+            .form_input {
+                border: 1px solid #80808080;
+                padding: 10px;
+                margin-bottom: 30px ;
+            }
+            .input_len {
+                width: 320px ;
+            }
+            .form_input input, .form_input textarea {
+                border: none;
+
+            }
+            .icon {
+                padding: 0px 5px;
+            }
+            .summit_btn {
+                display: inline-block;
+                width: 100%;
+                padding: 10px 0px;
+                border-radius: 20px;
+                border: 1px;
+                background-color: #00a0ff;
+                color: #f9f8f6;
+                font-size: 18px;
+            }
+            .icon_line {
+                display: flex ;
+                justify-items: center
+            }
+            .mr30{
+                margin-right: 30px ;
+            }
+            .fs20 {
+                font-size: 20px ;
+            }
+            .p_no_mb{
+                margin-bottom: 0px ;
+            }
+            .location {
+                position: absolute;
+                right: 10%;
+                bottom: 25%;
+                align-items: center;
+                font-size: 18px ;
+            }
+            #top_logo{
+                text-align: right;
+               
+                position: absolute;
+                right: 10%;
+                top: 25%;              
+            }
+
+        </style>
+
+        <script type="text/javascript" th:inline="javascript">
+            $(function(){
+                toggleNav("#about")
+            })
+        </script>
+    </head>
+    <body>
+        <!--页头-->
+        <th:block th:include="js_css::header" />
+
+        <!--背景-->
+        <div id="banner_bg "class="relative d-none d-lg-block" >
+            <img class="w100" src="/m/pic_about/07gywm_banner_bg.jpg">
+            <div id="top_logo">
+                <p class="p_no_mb" style="font-size: 25px; color: white;">看不见的守护 看得见的自信</p>
+                <p class="p_no_mb" style="font-size: 20px; color: white;  font-weight: 200;">为你的微笑加分</p>
+                <p class="p_no_mb" style="font-size: 40px; color: yellow;">About us</p>
+                <p class="p_no_mb" style="font-size: 30px; color: white; font-weight: 200;">关于我们</p>
+
+            </div>
+            <div class="location flex_row">
+                <img class="pr10" src="/m/pic_about/07gywm_icon.png">
+                <p class="p_no_mb">你当前的位置：首页 ><span class="nav_location" href="#">关于我们</span></p>
+            </div>
+        </div>
+
+        <!--标题-->
+        <div class="container-fluid">
+            <div class="row" style="align-items:flex-start;margin: 0px 15%;">
+                <!--形像和标语-->
+                <div class="col-md8 col-lg-8 col-sm-12" id="about_title"
+                    style="margin-bottom:50px; padding-right: 60px;">
+                    <div class="">
+                        <img class="d-none d-lg-block"  src="/m/pic_about/07gywm_logo.png" />
+                        <p class="about_main_title mt40">看不见的守护，看得见的自信</p>
+                        <p class="about_second_title p_no_mb">为你的微笑加分</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row" style="align-items:flex-start;margin: 0px 15%;">
+                <!--主体-->
+                <div class="col-md8 col-lg-8 col-sm-12" id="about_title" style="margin-bottom:50px; padding-right: 60px;border-right: 1px solid #80808070;">
+
+
+                    <p class="about_text" id="">
+                            时代天使(上海时代天使医疗器械有限公司及其关联公司的简称)是一家行业领先的全球性的口腔隐形正畸技术、隐形矫治器生产及销售的服务提供商。自2003年公司成立以来，我们一直以来致力于通过高科技产品为用户打造健康、整齐的牙齿，为用户带来美丽、自信的笑容。
+                    </p>
+                    <br>
+                    <p class="about_text" id="">                       
+                            时代天使在创新的数字化正畸智慧体系angelMind支持下，与全国八大口腔专业院校长期开展学术科研合作，研发团队在多个领域都取得了革命性的创新成果，在牙齿隐形矫治技术的研发、应用方面已申请80多项专利，并在3D打印、计算机科学、生物力学、临床口腔医学及材料学等多学个学科上都取得了革命性的创新技术。所有的技术探索和创造都是为了更精准、高效的实现牙齿的移动，为每个用户个性化定制专属的美丽笑容。
+                    </p>
+                    <br>
+                    <p class="about_text" id="">
+                            
+                            截止至目前，时代天使海量用户打造了自信微笑，拥有丰富的亚洲人口腔数据库，并在2017年和国家体育总局训练局达成合作，为国家队运动员提供口腔备战保障产品，在2018年第十八届亚运会上作为中国代表团备战保障营成员，为中国运动员进行口腔备战保障。                                           时代天使将始终以科技创新为企业驱动力，通过先进的隐形矫治器材料、力学探索、海量口腔数据库和人工智能技术不断地推动行业发展，让用户的牙齿移动高效、精准，绽放美丽的笑容。 
+                    </p>                
+                    <p class="about_main_title mt40">联系我们</p>
+                    <p class="about_second_title">你对我们有什么建议，可以和我们分享吗</p>
+                    <div class="en mt20 mb30" style="opacity: 0.5">
+                        <p class="p_no_mb">
+                            Do you have any suggestions for us,
+                        </p>                         
+                        <p class="p_no_mb">Can you share with us?</p>                       
+                    </div>
+
+
+                    <!--表单-->
+                    <form class="mt20" style="max-width: 400px;">
+                        <!--手机-->
+                        <div class="form_item">
+                            <label class="info">请填写你的手机号码</label>
+                            <div class="form_input">
+                                <img class="icon" src="/m/pic_about/07gywm_input_icon_01.png" />
+                                <img  class="icon" src="/m/pic_about/07gywm_input_icon_02.png" />
+                                <input class="input_len" type="text" name="phone"  placeholder="手机号码" />
+                            </div>
+                        </div>      
+                        <!--验证-->
+                        <div class="form_item">
+                                <label class="info">请填写右侧的图形码</label>
+                                <div class="form_input">
+                                    <img class="icon" src="/m/pic_about/07gywm_input_icon_03.png" />
+                                    <img  class="icon" src="/m/pic_about/07gywm_input_icon_02.png" />
+                                    <input class="input_len"  type="text" name="phone"  placeholder="图形码" />
+                                </div>
+                            </div> 
+                        <!--请填写你的信息-->
+                        <div class="form_item mb40">
+                                <label class="info">请填写你的信息</label>
+                                <div class="form_input">
+                                
+                                    <textarea style="height: 200px; width: 100%;"  placeholder="请填写你的信息"></textarea>
+                                </div>
+                        </div>
+                        <input class="summit_btn" type="submit" placeholder="提交数据">                                                          
+                    </form>
+
+                    
+
+                    <div id="leave">
+                        <p class="second_blue_title">
+
+                        </p>
+                    </div>
+                </div>  
+                <!--联系方式-->  
+                <div class="col-md4 col-lg-4 col-sm-12 mb30" id="contact">
+                    <div class="contact_content" style="padding-left: 60px;">
+                        <p class="about_second_title mb30">联系我们</p>
+                        <div class="icon_line flex_row mb30">
+                            <div class="flex_col_center mr30">
+                                <img class="" src="/m/pic_about/07gywm_icon_02.png"/>
+                            </div>
+                                
+                            <p class="p_no_mb" style="font-size: 16px;">广州.萝岗.高新科技产业区科学城.产业区科学城 </p>
+                        </div>
+                        <div class="icon_line flex_row mb30">
+                                <div class="flex_col_center mr30">
+                                        <img class="" src="/m/pic_about/07gywm_icon_03.png"/>
+                                </div>                                
+                                
+                                <p class="fs20 p_no_mb">400-8564-2588</p>
+                        </div>
+                        <!--图形码-->
+                        <div>
+                            <img src="/m/pic_about/07gywm_QRcode.png" />
+                        </div>                        
+                    </div>
+                    
+                </div>                  
+            </div>
+     
+        </div>
+
+        
+        <!--页脚-->
+        <th:block th:include="js_css::footer" />
+        
+        
+
+    </body>
+</html>

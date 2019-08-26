@@ -7,6 +7,7 @@
     <script th:src="@{/js/jquery-mousewheel.js}"></script>
     <script type="text/javascript">
     	 	var basePath ="[[@{/}]]";
+            var baseImage ="[[@{/m/}]]";
     </script> 
 
     <style type="text/css">
@@ -77,6 +78,9 @@
 <f th:fragment="home_css"> 
 
     <style type="text/css">
+    .relative {
+        position: relative;
+    }
         .justify {
               display: inline-block;
               vertical-align: top;
@@ -392,12 +396,58 @@
       .inherite_h{
           height: inherit;
       }
-      </style>
 
+            #nav-menu .blue{
+                background-color: #00a0ff !important;
+            }
+            .blue .nav-item {
+                 
+                font-size: 18px;
+                margin: 0px 0.7%;
+                border-bottom: 2px solid #00a0ff;
+            }
+            .navbar-light .blue .navbar-nav .nav-link {
+                    color: white
+            }
+            .blue  .nav-item.active {
+                border-bottom: 2px solid white ;
+            }
+        .summit_btn {
+                display: inline-block;
+                width: 100%;
+                padding: 10px 0px;
+                border-radius: 20px;
+                border: 1px;
+                background-color: #00a0ff;
+                color: #f9f8f6;
+                font-size: 18px;
+            } 
+        .nav_location{
+            padding-left: 5px ;
+            color: #bf7c02; ;
+        } 
+        .pr10{
+            padding-right: 10px;
+        } 
+        .container_no_padding {
+        padding-right: 0px;
+        padding-left: 0px;              
+        }
+       
+
+      </style>
+    <script type="text/javascript" th:inline="javascript">
+
+            function toggleNav(curPage){
+                $(".active").toggleClass("active")
+                $(curPage).toggleClass("active")
+            }
+    </script>
 </f>
 <!--页头-->
 <f th:fragment="header">
-    <div id="nav-menu">
+    <!--背景；默认-->
+    <div id="nav-menu" th:if="${nav == null}">
         <div style="position: relative">
             <div >
                     <nav class="navbar navbar-expand-lg navbar-light bg-light ">
@@ -419,23 +469,23 @@
 
                                         <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">隐贝产品</a>
+                                    <li class="nav-item" id="product">
+                                        <a class="nav-link" href="/m/web/index">隐贝产品</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" id="case">
                                         <a class="nav-link" href="#">优秀案例</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#" aria-disabled="true">微笑测试</a>
+                                    <li class="nav-item" id="test">
+                                        <a class="nav-link" href="/m/web/test" aria-disabled="true">微笑测试</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" id="discover">
                                         <a class="nav-link" href="#" aria-disabled="true">发现医生</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" id="news">
                                         <a class="nav-link" href="#" aria-disabled="true">最新新闻</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#" aria-disabled="true">关于我们</a>
+                                    <li class="nav-item" id="about">
+                                        <a class="nav-link" href="/m/web/about" aria-disabled="true">关于我们</a>
                                     </li>
                                                                     
                                 </ul>                                    
@@ -470,13 +520,88 @@
                 -->
             </div> 
         </div>              
-    </div>        
+    </div> 
+    <!--蓝色背景；设置 nav 变量-->
+    <div id="nav-menu" th:if="${nav != null}" class="blue" >
+            <div style="position: relative">
+                    <div >
+                            <nav class="navbar navbar-expand-lg navbar-light  bg-light blue">
+                                <a class="navbar-brand" href="#">
+                                    <img src="/m/pic/nav_brand_white.png" style="width: 100%;" alt="">
+                                </a>
+                                
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#top_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            
+                                <div id="top_nav " class="blue collapse navbar-collapse" >
+                                    <div style="flex-grow: 1; justify-content: center;">
+                                        <ul class="navbar-nav blue" style="text-align: center; display: flex; justify-content: center;">
+                                            <li class="nav-item">
+                                                      
+                                            </li>                                        
+                                            <li class="nav-item active">
+        
+                                                <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+                                            </li>
+                                            <li class="nav-item" id="product">
+                                                <a class="nav-link" href="/m/web/index">隐贝产品</a>
+                                            </li>
+                                            <li class="nav-item" id="case">
+                                                <a class="nav-link" href="#">优秀案例</a>
+                                            </li>
+                                            <li class="nav-item" id="test">
+                                                <a class="nav-link" href="/m/web/test" aria-disabled="true">微笑测试</a>
+                                            </li>
+                                            <li class="nav-item" id="discover">
+                                                <a class="nav-link" href="#" aria-disabled="true">发现医生</a>
+                                            </li>
+                                            <li class="nav-item" id="news">
+                                                <a class="nav-link" href="#" aria-disabled="true">最新新闻</a>
+                                            </li>
+                                            <li class="nav-item" id="about">
+                                                <a class="nav-link" href="/m/web/about" aria-disabled="true">关于我们</a>
+                                            </li>
+                                                                            
+                                        </ul>                                    
+                                    </div>
+        
+        
+                                    <div class="navbar-text" style="display: flex;justify-content: center;">
+                                            <img class="nav-item nav_top_icon" src="/m/pic/nav_search_icon_white.png"/>
+                                            <img style="margin-left: 10px;" class="nav-item nav_top_icon" src="/m/pic/nav_love_icon_white.png"/>
+                                    </div> 
+                                </div>                          
+                            
+                            </nav>
+                            <!--<div class="row">
+                              <div class="col-3 col-lg-3" style="background: url('/m/pic/main_icons.png') no-repeat center left"> 
+                               
+                              </div>
+                              <div class="col-7 col-lg-7">
+                                    <div class="row menus">
+                                        <div class="col-3 item">
+                                            HOME
+                                        </div>
+                                        <div class="col-3">
+                                            测试
+                                        </div>                                    
+                                    </div>
+                              </div>
+                              <div class="col-2 col-lg-2">
+                                  <span class="top-btn" style="background: url('/m/pic/main_icons.png') no-repeat center left">BUTTON</span>
+                              </div>
+                            </div>
+                        -->
+                    </div> 
+                </div>  
+    </div>       
 </f>
 <f th:fragment="footer"> 
     <div id="page_footer">
         <div class="container-fluid">
             <div class="row justify-content-center" style="align-items: start;">
-                <div class="col-4 col-xl-4 col-md-12 page_footer_info_col text_center">
+                <div class="col-4 col-xl-4 col-md-12 col-sm-12 col-xs-12 page_footer_info_col text_center">
                         <div class="inline_block">
                             <div class="flex_row mb20">
 
@@ -537,7 +662,7 @@
                     </div>
             
                 </div>
-                <div class="col-4 col-xl-4 col-md-12 page_footer_info_col text_center"  style="background: none">
+                <div class="col-4 col-xl-4 col-md-12 col-sm-12 col-xs-12 page_footer_info_col text_center"  style="background: none">
                     <div class="inline_block">
                         <img class="logo item mb20" src="/m/pic/footer/00yj_logo.png"/>
                         <div class="item mb20">
