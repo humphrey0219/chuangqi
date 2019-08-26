@@ -59,7 +59,7 @@
         //空的图片图片数据
         var images = allImgs //.length > 0 ? allImgs : genEmptyIamge(3)
         
-        var emptyImage = "/m/empty.jpg";
+        var emptyImage = basePath+"empty.jpg";
         $(function () {
             
             // 业务代码
@@ -253,8 +253,8 @@
                             name: "number",
                             newline: false,
                             type: "text",
-                            readonly: true
-
+                            readonly: true,
+                            width: 90
                         },
 
                         {

@@ -80,7 +80,7 @@
 
                 $("#status").ligerComboBox();//下拉框
                 var dataGridColumns = [
-                    {display: 'ID', name: 'id', minWidth: 120, width: 100 },
+                    {display: 'ID', name: 'id', minWidth:60, width: 60 },
                     {display: '省份', name: 'province',minWidth: 120, width: 100 },
                     { display: '城市', name: 'city' ,minWidth: 120, width: 100},
                     { display: '县/区', name: 'county',minWidth: 120, width: 100},
@@ -107,7 +107,7 @@
 
                 grid: {
                     columns: dataGridColumns,
-                    url: "/m/zone/data",
+                    url: basePath+"zone/data",
                     pageSize: 10,
                     onSelectRow:function(d){
                         selectedRow = d
@@ -150,7 +150,26 @@
                 //@end
  
             });
- 
+            
+            //选择坐标
+            function selectGeo(){
+            	var street=$("#street").val();
+            	if(street==null||street.length<=0){
+            		$.ligerDialog.error("请输入机构地址！");
+            		return ;
+            	}
+            	window.open(basePath+"gaodemap?address="+street);   
+            	/* parent.$.ligerDialog.open({
+            		width: 1000,
+            		height:800,
+            		title: "获取坐标",
+            		url: basePath+"gaodemap",
+            		showMax: true,
+            		showToggle: true,
+            		showMin: true,
+            		isResize: true
+            	}); */
+            }
     </script>
 
 
@@ -183,23 +202,23 @@
                 <tr>
                     <td>城市：</td>
                         <td colspan="3" width="500">
-                            <input type="text" id="addressGrid" name="address" data-width="176" data-comboboxid="addressGrid"   validate="{required:true}">
+                            <input type="text" id="addressGrid" name="address" data-width="176" data-comboboxid="addressGrid"   validate="{required:true}" ligerui="width:500px">
                         </td>
 
                 </tr>    
                 <tr>
-                    <td>机构地址：</td>
-                        <td colspan="3" width="500">
+                    <td>机构详细地址：</td>
+                        <td colspan="2">
                             <input type="text" id="street" name="street" data-width="176" class="ui-textbox"   validate="{required:true}">
                         </td>
-
+						<td></td>
                 </tr>
                 <tr>
                     <td>机构地址坐标：</td>
-                        <td colspan="3" width="500">
-                            <input type="text" id="geo" name="geo" data-width="176" class="ui-textbox"   validate="{required:true}">
+                        <td colspan="2">
+                            <input type="text" id="geo" name="geo" class="ui-textbox"   validate="{required:true}">
                         </td>
-
+						<td><label ><a href="javascript:selectGeo()">选择坐标</a> (选择后复制到此输入框)</label></td>
                 </tr>                                                          
 
 
@@ -207,9 +226,8 @@
                 <td> <label >状态：</label></td>
                 <td> 
                 <select id="status" name="status">
-                	<option  value="0" >禁用</option>
                 	<option  value="1" >正常</option>
-                	
+                	<option  value="0" >禁用</option>
                 </select> 
                 </td>
 
