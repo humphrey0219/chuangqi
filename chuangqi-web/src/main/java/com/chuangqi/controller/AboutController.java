@@ -9,13 +9,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @RestController
 
-public class SmileTestController  extends BaseController {
-    @RequestMapping("smile")
-    public ModelAndView smiletest(){
-        String nav = "blue";
-        modelAndView("smile/indexUI");
-        modelAndView.addObject("nav", nav);
-
-        return modelAndView ;
+public class AboutController  extends BaseController {
+    @RequestMapping("about")
+    public ModelAndView about(){
+        return modelAndView("aboutUI");
     }
 }

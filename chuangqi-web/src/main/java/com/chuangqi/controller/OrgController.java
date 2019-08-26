@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 
 /**
- * 机构管理
+ * 医疗机构
  * @author jellyra
  */
 @Slf4j

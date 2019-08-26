@@ -43,11 +43,6 @@ public class CommonController extends BaseController{
         }
     }
 	
-	//登录后管理页面
-	@RequestMapping("/index")
-	public ModelAndView index(){
-		modelAndView("index/index");
-		return modelAndView;
-	}
+
 	
 }
