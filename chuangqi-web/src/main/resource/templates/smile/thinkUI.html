@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title >微笑测试成功提交</title> 
+        <meta name="keywords" contect="测试,隐贝测试,微笑测试,测试提交,">
+        <meta name="description" content="隐贝提供微笑测试，用户已成功提交">  
+        <th:block th:include="js_css::copy" />
+        <!-- 主页CSS-->
+        <th:block th:include="js_css::home_css" />
+
+        <th:block th:include="js_css::test_css" />
+        <!-- <th:block th:text="${msg}" /> 直接出 -->
+        <style type="text/css">
+            #backgroud{
+
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                background-image: url("/m/pic_test/04wxcs_bg_04.jpg");
+
+                background-position: left;
+                background-clip: border-box;
+                background-origin: border-box;
+                padding: 100px;
+                background-size: cover;
+                bottom: 0px;
+        }
+        .blue {
+            color: blue;
+        }
+        .hi{
+            color: #098899;
+            font-weight: lighter;
+        }
+        .black {
+            color: black;
+            opacity: 0.8;
+        }
+        .font_light{
+            font-weight: 200;
+        }
+
+        </style>
+
+        <script type="text/javascript" th:inline="javascript">
+            $(function(){
+                toggleNav("#test")
+            })
+        </script>
+    </head>
+    <body class="think">
+        <!--页头-->
+        <th:block th:include="js_css::header" />
+
+        <div id="backgroud">
+               <!--位置-->
+            <div class="location  d-none d-lg-block">
+                <div class="flex_row" style="align-items: center;">
+                    <img class="pr10" src="pic/location_icon_black.png">
+                    <p class="p_no_mb black">你当前的位置：首页 ><span class="nav_location" href="#">微笑测试</span></p>                    
+                </div>
+
+            </div>                
+        </div>
+        <!--内容-->
+        <div id="test_home" class="relative" >
+            
+
+            <div id="content" style="padding-top: 11%;">
+
+                <div class="container-fluid container_no_padding mt30">
+                    <div class="row justify-content-end">
+                        <div class="col-xl-6 col-lg-6 col-md-10 col-sm-10 ">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-8 col-md-10 col-sm-10">
+                                    <p class="p_no_mb fs40 hi">测试完成,</p>
+                                    <p class="p_no_mb fs40 hi">感谢你的配合！</p>
+                                    
+
+
+                                    <p class="p_no_mb fs25  mt40 font_light">The test is completed.</p>
+                                    <p class="p_no_mb fs25 font_light">Thank you for corporation.</p>
+
+                                    <!--提示-->
+                                    <p class="p_no_mb mt40 fs20 ">温馨提示</p>
+                                    <p class="p_no_mb mt40 ">截止至目前，时代天使海量用户打造了自信微笑，拥有丰富的亚洲人口腔数据库，并在2017年和国家体育总局训练局达成合作，为国家队运动员提供口腔备战保障产品，在2018年第十八届亚运会上作为中国代表团备战保障营成员，为中国运动员进行口腔备战保障。</p>                                     
+                                </div>
+                            </div>
+   
+                                                
+                        </div>                        
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        
+         <th:block th:include="js_css::footer" />
+        
+        
+        
+
+    </body>
+</html>

@@ -1,20 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title >微笑测试</title> 
-        <meta name="keywords" contect="测试,隐贝测试,微笑测试">
-        <meta name="description" content="隐贝提供微笑测试，用于向你提供个性化的产品​">  
+        <title >微笑测试上传图片</title> 
+        <meta name="keywords" contect="测试,隐贝测试,微笑测试,上传图片">
+        <meta name="description" content="隐贝提供微笑测试，上传用于测试的图片">  
         <th:block th:include="js_css::copy" />
         <!-- 主页CSS-->
         <th:block th:include="js_css::home_css" />
         <!-- <th:block th:text="${msg}" /> 直接出 -->
         <style type="text/css">
-            .flex_col_center{
-                display: flex;
-                justify-items: center;
-                justify-content: center;
-                flex-direction: column;
-            }
+
             .w100{
                 width: 100% ;
             }
@@ -81,6 +76,9 @@
             .mr30{
                 margin-right: 30px ;
             }
+            .mr20{
+                margin-right: 20px ;
+            }
             .fs20 {
                 font-size: 20px ;
             }
@@ -100,7 +98,7 @@
                 width: 100%;
                 height: 100%;
                 position: absolute;
-                background-image: url("/m/pic_test/04wxcs_bg_01.jpg");
+                background-image: url("pic_test/04wxcs_bg_02.jpg");
 
                 background-position: right;
                 background-clip: border-box;
@@ -110,8 +108,9 @@
                 bottom: 0px;
             }
             #content{
-                margin-top: 10%;
-                margin-left: 10%;
+                
+                padding-top: 10%;
+                margin:auto ;
             }
             .fs40 {
                 font-size: 40px 
@@ -132,8 +131,33 @@
             .process img {
                 margin-top: 10px ;
             }
+            .upfile {
+                display: inline-block;
+               
+                padding: 0px 10px;
+               
+                border: 1px;
+                background-color:#38e4ea;
+                color: #f9f8f6;
+                font-size: 18px;
+            }
 
+            /* upfile */
+            .link_btn{
+                text-align: center;
 
+            }
+            .link_btn a {
+                padding: 5px 30px;
+                background-color: #38e4ea;
+                color: #f9f8f6;
+                width: auto;               
+            }
+            .form_input{
+                background-color: white;
+                margin-bottom: 0px ; 
+                flex-grow: 1 ;
+            }
 
         </style>
 
@@ -151,7 +175,7 @@
                <!--位置-->
             <div class="location  d-none d-lg-block">
                 <div class="flex_row" style="align-items: center;">
-                    <img class="pr10" src="/m/pic/location_icon_white.png">
+                    <img class="pr10" src="pic/location_icon_white.png">
                     <p class="p_no_mb">你当前的位置：首页 ><span class="nav_location" href="#">微笑测试</span></p>                    
                 </div>
 
@@ -162,31 +186,40 @@
             
 
             <div id="content">
-                <p class="p_no_mb fs40">HOW MUCH</p>
-                <P class="p_no_mb fs40">DO YOU RATE YOUR SMILE？</p>
-                <p class="p_no_mb fs25">你对自己的微笑打多少分？</p>
-                <div class="container-fluid container_no_padding mt30">
-                    <div class="row">
-                        <div id="d" class="col-lg-4 col-md-6 col-sm-12">
-                            <p class="lable">微笑测试说明</p>
-                            <p style="margin-right: 20px;">截止至目前，时代天使海量用户打造了自信微笑，拥有丰富的亚洲人口腔数据库，并在2017年和国家体育总局训练局达成合作，为国家队运动员提供口腔备战保障产品，在2018年第十八届亚运会上作为中国代表团备战保障营成员，为中国运动员进行口腔备战保障。 </p>
 
-                            <p class="lable mt30">微笑测试流程：</p>
-                            <div class="process">
-                                <img src="/m/pic_test/04wxcs_icon_03.png" /> 
-                                <img src="/m/pic_test/04wxcs_icon_02.png" />
-                                <img src="/m/pic_test/04wxcs_icon_04.png" /> 
-                                <img src="/m/pic_test/04wxcs_icon_02.png" />
-                                <img src="/m/pic_test/04wxcs_icon_05.png" /> 
-                                <img src="/m/pic_test/04wxcs_icon_02.png" />
-                                <img src="/m/pic_test/04wxcs_icon_06.png" />
-                                <img src="/m/pic_test/04wxcs_icon_02.png" />
-                                <img src="/m/pic_test/04wxcs_icon_07.png" />                                                                                   
-                            </div> 
+                <div class="container-fluid container_no_padding mt30">
+
+                    <div class="col-xl-4 col-lg-5 col-md-8 col-sm-12 " style="margin: auto;">
+                        <p class="p_no_mb fs40 white">HOW MUCH</p>
+                        <P class="p_no_mb fs40 white">DO YOU RATE YOUR SMILE？</p>
+                        <p class="p_no_mb fs25 white">你对自己的微笑打多少分？</p>
+
+                        <div class="flex_row mt40 ">
+                            <div class="flex_col_center mr20">
+                                <img src="pic_test/04wxcs_img.png" />
+                            </div>
                             
-                            <a href="/m/pic" style="background-color: #08d2e3ed; padding: 10px 40px;width: auto;" class="summit_btn mt40"> 开始进入微笑测试 </a>
+                            <div class="tip">
+                                <p class="p_no_mb fs25 white mb20">执照说明</p>
+                                <p class="p_no_mb  white">截止至目前，时代天使海量用户打造了自信微笑，拥有丰富的亚洲人口腔数据库，并在2017年和国家体育总局训练局达成合作，为国家队运动员提供口腔备战保障产品，在2018年第十八届亚运会上作为中国代表团备战保障营成员，为中国运动员进行口腔备战保障。</p>
+                            </div>
                         </div>
+                        <div class="flex_row mt40">
+                            <div class="form_input " >
+                                    <img class="icon" src="pic_test/04wxcs_upload_icon_01.png" />
+                                    <img  class="icon" src="pic_about/07gywm_input_icon_02.png" />
+                                    <input style="width: 80%;"  type="text" name="phone"  placeholder="点击选择本地文件，仅支持" />
+                                    
+                            </div>
+                            <button  style="margin-left: 10px;  " class="upfile ">上传文件</button>                        
+                        </div>
+
+                        <div class="link_btn">
+                            <a href="contact" class="summit_btn mt40" >下一步</a>   
+                        </div>                     
                     </div>
+
+
                 </div>
 
 

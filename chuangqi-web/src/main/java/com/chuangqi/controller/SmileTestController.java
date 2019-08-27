@@ -18,4 +18,26 @@ public class SmileTestController  extends BaseController {
 
         return modelAndView ;
     }
+
+    @RequestMapping("pic")
+    public ModelAndView uploadPic(){
+        return modelAndView("smile/upfileUI");
+    }
+
+    @RequestMapping("contact")
+    public ModelAndView contact(){
+        return modelAndView("smile/contactUI");
+    }
+
+    @RequestMapping("result")
+    public ModelAndView result(){
+        return modelAndView("smile/resultUI");
+    }
+
+    @RequestMapping("think")
+    public ModelAndView thick(){
+         modelAndView("smile/thinkUI");
+        modelAndView.addObject("nav", "nav");
+        return modelAndView ;
+    }
 }

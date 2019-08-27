@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title >微笑测试联系方式</title> 
+        <meta name="keywords" contect="测试,隐贝测试,微笑测试,联系方式">
+        <meta name="description" content="隐贝提供微笑测试，填写联系方式">  
+        <th:block th:include="js_css::copy" />
+        <!-- 主页CSS-->
+        <th:block th:include="js_css::home_css" />
+        <!-- <th:block th:text="${msg}" /> 直接出 -->
+        <style type="text/css">
+
+            .w100{
+                width: 100% ;
+            }
+           .about_second_title, .second_title {
+                font-size: 20px;
+                opacity: 0.5;
+            }
+            .about_main_title {
+                font-size: 26px;
+                margin-bottom: 0px;
+            }
+            .mt30 {
+                margin-top: 30px ;
+            }
+            .mt40{
+                margin-top: 40px ;
+            }
+            .mt20 {
+                margin-top: 20px;
+            }
+            .mt10 {
+                margin-top: 10px ;
+            }
+            .mb30 {
+                margin-bottom: 30px ;
+            }
+            #page_footer{
+                background-color: #00a0ff;
+                position: relative;
+                padding: 40px 20px;
+                bottom: 0px;
+                right: 0px;
+                left: 0px;
+            }
+            .form_input {
+                border: 1px solid #80808080;
+                padding: 10px;
+                margin-bottom: 30px ;
+            }
+            .input_len {
+                width: 320px ;
+            }
+            .form_input input, .form_input textarea {
+                border: none;
+
+            }
+            .icon {
+                padding: 0px 5px;
+            }
+            .summit_btn {
+                display: inline-block;
+                width: 100%;
+                padding: 10px 0px;
+                border-radius: 20px;
+                border: 1px;
+                background-color: #00a0ff;
+                color: #f9f8f6;
+                font-size: 18px;
+            }
+            .icon_line {
+                display: flex ;
+                justify-items: center
+            }
+            .mr30{
+                margin-right: 30px ;
+            }
+            .mr20{
+                margin-right: 20px ;
+            }
+            .fs20 {
+                font-size: 20px ;
+            }
+            .p_no_mb{
+                margin-bottom: 0px ;
+            }
+            .location {
+                position: absolute;
+                right: 10%;
+                top: 10%;
+                color: white ;
+                
+                font-size: 18px ;                
+            }
+            #backgroud{
+
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                background-image: url("pic_test/04wxcs_bg_03.jpg");
+
+                background-position: right;
+                background-clip: border-box;
+                background-origin: border-box;
+                padding: 100px;
+                background-size: cover;
+                bottom: 0px;
+            }
+            #content{
+                
+                padding-top: 8%;
+                margin:auto ;
+            }
+            .fs40 {
+                font-size: 40px 
+            }
+            .fs20 {
+                font-size: 20px 
+            }
+            .fs25 {
+                font-size: 25px 
+            }
+            .lable{
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+            #detail{
+                width: 30% ;
+            }
+            .process img {
+                margin-top: 10px ;
+            }
+            .upfile {
+                display: inline-block;
+               
+                padding: 0px 10px;
+               
+                border: 1px;
+                background-color:#38e4ea;
+                color: #f9f8f6;
+                font-size: 18px;
+            }
+
+            .special_btn{
+
+            width: auto;
+            padding: 8px 40px;
+            }
+            .form_input{
+                margin-bottom: 0px ; flex-grow: 1 ;background-color: white;               
+            }
+            .actions{
+                margin-right: 10%; justify-content: space-between;
+            }
+
+
+
+        </style>
+
+        <script type="text/javascript" th:inline="javascript">
+            $(function(){
+                toggleNav("#test")
+            })
+        </script>
+    </head>
+    <body>
+        <!--页头-->
+        <th:block th:include="js_css::header" />
+
+        <div id="backgroud">
+               <!--位置-->
+            <div class="location  d-none d-lg-block">
+                <div class="flex_row" style="align-items: center;">
+                    <img class="pr10" src="pic/location_icon_white.png">
+                    <p class="p_no_mb">你当前的位置：首页 ><span class="nav_location" href="#">微笑测试</span></p>                    
+                </div>
+
+            </div>                
+        </div>
+        <!--内容-->
+        <div id="test_home" class="relative" >
+            
+
+            <div id="content">
+
+                <div class="container-fluid container_no_padding mt30">
+
+                    <div class="col-xl-4 col-lg-6 col-md-8 col-sm-12 " style="margin: auto;">
+                        <p class="p_no_mb fs40 white">HOW MUCH</p>
+                        <P class="p_no_mb fs40 white">DO YOU RATE YOUR SMILE？</p>
+                        <p class="p_no_mb fs25 white">你对自己的微笑打多少分？</p>
+
+                        <!--表单-->
+                        <form id="contact" class=" mt40">
+                            <div class="form_field ">
+                                <label class="info white">请填写手机号，号码用于接收测试结果</label>
+                                <div class="flex_row">
+                                    <div class="form_input " >
+                                            <img class="icon" src="pic_about/07gywm_input_icon_01.png" />
+                                            <img  class="icon" src="pic_about/07gywm_input_icon_02.png" />
+                                            <!--手机号-->
+                                            <input name="phone" style="width: 80%;"  type="text"  placeholder="手机号码" />
+                                            
+                                    </div>
+                                    <button  style="margin-left: 10px;  " class="upfile ">获取验证码</button>                        
+                                </div>                                 
+                            </div>
+                            <div class="form_field mt40">
+                                    <label class="info white">请输入收到的4位手机验证码</label>
+                                    <div class="flex_row">
+                                        <div class="form_input " >
+                                                <img class="icon" src="pic_about/07gywm_input_icon_01.png" />
+                                                <img  class="icon" src="pic_about/07gywm_input_icon_02.png" />
+                                                 <!--手机验证码-->
+                                                <input name="secret" style="width: 80%;"  type="text"   placeholder="手机验证码" />
+                                                
+                                        </div>
+                                        <p  style="margin-left: 10px; opacity: 0;  " class="upfile ">获取验证码</p>                        
+                                    </div>                                 
+                                </div>                            
+                                <div class="form_field mt40">
+                                        <label class="info white">请输入右侧的图形码</label>
+                                        <div class="flex_row">
+                                            <div class="flex_row" style=" margin-bottom: 0px ; flex-grow: 1 ">
+                                                    <div class="form_input " >
+                                                            <img class="icon" src="pic_about/07gywm_input_icon_03.png" />
+                                                            <img  class="icon" src="pic_about/07gywm_input_icon_02.png" />
+                                                             <!--图形码-->
+                                                            <input style="width: 80%;"  type="text" name="code"  placeholder="图形码" />
+                                                            
+                                                            
+                                                    </div> 
+                                                    <p  style="margin-left: 10px;margin-bottom: 0px;  " class="upfile ">2342</p>  
+                                            </div>
+                                            <p  style="margin-left: 10px; opacity: 0;  " class="upfile ">获取验证码</p>                        
+                                        </div>                                 
+                                    </div>                           
+                        </form>
+
+                        <div class="flex_row mt40 actions">
+                            <a href="pic" class="summit_btn special_btn" style="background-color: #38e4ea;" >返回上一步</a> 
+                            <button class="summit_btn special_btn" style="background-color: #1979b3;" >提交测试</button> 
+                        </div>
+                                               
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        
+        <!--页脚 <th:block th:include="js_css::footer" />-->
+        
+        
+        
+
+    </body>
+</html>

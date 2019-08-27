@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title >微笑测试结果</title> 
+        <meta name="keywords" contect="测试,隐贝测试,微笑测试,测试结果">
+        <meta name="description" content="隐贝提供微笑测试，向用户展示结果">  
+        <th:block th:include="js_css::copy" />
+        <!-- 主页CSS-->
+        <th:block th:include="js_css::home_css" />
+
+        <th:block th:include="js_css::test_css" />
+        <!-- <th:block th:text="${msg}" /> 直接出 -->
+        <style type="text/css">
+
+
+        </style>
+
+        <script type="text/javascript" th:inline="javascript">
+            $(function(){
+                toggleNav("#test")
+            })
+        </script>
+    </head>
+    <body>
+        <!--页头-->
+        <th:block th:include="js_css::header" />
+
+        <div id="backgroud">
+               <!--位置-->
+            <div class="location  d-none d-lg-block">
+                <div class="flex_row" style="align-items: center;">
+                    <img class="pr10" src="pic_test/location_icon_white.png">
+                    <p class="p_no_mb">你当前的位置：首页 ><span class="nav_location" href="#">测试结果</span></p>                    
+                </div>
+
+            </div>                
+        </div>
+        <!--内容-->
+        <div id="test_home" class="relative" >
+            
+
+            <div id="content">
+
+                <div class="container-fluid container_no_padding mt30">
+
+                    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-11 " style="margin: auto;">
+                        <p class="p_no_mb fs40 white">微笑测试结果报告</p>
+                        
+
+
+                        <p class="p_no_mb fs25 white mt40">你对自己的微笑打多少分？</p>
+
+                        <!--测试结果-->
+                        <div class="flex_row mt40 ">
+                                <div class="flex_col_center mr20">
+                                    <img src="pic_test/04wxcs_img.png" />
+                                </div>
+                                
+                                <div class="tip">
+                                    <p class="p_no_mb fs20 white" >测试结果 :</p>
+                                    <p class="p_no_mb  mt20 white">截止至目前，时代天使海量用户打造了自信微笑，拥有丰富的亚洲人口腔数据库，并在2017年和国家体育总局训练局达成合作，为国家队运动员提供口腔备战保障产品，在2018年第十八届亚运会上作为中国代表团备战保障营成员，为中国运动员进行口腔备战保障。</p>
+                                </div>
+                            </div>
+
+                            <!--测试结论-->
+                            <div class="tip mt20">
+                                <p class="p_no_mb fs20 white ">测试结果 :</p>
+                                <p class="p_no_mb  white mt20">截止至目前，时代天使海量用户打造了自信微笑，拥有丰富的亚洲人口腔数据库，并在2017年和国家体育总局训练局达成合作，为国家队运动员提供口腔备战保障产品，在2018年第十八届亚运会上作为中国代表团备战保障营成员，为中国运动员进行口腔备战保障。</p>
+                            </div>                            
+                            <!--测试提示-->
+                            <div class="tip  mt20">
+                                    <p class="p_no_mb fs20 white ">温馨提示</p>
+                                    <p class="p_no_mb  white mt20">截止至目前，时代天使海量用户打造了自信微笑，拥有丰富的亚洲人口腔数据库，并在2017年和国家体育总局训练局达成合作，为国家队运动员提供口腔备战保障产品，在2018年第十八届亚运会上作为中国代表团备战保障营成员，为中国运动员进行口腔备战保障。</p>
+                                </div>  
+
+
+                        <div class="flex_row mt40 actions">
+                            <a href="pic" class="summit_btn special_btn" style="background-color: #38e4ea;" >快速了解产品</a> 
+                            <a href="index" class="summit_btn special_btn" style="background-color: #1979b3;" >返回主页</a> 
+                        </div>
+                                               
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        
+        <!--页脚 <th:block th:include="js_css::footer" />-->
+        
+        
+        
+
+    </body>
+</html>

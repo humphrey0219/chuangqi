@@ -37,10 +37,6 @@
             text-align: center ;
         }
 
-        .row {
-            display: flex;
-            align-items: center;
-        }
         .inline_block {
             display: inline-block
         }
@@ -71,13 +67,183 @@
             margin-top: 20px;
             padding: 5px 20px;
         }
+        a {
+            text-decoration: none !important;
+        }
     </style>
 
 </f>
+<f th:fragment="test_css">
+    <style type="text/css">
 
+.w100{
+                width: 100% ;
+            }
+           .about_second_title, .second_title {
+                font-size: 20px;
+                opacity: 0.5;
+            }
+            .about_main_title {
+                font-size: 26px;
+                margin-bottom: 0px;
+            }
+            .mt30 {
+                margin-top: 30px ;
+            }
+            .mt40{
+                margin-top: 40px ;
+            }
+            .mt20 {
+                margin-top: 20px;
+            }
+            .mt10 {
+                margin-top: 10px ;
+            }
+            .mb30 {
+                margin-bottom: 30px ;
+            }
+            #page_footer{
+                background-color: #00a0ff;
+                position: relative;
+                padding: 40px 20px;
+                bottom: 0px;
+                right: 0px;
+                left: 0px;
+            }
+            .form_input {
+                border: 1px solid #80808080;
+                padding: 10px;
+                margin-bottom: 30px ;
+            }
+            .input_len {
+                width: 320px ;
+            }
+            .form_input input, .form_input textarea {
+                border: none;
+
+            }
+            .icon {
+                padding: 0px 5px;
+            }
+            .summit_btn {
+                display: inline-block;
+                width: 100%;
+                padding: 10px 0px;
+                border-radius: 20px;
+                border: 1px;
+                background-color: #00a0ff;
+                color: #f9f8f6;
+                font-size: 18px;
+            }
+            .icon_line {
+                display: flex ;
+                justify-items: center
+            }
+            .mr30{
+                margin-right: 30px ;
+            }
+            .mr20{
+                margin-right: 20px ;
+            }
+            .fs20 {
+                font-size: 20px ;
+            }
+            .p_no_mb{
+                margin-bottom: 0px ;
+            }
+            .location {
+                position: absolute;
+                right: 10%;
+                top: 10%;
+                color: white ;
+                
+                font-size: 18px ;                
+            }
+            #backgroud{
+
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                background-image: url("/m/pic_test/04wxcs_bg_05.jpg");
+
+                background-position: right;
+                background-clip: border-box;
+                background-origin: border-box;
+                padding: 100px;
+                background-size: cover;
+                bottom: 0px;
+            }
+            #content{
+                
+                padding-top: 5%;
+                margin:auto ;
+            }
+            .fs40 {
+                font-size: 40px 
+            }
+            .fs20 {
+                font-size: 20px 
+            }
+            .fs25 {
+                font-size: 25px 
+            }
+            .lable{
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+            #detail{
+                width: 30% ;
+            }
+            .process img {
+                margin-top: 10px ;
+            }
+            .upfile {
+                display: inline-block;
+               
+                padding: 0px 10px;
+               
+                border: 1px;
+                background-color:#38e4ea;
+                color: #f9f8f6;
+                font-size: 18px;
+            }
+
+            .special_btn{
+
+            width: auto;
+            padding: 8px 40px;
+            }
+            .form_input{
+                margin-bottom: 0px ; flex-grow: 1 ;background-color: #f9f8f6;               
+            }
+            .actions{
+                margin-right: 10%; justify-content: space-between;
+            }
+
+
+    </style>    
+</f>
 <f th:fragment="home_css"> 
 
     <style type="text/css">
+    /* 输入框 */
+        .white {
+            color: white ;
+        }
+        .input_len {
+            width: 320px ;
+        }
+        .form_input {
+                border: 1px solid #80808080;
+                padding: 10px;
+                margin-bottom: 30px ;
+            }        
+        .form_input input, .form_input textarea {
+            border: none;
+
+        }
+
+    /* 能用 */
     .relative {
         position: relative;
     }
@@ -94,6 +260,7 @@
               overflow:hidden;
               height:0;
           }
+    /* 导航与页脚 主页用 */      
       #page_footer {
           background-color: #00a0ff;
           position: absolute;
@@ -160,6 +327,24 @@
       .common_list .item {
           margin: 10px ;
       } 
+
+      /* 蓝色背景导航 */
+      #nav-menu .blue{
+                background-color: #00a0ff !important;
+            }
+        .blue .nav-item {             
+            font-size: 18px;
+            margin: 0px 0.7%;
+            border-bottom: 2px solid #00a0ff;
+            }
+    .navbar-light .blue .navbar-nav .nav-link {
+        color: white
+        }
+    .blue  .nav-item.active {
+        border-bottom: 2px solid white ;
+        }
+
+
       .common_list .item img {
           padding-right: 20px;
       }    
@@ -189,9 +374,7 @@
       .relative {
           position: relative;
       }
-      .menu {
 
-      }
       .common_padding {
           padding: 5%;           
       }
@@ -227,10 +410,7 @@
 
                       
       } 
-      .page {
 
-                  
-      }
       .page_scroll {
           position: relative ;
           height: 100%;
@@ -368,8 +548,12 @@
           
           opacity: 0.7;            
       }
+      /* margin padding */
       .pl20{
           padding-right: 20px;
+      }
+      .pl10{
+          padding-left: 10px;
       }
       .pr20{
           padding-right: 20px;
@@ -377,6 +561,8 @@
       .mb0{
           margin-bottom: 0px ;
       }
+
+      /* display */
       .inline_block{
           display: inline-block;
       }
@@ -397,21 +583,6 @@
           height: inherit;
       }
 
-            #nav-menu .blue{
-                background-color: #00a0ff !important;
-            }
-            .blue .nav-item {
-                 
-                font-size: 18px;
-                margin: 0px 0.7%;
-                border-bottom: 2px solid #00a0ff;
-            }
-            .navbar-light .blue .navbar-nav .nav-link {
-                    color: white
-            }
-            .blue  .nav-item.active {
-                border-bottom: 2px solid white ;
-            }
         .summit_btn {
                 display: inline-block;
                 width: 100%;
@@ -433,9 +604,14 @@
         padding-right: 0px;
         padding-left: 0px;              
         }
-       
+        .flex_col_center{
+            display: flex;
+            justify-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
 
-      </style>
+    </style>
     <script type="text/javascript" th:inline="javascript">
 
             function toggleNav(curPage){
@@ -473,7 +649,7 @@
                                         <a class="nav-link" href="#">隐贝产品</a>
                                     </li>
                                     <li class="nav-item" id="case">
-                                        <a class="nav-link" href="#">优秀案例</a>
+                                        <a class="nav-link" href="cases">优秀案例</a>
                                     </li>
                                     <li class="nav-item" id="test">
                                         <a class="nav-link" href="/m/smile" aria-disabled="true">微笑测试</a>
@@ -548,7 +724,7 @@
                                                 <a class="nav-link" href="#">隐贝产品</a>
                                             </li>
                                             <li class="nav-item" id="case">
-                                                <a class="nav-link" href="#">优秀案例</a>
+                                                <a class="nav-link" href="cases">优秀案例</a>
                                             </li>
                                             <li class="nav-item" id="test">
                                                 <a class="nav-link" href="/m/smile" aria-disabled="true">微笑测试</a>
