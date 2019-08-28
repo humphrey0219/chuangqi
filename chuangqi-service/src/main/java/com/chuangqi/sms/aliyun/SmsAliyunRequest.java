@@ -50,9 +50,9 @@ public class SmsAliyunRequest {
 	 * @param code
 	 * @return
 	 */
-	public boolean sendSmsSmileResultDefaultTemplate(String phoneNumbers,String url) {
+	public boolean sendSmsSmileResultDefaultTemplate(String phoneNumbers,String code) {
 		Map<String, Object> paramMap=new HashMap<>();
-		paramMap.put("url", url);
+		paramMap.put("code", code);
 		return sendSms(phoneNumbers, smsTemplateConfigProperties.getSmileResult(), JSONObject.toJSONString(paramMap));
 	}
 	

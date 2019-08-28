@@ -19,4 +19,5 @@ public class KeyValVo extends BaseVo{
 	private String key;// '键',
 	private String keyDesc;//'主键描述说明',
 	private String val;//值',
+	private String txtType;
 }

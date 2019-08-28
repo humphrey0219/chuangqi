@@ -25,6 +25,18 @@
                 { display: 'id', name: 'id',hide:true},
                 { display: '键名称', name: 'key', minWidth: 180 },
                 { display: '描述', name: 'keyDesc', minWidth: 180 },
+                { display: '文本类型', name: 'txtType',minWidth: 140 ,
+                	render: function(rowdata, rowindex, value) {
+                		if(value==1){
+                			return "Html文本"
+                		}else if(value==2){
+                			return "纯文本";
+                		}
+                		
+        				return  "未知";
+        			}	
+                },
+                { display: '键值', name: 'val', minWidth: 380 },
                 { display: '创建时间', name: 'createTime',minWidth: 140 ,
                 	render: function(rowdata, rowindex, value) {
         				return  yyyyMMddHHmmss(value);
@@ -61,7 +73,7 @@
         function add(item)
         {
         	$.ligerDialog.open({
-        		width: 800,
+        		width: 900,
         		height: 600,
         		title: "新增",
         		url: basePath+"keyVal/addkeyValUI",
@@ -92,7 +104,7 @@
     			return ;
     		}
         	$.ligerDialog.open({
-        		width: 800,
+        		width: 900,
         		height: 600,
         		title: "修改",
         		url: basePath+"keyVal/updkeyValUI?id=" + idStr,

@@ -10,6 +10,13 @@
 	<script charset="utf-8" th:src="@{/kindeditor/plugins/code/prettify.js}"></script>
 	
     <script type="text/javascript">
+	    var editor=null;
+	    KindEditor.ready(function(K) {
+			 editor = K.create('textarea[name="val"]', {
+				uploadJson : basePath+'fileUpload/newsImgFile?dir=/ky',
+				allowFileManager : false
+			});
+		});
         $(function ()
         {
             $("#form1").ligerForm({
@@ -39,6 +46,14 @@
                  }
              });
              data["id"]="[[${vo.id}]]";
+             var txtType=$("input[name='txtType']:checked").val();
+             if(txtType==1){
+            	 data["val"]=editor.html();
+             }
+             if(txtType==2){
+            	 data["val"]=editor.text();
+             }
+             data["txtType"]=txtType;
              $.post(basePath+"keyVal/updkeyVal?&t="+new Date(),data,function(data) {
             	 addOrUpdateRetInfoParent(data);
 	    	});
@@ -73,9 +88,13 @@
                 <td></td>
                 <td></td>
             </tr>
+             <tr>
+                <td><label for="phone">值类型：</label></td>
+                <td>HTML文本：<input id="txtType" name="txtType" type="radio" value="1" th:checked="${vo.txtType=='1'}" /> 纯文本：<input id="txtType" name="txtType" type="radio" value="2" th:checked="${vo.txtType=='2'}"/> </td>
+            </tr>
             <tr>
                 <td><label for="phone">键值：</label></td>
-                <td><textarea rows="5" cols="80" validate="{required:true}" id="val"  name="val"  class="ui-textbox">[[${vo.val}]]</textarea></td>
+                <td><textarea rows="20" cols="100"  id="val"  name="val">[[${vo.val}]]</textarea></td>
             </tr>
             <!-- <tr>
                 <td> <label >状态：</label></td>

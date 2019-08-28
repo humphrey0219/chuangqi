@@ -6,7 +6,7 @@
 	<parameterMap type="com.chuangqi.vo.KeyValVo" id="KeyValVo"/> 
 	
 	<sql id="sqlField">
-	`id`, `key`,  `keyDesc`,val,`createTime`, `updateTime`
+	`id`, `key`,  `keyDesc`,val,`createTime`, `updateTime`,txtType
 	</sql>
 	<sql id="sqlWhere">
 		<trim prefixOverrides="">
@@ -61,10 +61,10 @@
 	<!-- 添加单个对象-->
 	<insert id="add" parameterMap="KeyValVo">
 	   	insert into t_key_val(
-			 `key`, `keyDesc`, `val`
+			 `key`, `keyDesc`, `val`,txtType
 			)
 			values(
-			#{key},#{keyDesc},#{val}
+			#{key},#{keyDesc},#{val},#{txtType}
 		)
 		<selectKey resultType="long" keyProperty="id" order="AFTER">
 		    select @@IDENTITY as id
@@ -78,6 +78,8 @@
 		<if test="key != null">`key`=#{key},</if>
 		<if test="keyDesc != null">keyDesc=#{keyDesc},</if>
 		<if test="val != null">val=#{val},</if>
+		<if test="txtType != null">txtType=#{txtType},</if>
+		
 		</trim>
 		where 
 		<trim prefixOverrides="and">
