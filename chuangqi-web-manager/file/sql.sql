@@ -12,6 +12,10 @@ CREATE TABLE `t_sys_account` (
   UNIQUE KEY `uq_userName` (`userName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统账号';
 
+INSERT INTO `chuangqi`.`t_sys_account` (`id`, `userName`, `pwd`, `realName`, `status`, `level`, `createTime`, `updateTime`, `remark`)
+ VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '超级管理员', '1', '1', '2019-08-05 20:57:33', '2019-08-28 11:20:37', NULL);
+
+
 DROP TABLE IF EXISTS `t_web_page` ;
 CREATE TABLE `t_web_page` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -127,7 +131,7 @@ CREATE TABLE `t_zone` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `province` varchar(20) NOT NULL COMMENT '省份',
   `city`    varchar(20) NOT NULL COMMENT '城市',
-  `county`  varchar(20) DEFAULT NULL COMMENT    '区、县',
+  `county`  varchar(64) DEFAULT NULL COMMENT    '区、县',
 
   `zip`    varchar(10) DEFAULT NULL  COMMENT '区域代码',
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -138,13 +142,13 @@ CREATE TABLE `t_zone` (
 DROP TABLE IF EXISTS `t_org`;
 CREATE TABLE `t_org` (
   `orgId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `orgName`      varchar(20) NOT NULL COMMENT '机构名称',
+  `orgName`      varchar(64) NOT NULL COMMENT '机构名称',
   `agent`       varchar(20) NOT NULL COMMENT '机构联系人',
   `phone`       varchar(30) NOT NULL COMMENT '联系电话',
   `address`     bigint(20) NOT NULL COMMENT '机构地址ID',
   `code`        int(8)  DEFAULT NULL COMMENT '机构地址代码',
   `status` tinyint(5) NOT NULL DEFAULT '1' COMMENT '状态：1启用，0禁用',
-  `street`      varchar(50) NOT NULL COMMENT	 '详细地址',
+  `street`      varchar(255) NOT NULL COMMENT	 '详细地址',
   `geoX`		decimal(15,10) NOT NULL  COMMENT    '坐标X',
  `geoY`       decimal(15,10)  NOT NULL COMMENT    '坐标Y',
 
