@@ -168,3 +168,18 @@ CREATE TABLE `t_key_val` (
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='键值配置';
+
+CREATE TABLE `t_leave` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `phone` varchar(20) DEFAULT NULL COMMENT '手机号码',
+  `email` varchar(128) DEFAULT NULL COMMENT '电子邮件',
+  `content` varchar(255) DEFAULT NULL COMMENT '留言内容',
+  `leaveTime` datetime DEFAULT NULL COMMENT '留言时间',
+  `status` tinyint(2) DEFAULT '0' COMMENT '状态0留言，1已反馈，2作废',
+  `feedback` varchar(255) DEFAULT NULL COMMENT '反馈内容',
+  `feedbackTime` datetime DEFAULT NULL COMMENT '反馈时间',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='留言信息';
+
