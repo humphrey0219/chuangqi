@@ -162,6 +162,7 @@ CREATE TABLE `t_key_val` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `key` varchar(64) DEFAULT NULL COMMENT '键',
   `keyDesc` varchar(128) DEFAULT NULL COMMENT '主键描述说明',
+  `txtType` tinyint(5) DEFAULT '1' COMMENT '1：html文本，2：纯文本',
   `val` text COMMENT '值',
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
